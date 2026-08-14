@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#b77a45" />
+  <meta name="description" content="我的小厨房 V0.1：有什么、做什么、怎么做。" />
+  <title>我的小厨房 V0.1</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">🍳</div>
+      <div class="brand-copy">
+        <h1>我的小厨房</h1>
+        <p id="sceneSubtitle">有什么</p>
+      </div>
+      <button id="staplesButton" class="soft-button" type="button">厨房常备</button>
+    </header>
+
+    <main id="sceneRoot" class="scene-root" aria-live="polite"></main>
+
+    <nav class="bottom-nav" aria-label="主要功能">
+      <button class="nav-item is-active" data-scene="fridge" type="button">
+        <span class="nav-icon">▣</span>
+        <span>冰箱</span>
+      </button>
+      <button class="nav-item" data-scene="board" type="button">
+        <span class="nav-icon">⌁</span>
+        <span>菜板</span>
+      </button>
+      <button class="nav-item" data-scene="stove" type="button">
+        <span class="nav-icon">◫</span>
+        <span>灶台</span>
+      </button>
+    </nav>
+  </div>
+
+  <div id="modalRoot"></div>
+  <div id="toastRoot" class="toast-root" aria-live="assertive"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
