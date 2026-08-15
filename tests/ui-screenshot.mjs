@@ -69,7 +69,52 @@ if(await done.count()){
   await shot('13-finish-check');
 }
 
-fs.writeFileSync('ui-screenshots/report.txt',errors.length?errors.join('\n'):'OK - no page errors or horizontal overflow detected\n');
+// Fresh-state CookLikeHOC source library check.
+await page.evaluate(()=>localStorage.clear());
+await page.reload({waitUntil:'networkidle'});
+const hocMeta=await page.evaluate(()=>window.HOC_DATA?.meta||null);
+if(!hocMeta||hocMeta.count<300)errors.push(`HOC data missing/incomplete: ${hocMeta?.count??'none'}`);
+const initialCards=await page.locator('.recipe-card').count();
+if(initialCards>40)errors.push(`Initial recipe render too dense: ${initialCards} cards`);
+const hocFilter=page.locator('[data-hoc-only]');
+if(!(await hocFilter.count()))errors.push('HOC source filter missing');
+else await hocFilter.click();
+await shot('14-hoc-library');
+const hocCards=await page.locator('.recipe-card.hoc-card').count();
+if(!hocCards)errors.push('No HOC recipe cards rendered after source filter');
+if(hocCards>40)errors.push(`HOC source list ignored pagination: ${hocCards}`);
+
+await page.locator('#search').fill('宫保鸡丁');
+await page.waitForTimeout(120);
+const gongbao=page.locator('[data-r]').filter({hasText:'宫保鸡丁'}).first();
+if(!(await gongbao.count()))errors.push('宫保鸡丁 missing from HOC source recipes');
+else{
+  await gongbao.click();
+  const sourceBox=page.locator('.hoc-source-box');
+  if(!(await sourceBox.count()))errors.push('HOC source attribution box missing');
+  else{
+    const text=await sourceBox.innerText();
+    if(!text.includes('CookLikeHOC')||!text.includes('非老乡鸡官方仓库'))errors.push('HOC source attribution text incomplete');
+    const href=await sourceBox.locator('.hoc-source-link').getAttribute('href');
+    if(!href?.includes('github.com/Gar-b-age/CookLikeHOC/blob/main/'))errors.push('HOC original source link invalid');
+  }
+  await shot('15-hoc-detail');
+  await page.locator('#backRecipe').click();
+}
+
+// Verify a multi-stage source recipe survived nested source headings.
+await page.locator('#search').fill('肥肠鸡');
+await page.waitForTimeout(120);
+const feichang=page.locator('[data-r]').filter({hasText:'肥肠鸡'}).first();
+if(await feichang.count()){
+  await feichang.click();
+  const rid=await page.evaluate(()=>state.recipe);
+  const stepCount=await page.evaluate(id=>recipes.find(r=>r.id===id)?.steps?.length||0,rid);
+  if(stepCount<6)errors.push(`肥肠鸡 multi-stage steps parsed too short: ${stepCount}`);
+  await shot('16-hoc-multistage');
+}else errors.push('肥肠鸡 missing from HOC source recipes');
+
+fs.writeFileSync('ui-screenshots/report.txt',errors.length?errors.join('\n'):'OK - no page errors, horizontal overflow, or HOC attribution regressions detected\n');
 await browser.close();
 if(errors.length){
   console.error(errors.join('\n'));
