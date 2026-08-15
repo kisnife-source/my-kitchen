@@ -15,12 +15,13 @@ on:
       - 'patch-v0118.js'
       - 'patch-v0118.css'
       - 'patch-v0119.js'
+      - 'patch-v0200.js'
+      - 'patch-v0200b.js'
+      - 'patch-v0200.css'
       - 'hoc-recipes.generated.js'
-      - 'tests/ui-screenshot.mjs'
       - 'tests/scale-audit.mjs'
-      - 'tests/v0118-audit.mjs'
-      - 'tests/product-audit.mjs'
-      - 'tests/product-audit-runner.mjs'
+      - 'tests/v0200-audit.mjs'
+      - 'tests/v0200-walkthrough.mjs'
       - '.github/workflows/ui-screenshot.yml'
   workflow_dispatch:
 
@@ -51,18 +52,16 @@ jobs:
         run: |
           python3 -m http.server 8080 > /tmp/my-kitchen-server.log 2>&1 &
           sleep 2
-      - name: Capture mobile walkthrough
-        run: node tests/ui-screenshot.mjs
+      - name: Capture V0.2.0 meal walkthrough
+        run: node tests/v0200-walkthrough.mjs
       - name: Audit expanded library scale
         run: node tests/scale-audit.mjs
-      - name: Audit V0.1.19 regressions
-        run: node tests/v0118-audit.mjs
-      - name: Product-level interaction audit
-        run: node tests/product-audit-runner.mjs
+      - name: Audit V0.2.0 flow and regressions
+        run: node tests/v0200-audit.mjs
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mobile-ui-screenshots
+          name: mobile-ui-screenshots-v0200
           path: ui-screenshots/
           if-no-files-found: error
