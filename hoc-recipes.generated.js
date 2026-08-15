@@ -3,9 +3,11 @@ window.HOC_DATA={
   "meta": {
     "sourceRepo": "Gar-b-age/CookLikeHOC",
     "sourceCommit": "f7a91c2db0ce9b6a41eaf06e5ce64cbde5a831ed",
-    "generatedAt": "2026-08-15T10:28:19.148Z",
-    "count": 336,
-    "note": "菜名、配料及配方参数依据来源记录整理；普通批量菜谱按比例缩放，多阶段菜谱保留步骤中的分阶段克重；食材/调味料已统一语义；来源“配料”记录归为调味配方而非半成品。CookLikeHOC 非老乡鸡官方仓库。"
+    "generatedAt": "2026-08-15T10:41:56.881Z",
+    "count": 325,
+    "note": "菜名、配料及配方参数依据来源记录整理；普通批量菜谱按比例缩放，多阶段菜谱保留步骤中的分阶段克重；食材/调味料已统一语义；来源“配料”记录归为调味配方；饮品目录中没有实际制作步骤的市售成品记录不作为菜谱展示。CookLikeHOC 非老乡鸡官方仓库。",
+    "sourceRecordCount": 336,
+    "commercialDrinkRecordCount": 11
   },
   "foods": {
     "五花肉": "🥩",
@@ -164,31 +166,21 @@ window.HOC_DATA={
     "生菜": "🥬",
     "老鸡块": "🍗",
     "热干面条": "🍜",
-    "东方树叶": "🥣",
     "红豆酒酿罐头": "🥣",
     "猴头菇山药玉米糊": "🥔",
     "乌龙茶": "🥤",
     "冰块": "🥣",
-    "劲酒": "🥣",
-    "精酿啤酒330mL": "🥣",
     "爽露爽酒酿": "🥣",
-    "蒙牛纯牛奶": "🥛",
-    "摩登罐装芬达": "🥣",
-    "摩登罐装可乐": "🥣",
-    "摩登罐装雪碧": "🥣",
-    "摩登零度可乐": "🥣",
     "圣牧有机纯牛奶": "🥛",
     "炼乳": "🥣",
     "基料粉": "🍜",
     "菌粉": "🍄",
-    "农夫山泉矿泉水": "🥣",
     "苹果山楂红茶茶包": "🥤",
     "苹果山楂风味红茶包": "🥤",
     "生椰乳": "🥣",
-    "雪花纯生啤酒": "🥣",
     "银耳莲子炖梨罐头": "🥣",
-    "黄豆": "🥣",
     "豆浆粉": "🍜",
+    "黄豆": "🥣",
     "粥米": "🍚",
     "糯米": "🍚",
     "手工香菇青菜包": "🍄",
@@ -490,31 +482,21 @@ window.HOC_DATA={
     "生菜": "蔬菜菌菇",
     "老鸡块": "肉蛋水产",
     "热干面条": "主食与其他",
-    "东方树叶": "主食与其他",
     "红豆酒酿罐头": "主食与其他",
     "猴头菇山药玉米糊": "蔬菜菌菇",
     "乌龙茶": "主食与其他",
     "冰块": "主食与其他",
-    "劲酒": "主食与其他",
-    "精酿啤酒330mL": "主食与其他",
     "爽露爽酒酿": "主食与其他",
-    "蒙牛纯牛奶": "主食与其他",
-    "摩登罐装芬达": "主食与其他",
-    "摩登罐装可乐": "主食与其他",
-    "摩登罐装雪碧": "主食与其他",
-    "摩登零度可乐": "主食与其他",
     "圣牧有机纯牛奶": "主食与其他",
     "炼乳": "主食与其他",
     "基料粉": "主食与其他",
     "菌粉": "蔬菜菌菇",
-    "农夫山泉矿泉水": "主食与其他",
     "苹果山楂红茶茶包": "主食与其他",
     "苹果山楂风味红茶包": "主食与其他",
     "生椰乳": "主食与其他",
-    "雪花纯生啤酒": "主食与其他",
     "银耳莲子炖梨罐头": "主食与其他",
-    "黄豆": "主食与其他",
     "豆浆粉": "主食与其他",
+    "黄豆": "主食与其他",
     "粥米": "主食与其他",
     "糯米": "主食与其他",
     "手工香菇青菜包": "蔬菜菌菇",
@@ -12999,47 +12981,6 @@ window.HOC_DATA={
       }
     },
     {
-      "id": "hoc-0cb22112a9fe",
-      "name": "东方树叶（335mL）",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "东方树叶",
-          "335mL",
-          "源配方：东方树叶（335mL）（农夫山泉（淳安坪山））"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/东方树叶（335mL）.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E4%B8%9C%E6%96%B9%E6%A0%91%E5%8F%B6%EF%BC%88335mL%EF%BC%89.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
-      }
-    },
-    {
       "id": "hoc-ea6c52fce5b1",
       "name": "红豆酒酿",
       "icon": "🥤",
@@ -13170,88 +13111,6 @@ window.HOC_DATA={
       }
     },
     {
-      "id": "hoc-91c5e98d9ea0",
-      "name": "劲酒",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "劲酒",
-          "适量",
-          "源配方：劲酒（劲牌）"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/劲酒.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E5%8A%B2%E9%85%92.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
-      }
-    },
-    {
-      "id": "hoc-f919afdea433",
-      "name": "精酿啤酒330mL",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "精酿啤酒330mL",
-          "330mL",
-          "源配方：精酿啤酒330mL（卡斯堡啤酒（芜湖））"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/精酿啤酒330mL.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E7%B2%BE%E9%85%BF%E5%95%A4%E9%85%92330mL.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
-      }
-    },
-    {
       "id": "hoc-b8928788afbc",
       "name": "酒酿蛋花甜羹",
       "icon": "🥤",
@@ -13307,211 +13166,6 @@ window.HOC_DATA={
         "scale": 1,
         "complex": false,
         "incomplete": false
-      }
-    },
-    {
-      "id": "hoc-e1c03866bde5",
-      "name": "蒙牛纯牛奶（150mL）",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "蒙牛纯牛奶",
-          "150mL",
-          "源配方：蒙牛纯牛奶（150mL）（蒙牛乳业）"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/蒙牛纯牛奶（150mL）.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E8%92%99%E7%89%9B%E7%BA%AF%E7%89%9B%E5%A5%B6%EF%BC%88150mL%EF%BC%89.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
-      }
-    },
-    {
-      "id": "hoc-56c29307dc39",
-      "name": "摩登罐装芬达",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "摩登罐装芬达",
-          "适量",
-          "源配方：摩登罐装芬达（合肥太古可口可乐、中粮可口可乐（北京）、江苏太古可口可乐、江西太古可口可乐、郑州太古可口可乐、湖北太古可口可乐、广东太古可口可乐深圳、浙江太古可口可乐）"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/摩登罐装芬达.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E6%91%A9%E7%99%BB%E7%BD%90%E8%A3%85%E8%8A%AC%E8%BE%BE.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
-      }
-    },
-    {
-      "id": "hoc-e60b8863c1e8",
-      "name": "摩登罐装可乐",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "摩登罐装可乐",
-          "适量",
-          "源配方：摩登罐装可乐（合肥太古可口可乐、中粮可口可乐（北京）、江苏太古可口可乐、江西太古可口可乐、郑州太古可口可乐、湖北太古可口可乐、广东太古可口可乐深圳、浙江太古可口可乐）"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/摩登罐装可乐.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E6%91%A9%E7%99%BB%E7%BD%90%E8%A3%85%E5%8F%AF%E4%B9%90.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
-      }
-    },
-    {
-      "id": "hoc-bb7b174d3d71",
-      "name": "摩登罐装雪碧",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "摩登罐装雪碧",
-          "适量",
-          "源配方：摩登罐装雪碧（合肥太古可口可乐、中粮可口可乐（北京）、江苏太古可口可乐、江西太古可口可乐、郑州太古可口可乐、湖北太古可口可乐、广东太古可口可乐深圳、浙江太古可口可乐）"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/摩登罐装雪碧.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E6%91%A9%E7%99%BB%E7%BD%90%E8%A3%85%E9%9B%AA%E7%A2%A7.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
-      }
-    },
-    {
-      "id": "hoc-fe14a2382d18",
-      "name": "摩登零度可乐",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "摩登零度可乐",
-          "适量",
-          "源配方：摩登零度可乐（合肥太古可口可乐、中粮可口可乐（北京）、江苏太古可口可乐、江西太古可口可乐、郑州太古可口可乐、湖北太古可口可乐、广东太古可口可乐深圳、浙江太古可口可乐）"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/摩登零度可乐.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E6%91%A9%E7%99%BB%E9%9B%B6%E5%BA%A6%E5%8F%AF%E4%B9%90.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
       }
     },
     {
@@ -13582,47 +13236,6 @@ window.HOC_DATA={
         "scale": 1,
         "complex": false,
         "incomplete": false
-      }
-    },
-    {
-      "id": "hoc-de2599d604c3",
-      "name": "农夫山泉矿泉水（运动盖）",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "农夫山泉矿泉水",
-          "适量",
-          "源配方：农夫山泉矿泉水（运动盖）（农夫山泉（淳安坪山））"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/农夫山泉矿泉水（运动盖）.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E5%86%9C%E5%A4%AB%E5%B1%B1%E6%B3%89%E7%9F%BF%E6%B3%89%E6%B0%B4%EF%BC%88%E8%BF%90%E5%8A%A8%E7%9B%96%EF%BC%89.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
       }
     },
     {
@@ -13715,47 +13328,6 @@ window.HOC_DATA={
       }
     },
     {
-      "id": "hoc-76cedc69e653",
-      "name": "雪花纯生啤酒（罐装）",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "雪花纯生啤酒",
-          "适量",
-          "源配方：雪花纯生啤酒（罐装）（华润雪花啤酒（安徽））"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/雪花纯生啤酒（罐装）.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E9%9B%AA%E8%8A%B1%E7%BA%AF%E7%94%9F%E5%95%A4%E9%85%92%EF%BC%88%E7%BD%90%E8%A3%85%EF%BC%89.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
-      }
-    },
-    {
       "id": "hoc-c4f086ef0599",
       "name": "银耳莲子炖梨",
       "icon": "🥤",
@@ -13794,52 +13366,6 @@ window.HOC_DATA={
         "scale": 1,
         "complex": false,
         "incomplete": false
-      }
-    },
-    {
-      "id": "hoc-478647e98a47",
-      "name": "原味豆浆",
-      "icon": "🥤",
-      "cat": "饮品",
-      "tags": [
-        "老乡鸡",
-        "CookLikeHOC",
-        "饮品",
-        "源配方",
-        "来源资料不完整"
-      ],
-      "mins": 5,
-      "desc": "饮品 · CookLikeHOC 来源做法",
-      "ings": [
-        [
-          "黄豆",
-          "适量",
-          "按来源配方准备"
-        ],
-        [
-          "豆浆粉",
-          "适量",
-          "按来源配方准备"
-        ]
-      ],
-      "season": [],
-      "tools": [],
-      "steps": [
-        "按包装要求保存；需要饮用时直接取用。"
-      ],
-      "hoc": true,
-      "source": {
-        "label": "CookLikeHOC / 老乡鸡菜品溯源报告整理",
-        "repo": "Gar-b-age/CookLikeHOC",
-        "category": "饮品",
-        "path": "饮品/原味豆浆.md",
-        "url": "https://github.com/Gar-b-age/CookLikeHOC/blob/main/%E9%A5%AE%E5%93%81/%E5%8E%9F%E5%91%B3%E8%B1%86%E6%B5%86.md",
-        "nonOfficial": true,
-        "adapted": true,
-        "scaled": false,
-        "scale": 1,
-        "complex": false,
-        "incomplete": true
       }
     },
     {

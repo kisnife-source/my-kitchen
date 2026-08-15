@@ -1,7 +1,7 @@
 {
   "sourceCommit": "f7a91c2db0ce9b6a41eaf06e5ce64cbde5a831ed",
-  "recipeCount": 336,
-  "foodCount": 324,
+  "recipeCount": 325,
+  "foodCount": 314,
   "seasoningCount": 157,
   "incompleteCount": 73,
   "scaledCount": 71,
@@ -11,9 +11,24 @@
     "配料/鸡油料.md: no ingredient data",
     "配料/鸡汁辣鱼料.md: no ingredient data"
   ],
+  "sourceRecordCount": 336,
   "overlapCount": 0,
   "condimentFormulaCount": 40,
-  "drinkRecipeCount": 21,
+  "drinkRecipeCount": 10,
+  "commercialDrinkRecordCount": 11,
+  "commercialDrinkExamples": [
+    "东方树叶（335mL）",
+    "劲酒",
+    "精酿啤酒330mL",
+    "蒙牛纯牛奶（150mL）",
+    "摩登罐装芬达",
+    "摩登罐装可乐",
+    "摩登罐装雪碧",
+    "摩登零度可乐",
+    "农夫山泉矿泉水（运动盖）",
+    "雪花纯生啤酒（罐装）",
+    "原味豆浆"
+  ],
   "halfPreparedSourceCondimentCount": 0,
   "smoke": {
     "gongbaoChicken": "400g",
