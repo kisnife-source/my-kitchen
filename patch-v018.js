@@ -47,7 +47,7 @@ recipeModal=function(id){
   }
 
   q('#modal').innerHTML=`<div class="modal"><div class="sheet"><div class="sheet-handle"></div><div class="sheet-head"><div class="title"><b>${r.icon} ${r.name}</b><small>${r.desc} · 约${r.mins}分钟</small></div><button class="icon-close" id="x">×</button></div>
-  <div class="recipe-mini-summary"><span class="tag ${allRequiredHave?'good':'bad'}"><strong>${requiredAll.length-missingRequired.length}/${requiredAll.length}</strong> 必需</span>${alreadyShopping?`<span class="tag bad">购物袋 ${alreadyShopping}</span>`:''}<span class="tag ${badToolGroups.length?'bad':'good'}">厨具 ${badToolGroups.length?'缺':'有'}</span></div>
+  <div class="recipe-mini-summary"><span class="tag ${allRequiredHave?'good':'bad'}"><strong>${requiredAll.length-missingRequired.length}/${requiredAll.length}</strong> 必需</span>${alreadyShopping?`<span class="tag bad">购物袋 ${alreadyShopping}</span>`:''}<span class="tag ${badToolGroups.length?'bad':'good'}">厨具 ${badToolGroups.length?'缺':'有'}</span><button class="mark-all-inline ${allRequiredHave?'all-have':''}" id="markAllRequired">必需都在</button></div>
 
   <div class="recipe-chip-section"><div class="recipe-chip-title"><span>食材</span><small>红 = 缺 · 绿 = 有</small></div><div class="recipe-chip-grid">${requiredFoods.map(x=>recipeChip(x[0],x[1],x[2],false)).join('')}</div></div>
 
@@ -57,9 +57,11 @@ recipeModal=function(id){
 
   <div class="recipe-chip-section"><div class="recipe-chip-title"><span>厨具</span><small>满足每组任意一个</small></div>${toolHTML}</div>
   ${statusText}
-  <div class="sheet-footer"><div class="recipe-footer-actions"><button class="secondary mark-all-btn ${allRequiredHave?'all-have':''}" id="markAllRequired">必需都在</button><button class="primary" id="recipePrimary">${primaryLabel}</button></div></div></div></div>`;
+  <div class="sheet-footer"><div class="recipe-footer-actions"><button class="secondary" id="backRecipe">返回菜谱</button><button class="primary" id="recipePrimary">${primaryLabel}</button></div></div></div></div>`;
 
-  q('#x').onclick=close;
+  const back=()=>close();
+  q('#x').onclick=back;
+  q('#backRecipe').onclick=back;
   qa('[data-recipe-item]').forEach(b=>b.onclick=()=>{
     const [k,n]=b.dataset.recipeItem.split('|');
     has(k,n)?missing(k,n):have(k,n);
