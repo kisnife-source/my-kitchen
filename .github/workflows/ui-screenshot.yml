@@ -9,6 +9,9 @@ on:
       - 'patch-v0115.css'
       - 'patch-v0116.js'
       - 'patch-v0116.css'
+      - 'patch-v0117.js'
+      - 'patch-v0117.css'
+      - 'hoc-recipes.generated.js'
       - 'tests/ui-screenshot.mjs'
       - '.github/workflows/ui-screenshot.yml'
   workflow_dispatch:
