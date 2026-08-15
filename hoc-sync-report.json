@@ -1,10 +1,11 @@
 {
   "sourceCommit": "f7a91c2db0ce9b6a41eaf06e5ce64cbde5a831ed",
   "recipeCount": 336,
-  "foodCount": 358,
-  "seasoningCount": 145,
+  "foodCount": 342,
+  "seasoningCount": 147,
   "incompleteCount": 73,
-  "scaledCount": 80,
+  "scaledCount": 49,
+  "complexCount": 5,
   "warnings": [
     "配料/风干牛肉酱料.md: no ingredient data",
     "配料/鸡油料.md: no ingredient data",
