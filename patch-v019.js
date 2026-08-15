@@ -1,5 +1,5 @@
-// V0.1.9 clearer bulk-confirm action in recipe sheet
-state.version='0.1.9';
+// V0.1.10 compact bulk-confirm action in recipe title bar
+state.version='0.1.10';
 save();
 
 recipeModal=function(id){
@@ -40,11 +40,9 @@ recipeModal=function(id){
   }
 
   q('#modal').innerHTML=`<div class="modal"><div class="sheet"><div class="sheet-handle"></div>
-  <div class="sheet-head recipe-sheet-head"><div class="title"><b>${r.icon} ${r.name}</b><small>${r.desc} · 约${r.mins}分钟</small></div></div>
+  <div class="sheet-head recipe-sheet-head"><div class="title"><b>${r.icon} ${r.name}</b><small>${r.desc} · 约${r.mins}分钟</small></div><button class="title-bulk-add ${allRequiredHave?'done':''}" id="markAllRequired" ${allRequiredHave?'disabled':''}>${allRequiredHave?'已添加':'一键添加'}</button></div>
 
   <div class="recipe-mini-summary"><span class="tag ${allRequiredHave?'good':'bad'}"><strong>${requiredAll.length-missingRequired.length}/${requiredAll.length}</strong> 必需</span>${alreadyShopping?`<span class="tag bad">购物袋 ${alreadyShopping}</span>`:''}<span class="tag ${badToolGroups.length?'bad':'good'}">厨具 ${badToolGroups.length?'缺':'有'}</span></div>
-
-  <div class="bulk-ready-prompt ${allRequiredHave?'done':''}"><div class="bulk-ready-copy"><b>${allRequiredHave?'必需材料已经备齐':'需要的材料都备好了？'}</b><small>${allRequiredHave?'仍可点击下面的红绿标签进行修正':'一键把必需食材和必需调味料标为已有'}</small></div><button id="markAllRequired" ${allRequiredHave?'disabled':''}>${allRequiredHave?'已全部添加':'一键添加'}</button></div>
 
   <div class="recipe-chip-section"><div class="recipe-chip-title"><span>食材</span><small>红 = 缺 · 绿 = 有</small></div><div class="recipe-chip-grid">${requiredFoods.map(x=>recipeChip(x[0],x[1],x[2],false)).join('')}</div></div>
 
