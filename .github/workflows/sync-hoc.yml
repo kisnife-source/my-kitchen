@@ -1,0 +1,53 @@
+name: Sync CookLikeHOC Recipes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/sync-hoc.mjs'
+      - '.github/workflows/sync-hoc.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-hoc-recipes
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout my-kitchen
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Clone CookLikeHOC source
+        shell: bash
+        run: |
+          rm -rf /tmp/CookLikeHOC
+          git clone --depth 1 https://github.com/Gar-b-age/CookLikeHOC.git /tmp/CookLikeHOC
+      - name: Generate adapted source recipes
+        run: node scripts/sync-hoc.mjs /tmp/CookLikeHOC hoc-recipes.generated.js
+      - name: Verify generated library
+        shell: bash
+        run: |
+          node - <<'NODE'
+          const fs=require('fs');
+          const report=JSON.parse(fs.readFileSync('hoc-sync-report.json','utf8'));
+          console.log(report);
+          if(report.recipeCount<80)process.exit(1);
+          NODE
+      - name: Commit generated data
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hoc-recipes.generated.js hoc-sync-report.json
+          if git diff --cached --quiet; then
+            echo "CookLikeHOC data is already current."
+          else
+            git commit -m "Sync CookLikeHOC recipe data"
+            git push
+          fi
