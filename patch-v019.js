@@ -1,5 +1,5 @@
-// V0.1.10 compact bulk-confirm action in recipe title bar
-state.version='0.1.10';
+// V0.1.11 align bulk-confirm action with recipe title
+state.version='0.1.11';
 save();
 
 recipeModal=function(id){
@@ -40,7 +40,10 @@ recipeModal=function(id){
   }
 
   q('#modal').innerHTML=`<div class="modal"><div class="sheet"><div class="sheet-handle"></div>
-  <div class="sheet-head recipe-sheet-head"><div class="title"><b>${r.icon} ${r.name}</b><small>${r.desc} · 约${r.mins}分钟</small></div><button class="title-bulk-add ${allRequiredHave?'done':''}" id="markAllRequired" ${allRequiredHave?'disabled':''}>${allRequiredHave?'已添加':'一键添加'}</button></div>
+  <div class="recipe-title-block">
+    <div class="recipe-title-row"><b>${r.icon} ${r.name}</b><button class="title-bulk-add ${allRequiredHave?'done':''}" id="markAllRequired" ${allRequiredHave?'disabled':''}>${allRequiredHave?'已添加':'一键添加'}</button></div>
+    <small>${r.desc} · 约${r.mins}分钟</small>
+  </div>
 
   <div class="recipe-mini-summary"><span class="tag ${allRequiredHave?'good':'bad'}"><strong>${requiredAll.length-missingRequired.length}/${requiredAll.length}</strong> 必需</span>${alreadyShopping?`<span class="tag bad">购物袋 ${alreadyShopping}</span>`:''}<span class="tag ${badToolGroups.length?'bad':'good'}">厨具 ${badToolGroups.length?'缺':'有'}</span></div>
 
