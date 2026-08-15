@@ -21,11 +21,13 @@ const classification=await page.evaluate(()=>({
   formulaCount:recipes.filter(r=>r.hoc&&r.source?.category==='配料'&&r.cat==='调味配方').length,
   misplacedFormulaCount:recipes.filter(r=>r.hoc&&r.source?.category==='配料'&&r.cat==='半成品').length,
   drinkCount:recipes.filter(r=>r.hoc&&r.source?.category==='饮品'&&r.cat==='饮品').length,
-  misplacedDrinkCount:recipes.filter(r=>r.hoc&&r.source?.category==='饮品'&&r.cat==='主食').length
+  misplacedDrinkCount:recipes.filter(r=>r.hoc&&r.source?.category==='饮品'&&r.cat==='主食').length,
+  commercialLeaks:recipes.filter(r=>['东方树叶（335mL）','劲酒','精酿啤酒330mL','蒙牛纯牛奶（150mL）','摩登罐装芬达','摩登罐装可乐','摩登罐装雪碧','摩登零度可乐','农夫山泉矿泉水（运动盖）','雪花纯生啤酒（罐装）'].includes(r.name)).map(r=>r.name),
+  homemadeKept:recipes.some(r=>r.name==='原味豆浆（现磨版本）')&&recipes.some(r=>r.name==='奶皮子酸奶')
 }));
-if(classification.version!=='0.1.18')failures.push(`wrong version ${classification.version}`);
+if(classification.version!=='0.1.19')failures.push(`wrong version ${classification.version}`);
 if(classification.formulaCount<30||classification.misplacedFormulaCount)failures.push(`formula classification bad ${JSON.stringify(classification)}`);
-if(classification.drinkCount<15||classification.misplacedDrinkCount)failures.push(`drink classification bad ${JSON.stringify(classification)}`);
+if(classification.drinkCount<8||classification.misplacedDrinkCount||classification.commercialLeaks.length||!classification.homemadeKept)failures.push(`drink classification bad ${JSON.stringify(classification)}`);
 
 // Expanded foods and HOC cooking state must survive a real page reload.
 const seed=await page.evaluate(()=>{
@@ -70,6 +72,21 @@ else{
   }
 }
 
+// Regression: choosing a horizontally-scrolled recipe category must keep the
+// filter strip at the same horizontal position instead of snapping to the left.
+await page.evaluate(()=>{state.boardMode='recipes';state.prep=null;state.filter='全部';state.query='';save();board()});
+const filters=page.locator('.filters');
+let filterScroll={before:0,after:0,max:0};
+if(await filters.count()){
+  filterScroll=await page.evaluate(()=>{const f=document.querySelector('.filters');f.scrollLeft=f.scrollWidth;return {before:f.scrollLeft,max:f.scrollWidth-f.clientWidth,after:0}});
+  await page.waitForTimeout(80);
+  const drink=page.locator('[data-extra-cat="饮品"]');
+  if(await drink.count())await drink.click();
+  else failures.push('drink filter missing');
+  filterScroll.after=await page.evaluate(()=>document.querySelector('.filters')?.scrollLeft||0);
+  if(filterScroll.max>20&&filterScroll.before>20&&filterScroll.after<filterScroll.before-10)failures.push(`filter strip snapped left ${JSON.stringify(filterScroll)}`);
+}else failures.push('recipe filters missing');
+
 const scale=await page.evaluate(()=>{
   state.boardMode='ingredients';state.foodQuery='';state.matchFoods=[];state.ingredientOpenGroups=[];board();
   const closedFoodChips=document.querySelectorAll('[data-match-food]').length;
@@ -86,7 +103,7 @@ if(scale.closedFoodChips>80)failures.push(`collapsed ingredient browser still re
 if(scale.renderedMatchedRecipes>40)failures.push(`ingredient matches not paginated: ${scale.renderedMatchedRecipes}`);
 if(scale.seasoningPicks>80||scale.seasoningGroups<3)failures.push(`seasoning browser still too dense: ${JSON.stringify(scale)}`);
 
-const report={classification,persisted,scale,failures};
+const report={classification,persisted,filterScroll,scale,failures};
 fs.writeFileSync('ui-screenshots/v0118-audit.json',JSON.stringify(report,null,2));
 console.log(JSON.stringify(report,null,2));
 await browser.close();
