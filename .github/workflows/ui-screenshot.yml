@@ -20,6 +20,7 @@ on:
       - 'tests/scale-audit.mjs'
       - 'tests/v0118-audit.mjs'
       - 'tests/product-audit.mjs'
+      - 'tests/product-audit-runner.mjs'
       - '.github/workflows/ui-screenshot.yml'
   workflow_dispatch:
 
@@ -57,7 +58,7 @@ jobs:
       - name: Audit V0.1.19 regressions
         run: node tests/v0118-audit.mjs
       - name: Product-level interaction audit
-        run: node tests/product-audit.mjs
+        run: node tests/product-audit-runner.mjs
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
