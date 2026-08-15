@@ -14,6 +14,7 @@ on:
       - 'patch-v0117b.js'
       - 'patch-v0118.js'
       - 'patch-v0118.css'
+      - 'patch-v0119.js'
       - 'hoc-recipes.generated.js'
       - 'tests/ui-screenshot.mjs'
       - 'tests/scale-audit.mjs'
@@ -52,7 +53,7 @@ jobs:
         run: node tests/ui-screenshot.mjs
       - name: Audit expanded library scale
         run: node tests/scale-audit.mjs
-      - name: Audit V0.1.18 regressions
+      - name: Audit V0.1.19 regressions
         run: node tests/v0118-audit.mjs
       - name: Upload screenshots
         if: always()
