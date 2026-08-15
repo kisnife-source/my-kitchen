@@ -1,0 +1,7 @@
+/* V0.1.14 compact bulk-confirm prompt */
+.bulk-confirm-prompt{flex:0 0 auto;display:flex;align-items:center;gap:6px}
+.bulk-confirm-prompt small{font-size:10px;font-weight:800;color:#8e725d;white-space:nowrap}
+.bulk-confirm-prompt .title-bulk-add{background:#7da34b;color:#fff;border:0;box-shadow:0 3px 8px #52733d24;min-height:34px;padding:7px 10px}
+.bulk-confirm-prompt .title-bulk-add:active{transform:scale(.98)}
+.bulk-confirm-done{flex:0 0 auto;font-size:11px;font-weight:900;color:#5e7a49;white-space:nowrap;padding:7px 0}
+@media(max-width:370px){.bulk-confirm-prompt{gap:4px}.bulk-confirm-prompt small{font-size:9px}.bulk-confirm-prompt .title-bulk-add{padding:6px 8px;font-size:10px}.bulk-confirm-done{font-size:10px}}
