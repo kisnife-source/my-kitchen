@@ -1,0 +1,4 @@
+/* V0.1.13 clarify recipe bulk-confirm action */
+.title-bulk-add{background:#edf4e5;color:#55723f;border:1px solid #b9cf9f;box-shadow:none;min-height:34px;padding:7px 10px}
+.title-bulk-add.done{background:#eef2e9;color:#718166;border-color:#d2dcc8}
+.recipe-mini-summary .tag:first-child{display:inline-flex;align-items:center;gap:3px}
