@@ -1,6 +1,7 @@
 // V0.1.17 CookLikeHOC / 老乡鸡来源菜谱 integration
 state.version='0.1.17';
 if(typeof state.hocOnly!=='boolean')state.hocOnly=false;
+if(!Number.isFinite(state.recipeLimit)||state.recipeLimit<1)state.recipeLimit=36;
 
 const HOC_DATA=window.HOC_DATA||{meta:{count:0},foods:{},foodGroups:{},seasonings:[],recipes:[]};
 Object.assign(FOOD,HOC_DATA.foods||{});
@@ -14,19 +15,34 @@ if(typeof foodGroup15==='function'){
 save();
 
 function hocBadge(short=false){return `<span class="hoc-badge ${short?'short':''}">🐔 ${short?'老乡鸡':'老乡鸡做法'}</span>`}
+let recipeScope117='';
 
 recipeBody=function(list){
-  const visible=(state.hocOnly&&state.boardMode==='recipes')?list.filter(r=>r.hoc):list;
+  let visible=(state.hocOnly&&state.boardMode==='recipes')?list.filter(r=>r.hoc):list;
   if(!visible.length)return `<div class="empty">${state.hocOnly&&state.boardMode==='recipes'?'这个分类下暂时没有老乡鸡来源菜谱':'没有找到菜谱'}</div>`;
-  if(state.viewMode==='list'){
-    return `<div class="recipe-list">${visible.map(r=>`<button class="recipe-row ${r.hoc?'hoc-card':''}" data-r="${r.id}"><div class="icon">${r.icon}</div><div class="recipe-row-main"><div class="recipe-row-title"><h3>${r.name}</h3>${r.hoc?hocBadge(true):''}</div><p>${r.desc}</p></div><div class="row-meta"><span class="tag">${r.mins}分钟</span>${status(r)}</div></button>`).join('')}</div>`;
+
+  let shown=visible;
+  let more='';
+  if(state.boardMode==='recipes'){
+    const scope=`${state.filter}|${state.query}|${state.hocOnly?'hoc':'all'}|${state.viewMode}`;
+    if(scope!==recipeScope117){recipeScope117=scope;state.recipeLimit=36}
+    const limit=Math.max(36,state.recipeLimit||36);
+    shown=visible.slice(0,limit);
+    const remaining=visible.length-shown.length;
+    if(remaining>0)more=`<button class="recipe-load-more" id="recipeLoadMore">再显示 ${Math.min(36,remaining)} 道 <small>还有 ${remaining} 道</small></button>`;
   }
-  return `<div class="recipe-grid">${visible.map(r=>`<button class="recipe-card ${r.hoc?'hoc-card':''}" data-r="${r.id}">${r.hoc?`<div class="hoc-card-label">${hocBadge(false)}</div>`:''}<div class="icon">${r.icon}</div><h3>${r.name}</h3><p>${r.desc}</p><div class="meta"><span class="tag">约${r.mins}分钟</span><span class="tag">${r.cat}</span>${status(r)}</div></button>`).join('')}</div>`;
+
+  if(state.viewMode==='list'){
+    return `<div class="recipe-list">${shown.map(r=>`<button class="recipe-row ${r.hoc?'hoc-card':''}" data-r="${r.id}"><div class="icon">${r.icon}</div><div class="recipe-row-main"><div class="recipe-row-title"><h3>${r.name}</h3>${r.hoc?hocBadge(true):''}</div><p>${r.desc}</p></div><div class="row-meta"><span class="tag">${r.mins}分钟</span>${status(r)}</div></button>`).join('')}</div>${more}`;
+  }
+  return `<div class="recipe-grid">${shown.map(r=>`<button class="recipe-card ${r.hoc?'hoc-card':''}" data-r="${r.id}">${r.hoc?`<div class="hoc-card-label">${hocBadge(false)}</div>`:''}<div class="icon">${r.icon}</div><h3>${r.name}</h3><p>${r.desc}</p><div class="meta"><span class="tag">约${r.mins}分钟</span><span class="tag">${r.cat}</span>${status(r)}</div></button>`).join('')}</div>${more}`;
 };
 
 const boardV0117Base=board;
 board=function(){
   boardV0117Base();
+  const load=q('#recipeLoadMore');
+  if(load)load.onclick=()=>{state.recipeLimit=(state.recipeLimit||36)+36;save();board()};
   if(state.prep||state.boardMode!=='recipes'||!(HOC_DATA.recipes||[]).length)return;
   const filters=q('.filters');
   if(!filters||q('[data-hoc-only]'))return;
@@ -34,8 +50,8 @@ board=function(){
   btn.className=`filter hoc-source-filter ${state.hocOnly?'on':''}`;
   btn.dataset.hocOnly='1';
   btn.innerHTML=`🐔 老乡鸡 <small>${HOC_DATA.meta?.count||HOC_DATA.recipes.length}</small>`;
-  btn.onclick=()=>{state.hocOnly=!state.hocOnly;save();board()};
-  filters.appendChild(btn);
+  btn.onclick=()=>{state.hocOnly=!state.hocOnly;state.recipeLimit=36;save();board()};
+  filters.insertBefore(btn,filters.children[1]||null);
 };
 
 const recipeModalV0117Base=recipeModal;
@@ -46,8 +62,14 @@ recipeModal=function(id){
   const title=q('.recipe-title-block');
   if(!title||q('.hoc-source-box'))return;
   const box=document.createElement('div');
-  box.className='hoc-source-box';
-  box.innerHTML=`<div class="hoc-source-top">${hocBadge(false)}${r.source.scaled?'<span class="hoc-home-scale">家用比例</span>':''}</div><div class="hoc-source-text"><b>来源：CookLikeHOC</b><small>基于《老乡鸡菜品溯源报告》整理 · 非老乡鸡官方仓库</small>${r.source.scaled?'<small>门店批量克重已按原比例缩放为家庭份量</small>':'<small>步骤已拆分、改写为适合本工具逐步执行的表述</small>'}</div><a class="hoc-source-link" href="${r.source.url}" target="_blank" rel="noopener noreferrer">查看原始记录 ↗</a>`;
+  box.className=`hoc-source-box ${r.source.incomplete?'incomplete':''}`;
+  const sourceState=r.source.incomplete
+    ? '<span class="hoc-source-status incomplete">资料不完整</span>'
+    : '<span class="hoc-source-status complete">来源步骤完整</span>';
+  let detail='步骤已拆分、改写为适合本工具逐步执行的表述';
+  if(r.source.incomplete)detail='来源记录未公开完整配方或制作步骤，请以原始记录为准';
+  else if(r.source.scaled)detail='门店批量克重已按原比例缩放为家庭份量；步骤已做简化表述';
+  box.innerHTML=`<div class="hoc-source-top">${hocBadge(false)}${r.source.scaled?'<span class="hoc-home-scale">家用比例</span>':''}${sourceState}</div><div class="hoc-source-text"><b>来源：CookLikeHOC</b><small>基于《老乡鸡菜品溯源报告》整理 · 非老乡鸡官方仓库</small><small>${detail}</small></div><a class="hoc-source-link" href="${r.source.url}" target="_blank" rel="noopener noreferrer">查看原始记录 ↗</a>`;
   title.insertAdjacentElement('afterend',box);
 };
 
