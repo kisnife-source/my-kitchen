@@ -13,6 +13,7 @@ on:
       - 'patch-v0117.css'
       - 'hoc-recipes.generated.js'
       - 'tests/ui-screenshot.mjs'
+      - 'tests/scale-audit.mjs'
       - '.github/workflows/ui-screenshot.yml'
   workflow_dispatch:
 
@@ -45,6 +46,8 @@ jobs:
           sleep 2
       - name: Capture mobile walkthrough
         run: node tests/ui-screenshot.mjs
+      - name: Audit expanded library scale
+        run: node tests/scale-audit.mjs
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
