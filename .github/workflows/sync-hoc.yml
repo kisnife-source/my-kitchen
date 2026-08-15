@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'scripts/sync-hoc.mjs'
+      - 'scripts/sync-hoc*.mjs'
       - '.github/workflows/sync-hoc.yml'
   workflow_dispatch:
 
@@ -37,7 +37,8 @@ jobs:
           const fs=require('fs');
           const report=JSON.parse(fs.readFileSync('hoc-sync-report.json','utf8'));
           console.log(report);
-          if(report.recipeCount<80)process.exit(1);
+          if(report.recipeCount<300)process.exit(1);
+          if((report.overlapCount??0)!==0)process.exit(1);
           NODE
       - name: Commit generated data
         shell: bash
