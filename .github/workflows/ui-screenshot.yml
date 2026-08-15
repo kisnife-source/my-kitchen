@@ -7,6 +7,8 @@ on:
       - 'index.html'
       - 'patch-v0115.js'
       - 'patch-v0115.css'
+      - 'patch-v0116.js'
+      - 'patch-v0116.css'
       - 'tests/ui-screenshot.mjs'
       - '.github/workflows/ui-screenshot.yml'
   workflow_dispatch:
@@ -19,6 +21,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - name: Install Chinese fonts
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk
+          fc-cache -f
       - name: Locate Chrome
         shell: bash
         run: |
