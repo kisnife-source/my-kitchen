@@ -40,7 +40,7 @@ recipeModal=function(id){
   }
 
   q('#modal').innerHTML=`<div class="modal"><div class="sheet"><div class="sheet-handle"></div>
-  <div class="sheet-head recipe-sheet-head"><div class="title"><b>${r.icon} ${r.name}</b><small>${r.desc} · 约${r.mins}分钟</small></div><button class="top-back-btn" id="topBack">返回</button></div>
+  <div class="sheet-head recipe-sheet-head"><div class="title"><b>${r.icon} ${r.name}</b><small>${r.desc} · 约${r.mins}分钟</small></div></div>
 
   <div class="recipe-mini-summary"><span class="tag ${allRequiredHave?'good':'bad'}"><strong>${requiredAll.length-missingRequired.length}/${requiredAll.length}</strong> 必需</span>${alreadyShopping?`<span class="tag bad">购物袋 ${alreadyShopping}</span>`:''}<span class="tag ${badToolGroups.length?'bad':'good'}">厨具 ${badToolGroups.length?'缺':'有'}</span></div>
 
@@ -56,9 +56,7 @@ recipeModal=function(id){
   ${statusText}
   <div class="sheet-footer"><div class="recipe-footer-actions"><button class="secondary" id="backRecipe">返回菜谱</button><button class="primary" id="recipePrimary">${primaryLabel}</button></div></div></div></div>`;
 
-  const back=()=>close();
-  q('#topBack').onclick=back;
-  q('#backRecipe').onclick=back;
+  q('#backRecipe').onclick=()=>close();
   qa('[data-recipe-item]').forEach(b=>b.onclick=()=>{
     const [k,n]=b.dataset.recipeItem.split('|');
     has(k,n)?missing(k,n):have(k,n);
