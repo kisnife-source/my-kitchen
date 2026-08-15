@@ -12,6 +12,9 @@
     "配料/鸡汁辣鱼料.md: no ingredient data"
   ],
   "overlapCount": 0,
+  "condimentFormulaCount": 40,
+  "drinkRecipeCount": 21,
+  "halfPreparedSourceCondimentCount": 0,
   "smoke": {
     "gongbaoChicken": "400g",
     "gongbaoCarrot": "95g",

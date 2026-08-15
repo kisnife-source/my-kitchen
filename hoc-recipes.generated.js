@@ -3,9 +3,9 @@ window.HOC_DATA={
   "meta": {
     "sourceRepo": "Gar-b-age/CookLikeHOC",
     "sourceCommit": "f7a91c2db0ce9b6a41eaf06e5ce64cbde5a831ed",
-    "generatedAt": "2026-08-15T09:35:10.481Z",
+    "generatedAt": "2026-08-15T10:28:19.148Z",
     "count": 336,
-    "note": "菜名、配料及配方参数依据来源记录整理；普通批量菜谱按比例缩放，多阶段菜谱保留步骤中的分阶段克重；食材/调味料已统一语义。CookLikeHOC 非老乡鸡官方仓库。"
+    "note": "菜名、配料及配方参数依据来源记录整理；普通批量菜谱按比例缩放，多阶段菜谱保留步骤中的分阶段克重；食材/调味料已统一语义；来源“配料”记录归为调味配方而非半成品。CookLikeHOC 非老乡鸡官方仓库。"
   },
   "foods": {
     "五花肉": "🥩",
@@ -8460,13 +8460,14 @@ window.HOC_DATA={
       "id": "hoc-a114aff7e4ec",
       "name": "炒菜基料",
       "icon": "🥬",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8509,20 +8510,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-17f5878a3c69",
       "name": "豉油汁",
       "icon": "🥬",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8566,20 +8569,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-ec8383113ec9",
       "name": "葱油",
       "icon": "🥬",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8618,20 +8623,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-43c1501b2b3e",
       "name": "鸡汤料",
       "icon": "🍗",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8669,20 +8676,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-fb415aab155e",
       "name": "调味料",
       "icon": "🥣",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8730,20 +8739,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-eb6d0e436d0a",
       "name": "剁椒酱",
       "icon": "🌶️",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8787,20 +8798,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-94e5a33ae7b3",
       "name": "剁椒鱼头料",
       "icon": "🧄",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8854,20 +8867,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-10887d74ea19",
       "name": "番茄汤膏",
       "icon": "🍅",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8920,20 +8935,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-964aa0a5f79b",
       "name": "肥肠鸡酱料",
       "icon": "🥣",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -8996,20 +9013,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-a26fd961841f",
       "name": "风干牛肉酱料",
       "icon": "🥩",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9031,20 +9050,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-3055d8bc10aa",
       "name": "宫保鸡丁调味酱",
       "icon": "🫚",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9088,20 +9109,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-184804c02f2b",
       "name": "果味糖醋酱",
       "icon": "🫚",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9150,20 +9173,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-69c90eaec973",
       "name": "糊辣油",
       "icon": "🥬",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9202,20 +9227,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-890eb3ee4808",
       "name": "花椒汁",
       "icon": "🥣",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9248,20 +9275,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-28f07b84df24",
       "name": "鸡翅调料",
       "icon": "🌶️",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9315,20 +9344,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-c5733f7bdae7",
       "name": "鸡胸肉调味汁",
       "icon": "🥣",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9366,20 +9397,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-4167b890fe27",
       "name": "鸡油料",
       "icon": "🍗",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9401,20 +9434,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-3d42e6779901",
       "name": "鸡杂料",
       "icon": "🍗",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9467,20 +9502,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-d4f847a14bcd",
       "name": "鸡汁辣鱼料",
       "icon": "🐟",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9502,20 +9539,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-c13209fd0879",
       "name": "家常小炒料",
       "icon": "🥣",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9558,20 +9597,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-bc4d4c59e772",
       "name": "姜汁",
       "icon": "🫚",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9599,20 +9640,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-f256e566946d",
       "name": "酱蒸白干料",
       "icon": "🫑",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9656,20 +9699,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-8712e8d0e5e6",
       "name": "卤油",
       "icon": "🌶️",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9713,20 +9758,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-0b138828498c",
       "name": "麻婆豆腐料",
       "icon": "🥩",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9770,20 +9817,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-2c15ce0fe76b",
       "name": "毛豆烧鸡料",
       "icon": "🍗",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9826,20 +9875,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-0ed70a28b993",
       "name": "糯米酒汁",
       "icon": "🥣",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9867,20 +9918,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-58d3c2f05ac8",
       "name": "三鲜豆腐汤料",
       "icon": "🥩",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9924,20 +9977,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-39ae7fa964d0",
       "name": "水煮料调味酱",
       "icon": "🥣",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -9975,20 +10030,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-baad71f9775b",
       "name": "素鸡煲调味料",
       "icon": "🥩",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10037,20 +10094,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-3bd46117f464",
       "name": "蒜蓉酱",
       "icon": "🧄",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10099,20 +10158,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-c6ed6dba7dd9",
       "name": "小炒河虾料",
       "icon": "🦐",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10160,20 +10221,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-442dcc2a1a67",
       "name": "小炒肉调料",
       "icon": "🥩",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10216,20 +10279,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-820768b942cb",
       "name": "小炒肉调料",
       "icon": "🥩",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10267,20 +10332,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-1847e4503839",
       "name": "小炒肉调味汁",
       "icon": "🥩",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10318,20 +10385,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-9e1b9d6b7f2e",
       "name": "血旺料",
       "icon": "🥬",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10385,20 +10454,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-e6d829cf230e",
       "name": "油焖茄子料",
       "icon": "🍆",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10436,20 +10507,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-a766dfa44152",
       "name": "鱼香风味酱",
       "icon": "🧄",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10503,20 +10576,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-71c222489eb9",
       "name": "原味酸菜鱼底料",
       "icon": "🥕",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10560,20 +10635,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-092c85e5be88",
       "name": "蒸蛋料",
       "icon": "🥚",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10616,20 +10693,22 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
       "id": "hoc-cf7fc8007b36",
       "name": "蒸鱼调味汁",
       "icon": "🥣",
-      "cat": "半成品",
+      "cat": "调味配方",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
         "配料",
         "源配方",
-        "来源资料不完整"
+        "来源资料不完整",
+        "调味配方"
       ],
       "mins": 10,
       "desc": "配料 · CookLikeHOC 来源做法",
@@ -10672,7 +10751,8 @@ window.HOC_DATA={
         "scaled": false,
         "scale": 1,
         "complex": false,
-        "incomplete": true
+        "incomplete": true,
+        "formula": true
       }
     },
     {
@@ -12922,7 +13002,7 @@ window.HOC_DATA={
       "id": "hoc-0cb22112a9fe",
       "name": "东方树叶（335mL）",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -12963,7 +13043,7 @@ window.HOC_DATA={
       "id": "hoc-ea6c52fce5b1",
       "name": "红豆酒酿",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13004,7 +13084,7 @@ window.HOC_DATA={
       "id": "hoc-081f718cdc77",
       "name": "猴头菇山药玉米糊",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13045,7 +13125,7 @@ window.HOC_DATA={
       "id": "hoc-2266dd757718",
       "name": "鸡笼香柠檬茶",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13093,7 +13173,7 @@ window.HOC_DATA={
       "id": "hoc-91c5e98d9ea0",
       "name": "劲酒",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13134,7 +13214,7 @@ window.HOC_DATA={
       "id": "hoc-f919afdea433",
       "name": "精酿啤酒330mL",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13175,7 +13255,7 @@ window.HOC_DATA={
       "id": "hoc-b8928788afbc",
       "name": "酒酿蛋花甜羹",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13233,7 +13313,7 @@ window.HOC_DATA={
       "id": "hoc-e1c03866bde5",
       "name": "蒙牛纯牛奶（150mL）",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13274,7 +13354,7 @@ window.HOC_DATA={
       "id": "hoc-56c29307dc39",
       "name": "摩登罐装芬达",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13315,7 +13395,7 @@ window.HOC_DATA={
       "id": "hoc-e60b8863c1e8",
       "name": "摩登罐装可乐",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13356,7 +13436,7 @@ window.HOC_DATA={
       "id": "hoc-bb7b174d3d71",
       "name": "摩登罐装雪碧",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13397,7 +13477,7 @@ window.HOC_DATA={
       "id": "hoc-fe14a2382d18",
       "name": "摩登零度可乐",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13438,7 +13518,7 @@ window.HOC_DATA={
       "id": "hoc-cdee0113e52b",
       "name": "奶皮子酸奶",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13508,7 +13588,7 @@ window.HOC_DATA={
       "id": "hoc-de2599d604c3",
       "name": "农夫山泉矿泉水（运动盖）",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13549,7 +13629,7 @@ window.HOC_DATA={
       "id": "hoc-e9224a21cc0c",
       "name": "苹果山楂红茶",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13591,7 +13671,7 @@ window.HOC_DATA={
       "id": "hoc-9618e40c54dc",
       "name": "热奶茶",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13638,7 +13718,7 @@ window.HOC_DATA={
       "id": "hoc-76cedc69e653",
       "name": "雪花纯生啤酒（罐装）",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13679,7 +13759,7 @@ window.HOC_DATA={
       "id": "hoc-c4f086ef0599",
       "name": "银耳莲子炖梨",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13720,7 +13800,7 @@ window.HOC_DATA={
       "id": "hoc-478647e98a47",
       "name": "原味豆浆",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13766,7 +13846,7 @@ window.HOC_DATA={
       "id": "hoc-78b7fb58571f",
       "name": "原味豆浆（冲调版本）",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
@@ -13807,7 +13887,7 @@ window.HOC_DATA={
       "id": "hoc-6435c5b0d7c4",
       "name": "原味豆浆（现磨版本）",
       "icon": "🥤",
-      "cat": "主食",
+      "cat": "饮品",
       "tags": [
         "老乡鸡",
         "CookLikeHOC",
