@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#9b6237">
-<title>我的小厨房 V0.1.11</title>
+<title>我的小厨房 V0.1.12</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="patch-v016.css">
 <link rel="stylesheet" href="patch-v018.css">
 <link rel="stylesheet" href="patch-v019.css">
+<link rel="stylesheet" href="patch-v0112.css">
 </head>
 <body>
 <header class="top">
@@ -24,10 +25,15 @@
   <button data-s="stove"><span>🍳</span>灶台</button>
 </nav>
 <div id="modal"></div><div id="toast"></div>
+<script>
+try{window.__MK_PRELOAD=JSON.parse(localStorage.getItem('mk01')||'null')}catch(e){window.__MK_PRELOAD=null}
+window.__MK_HAD_STATE=!!window.__MK_PRELOAD;
+</script>
 <script src="app.js"></script>
 <script src="patch-v016.js"></script>
 <script src="patch-v017.js"></script>
 <script src="patch-v018.js"></script>
 <script src="patch-v019.js"></script>
+<script src="patch-v0112.js"></script>
 </body>
 </html>
