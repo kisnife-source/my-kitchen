@@ -30,7 +30,7 @@ function recommendedDishServings0200c(r){
   const group=portionGroup0200c(r);
   if(group==='support')return recipeBaseServings0200(r);
   const pool=mealPoolRecipes0200c(r);
-  if(pool.length<=1)return diners;
+  if(pool.length<=2)return diners;
   const sum=pool.reduce((n,x)=>n+portionWeight0200c(x),0)||1;
   const budget=diners*(group==='shared'?2:1);
   const raw=budget*portionWeight0200c(r)/sum;
@@ -71,7 +71,7 @@ renderMealPlan0200=function(){
   renderMealPlan0200BeforePortionFix();
   const head=q('.meal-plan-head small');if(head&&state.meal.dishes.length)head.textContent=`${state.meal.dishes.length}道菜 · ${state.meal.servings}人用餐`;
   const servingNote=q('.meal-serving-card small');if(servingNote)servingNote.textContent='人数决定整桌总量；多道菜会自动分摊每道建议份量';
-  const scaleNote=q('.meal-scale-note');if(scaleNote)scaleNote.textContent='共享菜按整桌总量自动分摊，并保留菜谱的基础成菜份量；主食和饮品单独计算。';
+  const scaleNote=q('.meal-scale-note');if(scaleNote)scaleNote.textContent='1～2道菜按全桌人数；3道以上共享菜按整桌总量分摊，并保留基础成菜份量。主食和饮品单独计算。';
 };
 
 const renderMealPrep0200BeforePortionFix=renderMealPrep0200;
