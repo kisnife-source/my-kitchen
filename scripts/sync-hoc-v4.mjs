@@ -1,8 +1,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
 
-// Generate with the robust markdown/stage parser first.
-await import('./sync-hoc-v3.mjs');
+// Run the robust parser with a safer Chinese token boundary. A source quantity
+// may be written as “1050g 鸡丁煸炒…”, so rejecting every following Han
+// character also rejects valid verbs. We allow common cooking-verb suffixes
+// while still preventing “80g 肥肠” from matching “800g 肥肠鸡酱料”.
+const here=path.dirname(fileURLToPath(import.meta.url));
+const v3Path=path.join(here,'sync-hoc-v3.mjs');
+let parserSource=fs.readFileSync(v3Path,'utf8');
+const oldBoundary='(?![\\\\u4e00-\\\\u9fffA-Za-z0-9])';
+const newBoundary='(?=$|[\\\\s，,。；;、）)]|煸|翻|炒|煮|焖|炸|煎|蒸|烫|烧|放|加|下|汆|捞|切|至)';
+if(!parserSource.includes(oldBoundary))throw new Error('Could not locate source amount boundary in sync-hoc-v3.mjs');
+parserSource=parserSource.replace(oldBoundary,newBoundary);
+const runtimePath=path.join(here,'.sync-hoc-v3-runtime.mjs');
+fs.writeFileSync(runtimePath,parserSource,'utf8');
+try{await import(pathToFileURL(runtimePath).href+`?t=${Date.now()}`)}finally{try{fs.unlinkSync(runtimePath)}catch{}}
 
 const outFile=path.resolve(process.argv[3]||'hoc-recipes.generated.js');
 const reportFile=path.resolve('hoc-sync-report.json');
@@ -33,7 +46,6 @@ function definitelySeasoning(name){
     /酱$/,/汁$/,/油$/
   ].some(r=>r.test(name));
 }
-
 function canon(name){return canonicalMap.get(name)||name}
 
 for(const r of data.recipes){
@@ -57,8 +69,6 @@ for(const r of data.recipes){
   r.season=newSeason;
 }
 
-// Rebuild inventory dictionaries from the final recipe semantics, so no stale
-// parser intermediates leak into the fridge/ingredient browser.
 const oldFoods=data.foods||{};
 const oldGroups=data.foodGroups||{};
 const finalFoods={};
@@ -71,9 +81,7 @@ for(const r of data.recipes){
   }
   for(const [name] of r.season||[])finalSeason.add(name);
 }
-for(const name of [...finalSeason]){
-  if(definitelySeasoning(name))delete finalFoods[name];
-}
+for(const name of [...finalSeason])if(definitelySeasoning(name))delete finalFoods[name];
 data.foods=finalFoods;
 data.foodGroups=finalGroups;
 data.seasonings=[...finalSeason].filter(Boolean).sort((a,b)=>a.localeCompare(b,'zh-CN'));
