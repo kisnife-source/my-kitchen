@@ -1,0 +1,43 @@
+name: UI Screenshot Check
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'patch-v0115.js'
+      - 'patch-v0115.css'
+      - 'tests/ui-screenshot.mjs'
+      - '.github/workflows/ui-screenshot.yml'
+  workflow_dispatch:
+
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Locate Chrome
+        shell: bash
+        run: |
+          CHROME_PATH="$(which google-chrome || which google-chrome-stable || which chromium || which chromium-browser)"
+          echo "CHROME_PATH=$CHROME_PATH" >> "$GITHUB_ENV"
+          echo "Using $CHROME_PATH"
+      - name: Install Playwright core
+        run: npm install --no-save playwright-core@1.55.0
+      - name: Start local site
+        shell: bash
+        run: |
+          python3 -m http.server 8080 > /tmp/my-kitchen-server.log 2>&1 &
+          sleep 2
+      - name: Capture mobile walkthrough
+        run: node tests/ui-screenshot.mjs
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-ui-screenshots
+          path: ui-screenshots/
+          if-no-files-found: error
