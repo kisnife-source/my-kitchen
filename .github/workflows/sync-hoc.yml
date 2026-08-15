@@ -39,6 +39,8 @@ jobs:
           console.log(report);
           if(report.recipeCount<300)process.exit(1);
           if((report.overlapCount??0)!==0)process.exit(1);
+          if((report.condimentFormulaCount??0)<30)process.exit(1);
+          if((report.halfPreparedSourceCondimentCount??0)!==0)process.exit(1);
           NODE
       - name: Commit generated data
         shell: bash
