@@ -19,11 +19,13 @@ on:
       - 'patch-v0200b.js'
       - 'patch-v0200c.js'
       - 'patch-v0200.css'
+      - 'patch-v0201.js'
+      - 'patch-v0201.css'
       - 'hoc-recipes.generated.js'
       - 'tests/scale-audit.mjs'
-      - 'tests/v0200-audit.mjs'
       - 'tests/v0200-walkthrough.mjs'
       - 'tests/v0200-portion-audit.mjs'
+      - 'tests/v0201-audit.mjs'
       - '.github/workflows/ui-screenshot.yml'
   workflow_dispatch:
 
@@ -54,18 +56,18 @@ jobs:
         run: |
           python3 -m http.server 8080 > /tmp/my-kitchen-server.log 2>&1 &
           sleep 2
-      - name: Capture V0.2.0 meal walkthrough
+      - name: Capture V0.2 meal walkthrough
         run: node tests/v0200-walkthrough.mjs
       - name: Audit expanded library scale
         run: node tests/scale-audit.mjs
-      - name: Audit V0.2.0 flow and regressions
-        run: node tests/v0200-audit.mjs
       - name: Audit shared-meal portions
         run: node tests/v0200-portion-audit.mjs
+      - name: Audit V0.2.1 contextual tips
+        run: node tests/v0201-audit.mjs
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mobile-ui-screenshots-v0200
+          name: mobile-ui-screenshots-v0201
           path: ui-screenshots/
           if-no-files-found: error
