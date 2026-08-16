@@ -47,7 +47,7 @@ function recipeTips0210(r){
   }
 
   // Taste / health choices: optional by design, never rewrite the source recipe.
-  const chili=season.find(x=>/辣椒|干红椒|小米椒|辣椒粉|辣椒油|辣酱|豆瓣酱/.test(x.name))||names.find(n=>/辣椒|小米椒|青椒|尖椒/.test(n));
+  const chili=season.find(x=>/辣椒|干红椒|小米椒|辣椒粉|辣椒油|辣酱/.test(x.name))||names.find(n=>/辣椒|小米椒|尖椒|干红椒/.test(n));
   if(chili)
     tips.push(tip0210('taste','口味可调','喜欢更辣可以优先增加辣椒类用量，不建议只靠多加复合酱料来增辣，避免同时变咸。',30));
   const optionalVinegar=season.find(x=>/醋/.test(x.name)&&!x.required);
