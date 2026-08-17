@@ -25,11 +25,11 @@ function ambiguityFactor0202(raw){
   return 1;
 }
 function seasoningReference0202(name,r,raw,target){
-  const n=String(name||'');const level=ambiguityFactor0202(raw);
-  const salty=(r?.season||[]).some(x=>String(x[0]||'')!==n&&/生抽|老抽|酱油|蚝油|豆瓣酱|豆豉|咸味|底料|调味酱/.test(String(x[0]||''))&&x[2]);
+  const n=String(name||''),level=ambiguityFactor0202(raw);
+  const salty=(r?.season||[]).some(x=>String(x[0]||'')!==n&&/生抽|老抽|酱油|蚝油|豆瓣酱|豆豉|底料|调味酱/.test(String(x[0]||''))&&x[2]);
   let per=2,unit='g';
   if(/食用油|菜籽油|色拉油|花生油|玉米油/.test(n)){per=r?.cat==='汤炖'?3:8;unit='ml';}
-  else if(/^盐$|食盐|精盐/.test(n)){per=salty?.6:.9;unit='g';}
+  else if(/^盐$|食盐|精盐/.test(n)){per=salty ? .6 : .9;unit='g';}
   else if(/白糖|糖$|砂糖/.test(n)){per=2;unit='g';}
   else if(/生抽|酱油/.test(n)&&!/老抽/.test(n)){per=5;unit='ml';}
   else if(/老抽/.test(n)){per=1.5;unit='ml';}
@@ -48,7 +48,7 @@ function seasoningReference0202(name,r,raw,target){
   return ref0202(per*Math.max(1,target)*level,unit);
 }
 function foodReference0202(name,r,raw,target){
-  const n=String(name||'');const level=ambiguityFactor0202(raw);const t=Math.max(1,target);
+  const n=String(name||''),level=ambiguityFactor0202(raw),t=Math.max(1,target);
   if(waterLike0202(n))return '按步骤加水';
   if(/鸡蛋|鸭蛋|鹅蛋|鹌鹑蛋/.test(n))return `${Math.max(1,Math.round(t*level))}个`;
   if(/葱|香菜|芫荽/.test(n))return ref0202(5*t*level,'g');
@@ -65,16 +65,12 @@ function foodReference0202(name,r,raw,target){
 
 const scaleAmountV0202Base=scaleAmount0200;
 function normalizeCount0202(s){
-  const text=String(s||'');
-  const m=text.match(/^(约)?(\d+(?:\.\d+)?)(个|片|张|包|瓶|块|盒)(.*)$/);
+  const text=String(s||''),m=text.match(/^(约)?(\d+(?:\.\d+)?)(个|片|张|包|瓶|块|盒)(.*)$/);
   if(!m)return text;
   const n=parseFloat(m[2]);if(!Number.isFinite(n)||Number.isInteger(n))return text;
-  const rounded=Math.max(1,Math.round(n));
-  return `${m[1]||''}${rounded}${m[3]}${m[4]||''}`;
+  return `${m[1]||''}${Math.max(1,Math.round(n))}${m[3]}${m[4]||''}`;
 }
-scaleAmount0200=function(amount,r,servings){
-  return normalizeCount0202(scaleAmountV0202Base(amount,r,servings));
-};
+scaleAmount0200=function(amount,r,servings){return normalizeCount0202(scaleAmountV0202Base(amount,r,servings));};
 function practicalAmount0202(kind,name,raw,r,servings){
   const s=String(raw??'').trim();if(!s)return '';
   if(/见步骤/.test(s))return s;
@@ -86,11 +82,10 @@ function practicalAmount0202(kind,name,raw,r,servings){
 function parsedAmount0202(v){
   let s=String(v||'').trim();if(!s)return null;
   let reference=false,approx=false;
-  if(s.startsWith('参考约')){reference=true;approx=true;s=s.slice(3)}
-  else if(s.startsWith('参考')){reference=true;s=s.slice(2)}
+  if(s.startsWith('参考约')){reference=true;approx=true;s=s.slice(3)}else if(s.startsWith('参考')){reference=true;s=s.slice(2)}
   if(s.startsWith('约')){approx=true;s=s.slice(1)}
-  let m=s.match(/^半(勺|汤匙|茶匙|杯|碗|个|颗|根|片|盒|包|瓶|张|把|块|份)$/);
-  let n,unit;if(m){n=.5;unit=m[1]}else{m=s.match(/^(\d+(?:\.\d+)?)(g|kg|克|ml|mL|L|升|个|颗|根|片|勺|汤匙|茶匙|杯|碗|盒|包|瓶|张|把|块|份)$/);if(!m)return null;n=parseFloat(m[1]);unit=m[2]}
+  let m=s.match(/^半(勺|汤匙|茶匙|杯|碗|个|颗|根|片|盒|包|瓶|张|把|块|份)$/),n,unit;
+  if(m){n=.5;unit=m[1]}else{m=s.match(/^(\d+(?:\.\d+)?)(g|kg|克|ml|mL|L|升|个|颗|根|片|勺|汤匙|茶匙|杯|碗|盒|包|瓶|张|把|块|份)$/);if(!m)return null;n=parseFloat(m[1]);unit=m[2]}
   let dim=unit,factor=1,outUnit=unit;
   if(unit==='kg'){dim='mass';factor=1000;outUnit='g'}else if(unit==='g'||unit==='克'){dim='mass';outUnit='g'}
   else if(unit==='L'||unit==='升'){dim='volume';factor=1000;outUnit='ml'}else if(unit==='ml'||unit==='mL'){dim='volume';outUnit='ml'}
@@ -99,12 +94,10 @@ function parsedAmount0202(v){
 }
 const aggregateAmountsV0202Base=aggregateAmounts0200;
 aggregateAmounts0200=function(amounts){
-  const vals=amounts.filter(Boolean);if(!vals.length)return '';
-  if(vals.length===1)return vals[0];
+  const vals=amounts.filter(Boolean);if(!vals.length)return '';if(vals.length===1)return vals[0];
   const p=vals.map(parsedAmount0202);
   if(p.every(Boolean)&&new Set(p.map(x=>x.dim)).size===1){
-    const sum=p.reduce((a,b)=>a+b.n,0);const unit=p[0].unit;
-    const prefix=p.some(x=>x.reference)?'参考约':p.some(x=>x.approx)?'约':'';
+    const sum=p.reduce((a,b)=>a+b.n,0),unit=p[0].unit,prefix=p.some(x=>x.reference)?'参考约':p.some(x=>x.approx)?'约':'';
     return `${prefix}${cleanNumber0200(roundReference0202(sum))}${unit}`;
   }
   return aggregateAmountsV0202Base(vals);
@@ -122,12 +115,9 @@ mealRequirementData0200=function(){
       const src=item.kind==='food'?(r.ings||[]).find(x=>x[0]===item.name):(r.season||[]).find(x=>x[0]===item.name&&x[2]);
       if(src)use.amount=practicalAmount0202(item.kind,item.name,src[1],r);
     }
-    item.amount=aggregateAmounts0200(item.uses.map(x=>x.amount));
-    item.owned=has(item.kind,item.name);item.shopping=inShop(item.kind,item.name);
+    item.amount=aggregateAmounts0200(item.uses.map(x=>x.amount));item.owned=has(item.kind,item.name);item.shopping=inShop(item.kind,item.name);
   }
-  d.missing=d.items.filter(x=>!x.owned&&!x.support);
-  d.planned=d.items.filter(x=>!x.owned&&x.support);
-  return d;
+  d.missing=d.items.filter(x=>!x.owned&&!x.support);d.planned=d.items.filter(x=>!x.owned&&x.support);return d;
 };
 
 syncMealShopping0200=function(){
@@ -135,8 +125,7 @@ syncMealShopping0200=function(){
   for(const item of state.shopping||[]){
     if(!Array.isArray(item.needs))continue;
     for(const n of item.needs){
-      if(!ids.has(n.recipeId))continue;
-      const r=recipeById0200(n.recipeId);if(!r)continue;
+      if(!ids.has(n.recipeId))continue;const r=recipeById0200(n.recipeId);if(!r)continue;
       const src=item.kind==='food'?(r.ings||[]).find(x=>x[0]===item.name):(r.season||[]).find(x=>x[0]===item.name&&x[2]);
       if(src)n.amount=practicalAmount0202(item.kind,item.name,src[1],r);
     }
@@ -168,20 +157,17 @@ function seasoningPack0202(name){
 }
 function foodPack0202(name,amount){
   const n=String(name||'');
-  if(/葱|香菜|芫荽/.test(n))return '1小把';
-  if(/姜/.test(n))return '1小块';
-  if(/蒜/.test(n))return '1头';
+  if(/葱|香菜|芫荽/.test(n))return '1小把';if(/姜/.test(n))return '1小块';if(/蒜/.test(n))return '1头';
   const p=parsedAmount0202(amount);if(!p)return '';
   if(['个','颗','根','片','盒','包','瓶','张','把','块','份'].includes(p.unit))return `${Math.max(1,Math.ceil(p.n))}${p.unit}`;
   if(p.dim==='mass'){
-    const g=p.n;const buy=g<=100?Math.ceil(g/50)*50:g<=500?Math.ceil(g/100)*100:Math.ceil(g/250)*250;
-    return `约${buy}g`;
+    const g=p.n,buy=g<=100?Math.ceil(g/50)*50:g<=500?Math.ceil(g/100)*100:Math.ceil(g/250)*250;return `约${buy}g`;
   }
   return '';
 }
 shoppingNeedText=function(item){
   if(!Array.isArray(item.needs)||!item.needs.length)return item.kind==='food'?'食材':item.kind==='seasoning'?'调味料':'厨具';
-  const amounts=item.needs.map(n=>n.amount).filter(Boolean);const total=aggregateAmounts0200(amounts);const uses=item.needs.length;
+  const total=aggregateAmounts0200(item.needs.map(n=>n.amount).filter(Boolean)),uses=item.needs.length;
   if(item.kind==='seasoning')return `建议买${seasoningPack0202(item.name)}${total?` · 本餐预计用${total}`:''}${uses>1?` · 用于${uses}道/项`:''}`;
   if(item.kind==='food'){
     const pack=foodPack0202(item.name,total);
@@ -195,11 +181,8 @@ const recipeModalV0202Base=recipeModal;
 recipeModal=function(id){
   recipeModalV0202Base(id);const r=recipeById0200(id);if(!r)return;
   qa('[data-recipe-item]').forEach(b=>{
-    const [kind,name]=b.dataset.recipeItem.split('|');
-    const src=kind==='food'?(r.ings||[]).find(x=>x[0]===name):(r.season||[]).find(x=>x[0]===name);
-    const amt=b.querySelector('.chip-amount');if(!src||!amt)return;
-    const shown=practicalAmount0202(kind,name,src[1],r);amt.textContent=shown;
-    amt.classList.toggle('amount-reference-0202',String(shown).startsWith('参考'));
+    const [kind,name]=b.dataset.recipeItem.split('|'),src=kind==='food'?(r.ings||[]).find(x=>x[0]===name):(r.season||[]).find(x=>x[0]===name),amt=b.querySelector('.chip-amount');
+    if(!src||!amt)return;const shown=practicalAmount0202(kind,name,src[1],r);amt.textContent=shown;amt.classList.toggle('amount-reference-0202',String(shown).startsWith('参考'));
   });
 };
 
@@ -212,10 +195,8 @@ function stepMentions0202(name,step){
   if(/淀粉|生粉/.test(n)&&/(淀粉|勾芡)/.test(s))return true;
   return false;
 }
-function stepAlreadyQuantified0202(name,step){
-  const e=String(name||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),s=String(step||'');
-  return new RegExp(`${e}.{0,8}\\d|\\d.{0,8}${e}`).test(s);
-}
+function escapeRegex0202(s){return String(s||'').replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+function stepAlreadyQuantified0202(name,step){const e=escapeRegex0202(name),s=String(step||'');return new RegExp(`${e}.{0,8}\\d|\\d.{0,8}${e}`).test(s);}
 function stepAmounts0202(r,step){
   let rows=(r.season||[]).filter(x=>stepMentions0202(x[0],step)&&!stepAlreadyQuantified0202(x[0],step));
   if(!rows.length&&/(全部调味|所有调味|调味即可|进行调味)/.test(String(step||'')))rows=(r.season||[]).filter(x=>x[2]).slice(0,4);
@@ -223,20 +204,14 @@ function stepAmounts0202(r,step){
 }
 const stoveV0202Base=stove;
 stove=function(){
-  stoveV0202Base();
-  if(!state.cook||q('.step-amounts-0202'))return;
-  const r=recipeById0200(state.cook.recipe);if(!r)return;const step=r.steps?.[state.cook.step||0]||'';
-  const rows=stepAmounts0202(r,step);if(!rows.length)return;
-  const box=document.createElement('div');box.className='step-amounts-0202';
-  box.innerHTML=`<b>本步用量</b><div>${rows.map(x=>`<span>${x.name} · ${x.amount}</span>`).join('')}</div>`;
-  const el=q('.step');if(el)el.insertAdjacentElement('afterend',box);
+  stoveV0202Base();if(!state.cook||q('.step-amounts-0202'))return;
+  const r=recipeById0200(state.cook.recipe);if(!r)return;const step=r.steps?.[state.cook.step||0]||'',rows=stepAmounts0202(r,step);if(!rows.length)return;
+  const box=document.createElement('div');box.className='step-amounts-0202';box.innerHTML=`<b>本步用量</b><div>${rows.map(x=>`<span>${x.name} · ${x.amount}</span>`).join('')}</div>`;
+  q('.step')?.insertAdjacentElement('afterend',box);
 };
 
 const renderMealPlanV0202Base=renderMealPlan0200;
-renderMealPlan0200=function(){
-  renderMealPlanV0202Base();
-  const note=q('.meal-scale-note');if(note)note.textContent='人数会自动换算用量；原菜谱写“适量”的项目会给出参考量，购物袋按实际购买单位提示。';
-};
+renderMealPlan0200=function(){renderMealPlanV0202Base();const note=q('.meal-scale-note');if(note)note.textContent='人数会自动换算用量；原菜谱写“适量”的项目会给出参考量，购物袋按实际购买单位提示。';};
 
 syncMealShopping0200();
 save();render();
