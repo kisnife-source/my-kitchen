@@ -19,14 +19,13 @@ on:
       - 'patch-v0200b.js'
       - 'patch-v0200c.js'
       - 'patch-v0200.css'
-      - 'patch-v0201.js'
-      - 'patch-v0201.css'
+      - 'patch-v0202.js'
+      - 'patch-v0202.css'
       - 'hoc-recipes.generated.js'
       - 'tests/scale-audit.mjs'
       - 'tests/v0200-walkthrough.mjs'
       - 'tests/v0200-portion-audit.mjs'
-      - 'tests/v0201-audit.mjs'
-      - 'tests/v0201-practicality-audit.mjs'
+      - 'tests/v0202-quantity-audit.mjs'
       - '.github/workflows/ui-screenshot.yml'
   workflow_dispatch:
 
@@ -63,14 +62,12 @@ jobs:
         run: node tests/scale-audit.mjs
       - name: Audit shared-meal portions
         run: node tests/v0200-portion-audit.mjs
-      - name: Audit V0.2.1 contextual tips
-        run: node tests/v0201-audit.mjs
-      - name: Audit real-user practicality
-        run: node tests/v0201-practicality-audit.mjs
+      - name: Audit V0.2.2 practical quantities
+        run: node tests/v0202-quantity-audit.mjs
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mobile-ui-screenshots-v0201
+          name: mobile-ui-screenshots-v0202
           path: ui-screenshots/
           if-no-files-found: error
