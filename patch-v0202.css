@@ -1,0 +1,3 @@
+/* V0.2.2 practical quantities */
+.amount-reference-0202{font-weight:800;color:#9a6b3f}.step-amounts-0202{margin:-2px 0 12px;padding:9px 10px;border:1px solid #e7d8c8;border-radius:12px;background:#fffaf3}.step-amounts-0202>b{display:block;margin-bottom:6px;font-size:10px;color:#705039}.step-amounts-0202>div{display:flex;flex-wrap:wrap;gap:6px}.step-amounts-0202 span{display:inline-flex;max-width:100%;padding:5px 8px;border-radius:999px;background:#f3eadf;color:#715640;font-size:10px;font-weight:800;line-height:1.3;white-space:normal}
+@media(max-width:370px){.step-amounts-0202{padding:8px 9px}.step-amounts-0202 span{font-size:9px;padding:5px 7px}}
