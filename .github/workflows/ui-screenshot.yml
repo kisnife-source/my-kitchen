@@ -26,6 +26,7 @@ on:
       - 'tests/v0200-walkthrough.mjs'
       - 'tests/v0200-portion-audit.mjs'
       - 'tests/v0201-audit.mjs'
+      - 'tests/v0201-practicality-audit.mjs'
       - '.github/workflows/ui-screenshot.yml'
   workflow_dispatch:
 
@@ -64,6 +65,8 @@ jobs:
         run: node tests/v0200-portion-audit.mjs
       - name: Audit V0.2.1 contextual tips
         run: node tests/v0201-audit.mjs
+      - name: Audit real-user practicality
+        run: node tests/v0201-practicality-audit.mjs
       - name: Upload screenshots
         if: always()
         uses: actions/upload-artifact@v4
