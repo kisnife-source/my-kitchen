@@ -1,0 +1,29 @@
+/* V0.4.8 compact recipe filtering */
+.filters.filters-hidden-0408{display:none!important}
+.recipe-filter-compact-0408{display:flex;gap:6px;overflow:auto;padding-top:9px;scrollbar-width:none}
+.recipe-filter-compact-0408::-webkit-scrollbar{display:none}
+.recipe-filter-compact-0408>button{position:relative;white-space:nowrap;border:1px solid transparent;border-radius:999px;background:#f3f0eb;color:#6d645c;padding:7px 11px;font-size:12px;font-weight:800}
+.recipe-filter-compact-0408>button.on{background:#e7efe1;color:var(--green-dark)}
+.recipe-filter-compact-0408>button.more span{font-size:10px;margin-left:2px}
+.recipe-filter-compact-0408>button.more i{position:absolute;right:-3px;top:-4px;display:grid;place-items:center;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:var(--green);color:#fff;font-size:9px;font-style:normal}
+
+.recipe-filter-sheet-0408{max-width:560px}
+.filter-sheet-section-0408{margin:13px 0}
+.filter-sheet-section-0408>b{display:block;font-size:13px;margin:0 0 8px;color:#5d544c}
+.filter-sheet-grid-0408{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.filter-sheet-grid-0408 button,.filter-source-0408{border:1px solid var(--line);background:#fff;border-radius:11px;min-height:40px;padding:8px 9px;color:#665d55;font-size:12px;font-weight:800}
+.filter-sheet-grid-0408 button.on,.filter-source-0408.on{background:#e7efe1;border-color:#bfd0b2;color:var(--green-dark)}
+.filter-source-0408{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left}
+.filter-source-0408 span{font-size:10px;font-weight:700;opacity:.72}
+
+/* Today Menu two-tap removal */
+.today-dish-remove-0406{position:relative;overflow:hidden;transition:.15s ease}
+.today-dish-remove-0406.armed-0408{width:48px;background:#fff1ee;color:#a64f43;border:1px solid #dc8b80;font-size:9px}
+.today-dish-remove-0406.armed-0408 span{position:relative;z-index:1;font-size:9px;font-weight:900}
+.menu-delete-progress-0408{position:absolute;left:0;bottom:0;width:100%;height:3px;background:#d45143;transform-origin:left center;animation:menuDelete0408 2.6s linear forwards}
+@keyframes menuDelete0408{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+
+@media(max-width:390px){
+  .recipe-filter-compact-0408>button{padding:7px 10px;font-size:11px}
+  .filter-sheet-grid-0408{grid-template-columns:repeat(2,1fr)}
+}
