@@ -176,7 +176,7 @@ render();
 // V0.1.7 semi-prepared food patch
 state.version='0.1.7';
 
-const SEMI_PREPARED=['水饺','包子','手抓饼'];
+const SEMI_PREPARED=['水饺','包子','手抓饼','馄饨','汤圆','馒头'];
 
 // Existing recipes: distinguish direct preparation from secondary processing.
 const directMap={r9:['半成品',['直接处理','省事']],r17:['半成品',['直接处理','早餐']],r18:['半成品',['直接处理','快手']],r21:['半成品',['二次加工','早餐']]};
@@ -813,15 +813,18 @@ if(typeof state.manageQuery!=='string')state.manageQuery='';
 
 const FOOD_GROUPS_15={
   '肉蛋水产':['鸡腿肉','鸡胸肉','猪肉','牛肉','虾仁','鱼片','香肠','培根','鸡蛋','鸭腿','鸡翅','排骨','五花肉','肉末','火腿肠','鱿鱼','花蛤','鲈鱼'],
-  '蔬菜菌菇':['豆腐','番茄','土豆','包菜','白菜','青菜','菠菜','西兰花','蘑菇','金针菇','青椒','洋葱','胡萝卜','黄瓜','茄子','芹菜','豆芽','玉米','南瓜','红薯','葱','姜','蒜','莲藕','冬瓜','白萝卜','山药','娃娃菜','生菜','油麦菜','韭菜','四季豆','香菇','木耳','海带'],
-  '主食与其他':['大米','挂面','面包','牛奶','粉丝','年糕','可乐'],
-  '半成品':['水饺','包子','手抓饼','馄饨','汤圆','馒头']
+  '蔬菜菌菇':['番茄','土豆','包菜','白菜','青菜','菠菜','西兰花','蘑菇','金针菇','青椒','洋葱','胡萝卜','黄瓜','茄子','芹菜','豆芽','玉米','南瓜','红薯','葱','姜','蒜','莲藕','冬瓜','白萝卜','山药','娃娃菜','生菜','油麦菜','韭菜','四季豆','香菇','木耳','海带'],
+  '豆制品':['豆腐'],
+  '主食杂粮':['大米','挂面','面包','粉丝','年糕'],
+  '水果乳品':['牛奶'],
+  '半成品':['水饺','包子','手抓饼','馄饨','汤圆','馒头'],
+  '其他食材':['可乐']
 };
 function foodGroup15(name){
   const extra=window.MK_EXTRA_CATALOG?.foodGroups?.[name];
   if(extra)return extra;
   for(const [g,names] of Object.entries(FOOD_GROUPS_15))if(names.includes(name))return g;
-  return '主食与其他';
+  return '其他食材';
 }
 function enhanceIngredientGroups15(){
   if(state.prep||state.boardMode!=='ingredients'||state.foodQuery.trim())return;
