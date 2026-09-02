@@ -1,5 +1,5 @@
 // V0.4.2 safe inventory interactions + repaired bulk add flow.
-state.version='0.4.2';
+state.version='0.4.3';
 
 const DELETE_WINDOW_0420=2600;
 const pendingDelete0420=new Map();
