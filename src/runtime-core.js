@@ -32,6 +32,18 @@ R('r20','蒜蓉青菜','🥬','素菜',['快手','清淡'],6,'最快解决一把
 R('r21','培根鸡蛋卷饼','🥓','主食',['早餐','快手'],10,'手抓饼加培根鸡蛋就能成一餐',[['手抓饼','1张','无需解冻'],['培根','2片','直接使用'],['鸡蛋','1个','打散或整颗']],[['番茄酱','适量',0]],[['平底锅']],['培根先煎至微卷。','手抓饼煎至一面金黄。','加入鸡蛋并翻面。','放培根卷起。']),
 R('r22','金针菇豆腐汤','🍄','汤炖',['省钱','清淡'],15,'金针菇和豆腐的轻汤',[['金针菇','1把','去根洗净'],['豆腐','半盒','切块']],[['盐','适量',1],['胡椒','少量',0],['香油','少量',0]],[['汤锅']],['水烧开后下豆腐。','加入金针菇。','煮约5分钟。','加盐即可。'])
 ];
+/* Curated data is loaded before this runtime so it participates in migration. */
+(function mergeCuratedKitchenData(){
+  const catalog=window.MK_EXTRA_CATALOG||{};
+  Object.assign(FOOD,catalog.foods||{});
+  for(const n of catalog.seasonings||[])if(!SEASON.includes(n))SEASON.push(n);
+  for(const n of catalog.tools||[])if(!TOOLS.includes(n))TOOLS.push(n);
+  for(const r of window.MK_EXTRA_RECIPES||[]){
+    if(!r?.id||!r?.name)continue;
+    if(!recipes.some(x=>x.id===r.id))recipes.push(r);
+  }
+})();
+
 const defaults={seasonings:{食用油:1,盐:1,糖:1,生抽:1,老抽:0,料酒:0,醋:1,蚝油:1,淀粉:1,胡椒:0,香油:0,豆瓣酱:0,番茄酱:0},cookware:{炒锅:1,平底锅:1,汤锅:1,电饭煲:1,蒸锅:0,微波炉:1,空气炸锅:0,烤箱:0}};
 const clone=x=>JSON.parse(JSON.stringify(x)),uniq=a=>[...new Set(a)],q=s=>document.querySelector(s),qa=s=>[...document.querySelectorAll(s)];
 function migrate(raw){let o=raw||{},foods=Array.isArray(o.foods)?o.foods:Array.isArray(o.inv)?o.inv.filter(x=>FOOD[x.name]).map(x=>x.name):[];let s={version:'0.1.5',scene:['fridge','board','stove'].includes(o.scene)?o.scene:'board',foods:uniq(foods.filter(x=>FOOD[x])),set:clone(defaults),shopping:Array.isArray(o.shopping)?o.shopping:[],recipe:recipes.some(r=>r.id===o.recipe)?o.recipe:null,prep:null,cook:o.cook&&recipes.some(r=>r.id===o.cook.recipe)?o.cook:null,filter:o.filter||'全部',query:o.query||'',viewMode:o.viewMode==='list'?'list':'cards'};if(o.set){s.set.seasonings={...s.set.seasonings,...(o.set.seasonings||{})};s.set.cookware={...s.set.cookware,...(o.set.cookware||{})}}return s}
