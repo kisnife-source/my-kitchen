@@ -167,7 +167,7 @@ manageModal=function(tab='food'){
 };
 
 function recipeInventoryStats0300(r){
-  const reqFoods=(r.ings||[]).map(x=>x[0]).filter(n=>!waterLike0202?.(n));
+  const reqFoods=(r.ings||[]).map(x=>x[0]).filter(n=>!(typeof waterLike0202==='function'&&waterLike0202(n)));
   const reqSeason=(r.season||[]).filter(x=>x[2]).map(x=>x[0]);
   const ownedFood=reqFoods.filter(n=>has('food',n)).length;
   const ownedSeason=reqSeason.filter(n=>has('seasoning',n)).length;
