@@ -885,7 +885,8 @@ render();
 /* ===== patch-v0116.js ===== */
 // V0.1.16 visual-density refinement after mobile screenshot review
 state.version='0.1.16';
-if(typeof state.manageFoodGroup!=='string'||!['肉蛋水产','蔬菜菌菇','主食与其他'].includes(state.manageFoodGroup))state.manageFoodGroup='肉蛋水产';
+if(state.manageFoodGroup==='主食与其他')state.manageFoodGroup='主食杂粮';
+if(typeof state.manageFoodGroup!=='string'||!['肉蛋水产','蔬菜菌菇','豆制品','主食杂粮','水果乳品','其他食材'].includes(state.manageFoodGroup))state.manageFoodGroup='肉蛋水产';
 save();
 
 function collapseIngredientGroups16(){
