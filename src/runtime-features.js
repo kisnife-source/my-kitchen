@@ -10,6 +10,88 @@ if(typeof state.hocOnly!=='boolean')state.hocOnly=false;
 if(!Number.isFinite(state.recipeLimit)||state.recipeLimit<1)state.recipeLimit=36;
 
 const HOC_DATA=window.HOC_DATA||{meta:{count:0},foods:{},foodGroups:{},seasonings:[],recipes:[]};
+
+(function normalizeGeneratedCatalog(){
+  const cfg=window.MK_CATALOG_CLEANUP||{};
+  const aliases=cfg.aliases||{};
+  const iconOverrides=cfg.iconOverrides||{};
+  const groupOverrides=cfg.groupOverrides||{};
+  const semiSet=new Set([...(SEMI_PREPARED||[]),...(cfg.semiExact||[])]);
+  const aliasName=name=>aliases[name]?.name||name;
+
+  // Normalize source-side combined names such as “青蒜或香芹”.
+  for(const [oldName,rule] of Object.entries(aliases)){
+    if(!rule?.name)continue;
+    if(HOC_DATA.foods?.[oldName]){
+      HOC_DATA.foods[rule.name]=rule.icon||HOC_DATA.foods[oldName]||'🥣';
+      delete HOC_DATA.foods[oldName];
+    }
+    if(HOC_DATA.foodGroups?.[oldName]){
+      HOC_DATA.foodGroups[rule.name]=rule.group||HOC_DATA.foodGroups[oldName];
+      delete HOC_DATA.foodGroups[oldName];
+    }
+    for(const recipe of HOC_DATA.recipes||[]){
+      for(const row of recipe.ings||[]){
+        if(row?.[0]!==oldName)continue;
+        row[0]=rule.name;
+        if(rule.note&&!String(row[2]||'').includes(rule.note)){
+          row[2]=[row[2],rule.note].filter(Boolean).join(' · ');
+        }
+      }
+    }
+  }
+
+  // Keep existing local selections/shopping valid after a name cleanup.
+  const preload=window.__MK_PRELOAD;
+  if(preload){
+    if(Array.isArray(preload.foods))preload.foods=uniq(preload.foods.map(aliasName));
+    if(Array.isArray(preload.matchFoods))preload.matchFoods=uniq(preload.matchFoods.map(aliasName));
+    if(Array.isArray(preload.shopping)){
+      preload.shopping=preload.shopping.map(x=>x?.kind==='food'?{...x,name:aliasName(x.name)}:x);
+      const seen=new Set();
+      preload.shopping=preload.shopping.filter(x=>{
+        const k=(x?.kind||'')+':'+(x?.name||'');
+        if(seen.has(k))return false;seen.add(k);return true;
+      });
+    }
+  }
+
+  // Apply icon corrections before the catalog is exposed to the UI.
+  for(const [name,icon] of Object.entries(iconOverrides)){
+    if(HOC_DATA.foods?.[name]||aliases[name])HOC_DATA.foods[name]=icon;
+  }
+
+  const isSemi=name=>semiSet.has(name)||
+    /(?:菜包|肉包|汤包|小笼包|蒸饺|馄饨|烧麦|饭团|米汉堡|春卷|馅饼|油条|薯饼|肉饼)$/.test(name)||
+    /^(?:炸制|油炸|卤|盐焗|红烧|香辣|雪菜肉丝|鸡米花|钵钵鸡|柠檬拆骨)/.test(name)||
+    /(?:罐头|菌菇包|泡菜包|鸡杂包|百叶包)$/.test(name);
+
+  const classify=name=>{
+    if(isSemi(name))return '半成品';
+    if(groupOverrides[name])return groupOverrides[name];
+    const old=HOC_DATA.foodGroups?.[name]||'';
+    if(/豆腐|豆皮|豆干|腐竹|千张|素鸡|面筋|干丝|方干|香干/.test(name))return '豆制品';
+    if(/牛奶|酸奶|奶油|乳$|乳品|菠萝|木瓜|苹果|梨|山楂/.test(name))return '水果乳品';
+    if(old==='肉蛋水产')return '肉蛋水产';
+    if(old==='蔬菜菌菇')return '蔬菜菌菇';
+    if(/蒜|葱|芹|菜|笋|椒|辣|菇|菌|藕|萝卜|瓜|豆芽|豌豆|蚕豆|毛豆|海带|紫菜|芋艿|花菜/.test(name))return '蔬菜菌菇';
+    if(/米|饭|面|粉|粥|麦|豆$|豆沙|杂粮|年糕|糍|花生|玉米碴/.test(name))return '主食杂粮';
+    if(old==='主食与其他')return '其他食材';
+    return old||'其他食材';
+  };
+
+  for(const name of Object.keys(HOC_DATA.foods||{})){
+    const group=classify(name);
+    HOC_DATA.foodGroups[name]=group;
+    if(group==='半成品'&&!SEMI_PREPARED.includes(name))SEMI_PREPARED.push(name);
+  }
+
+  // Household catalog can also declare a food as semi-prepared.
+  for(const name of cfg.semiExact||[]){
+    if(FOOD[name]&&!SEMI_PREPARED.includes(name))SEMI_PREPARED.push(name);
+  }
+})();
+
 Object.assign(FOOD,HOC_DATA.foods||{});
 (HOC_DATA.seasonings||[]).forEach(n=>{if(!SEASON.includes(n))SEASON.push(n)});
 (HOC_DATA.recipes||[]).forEach(r=>{if(!recipes.some(x=>x.id===r.id))recipes.push(r)});
@@ -109,7 +191,7 @@ manageModal=function(tab='food'){
   let names=allNames.filter(n=>!query||n.includes(query));
   if(tab==='food'&&!query)names=names.filter(n=>foodGroup15(n)===state.manageFoodGroup);
   const icon=n=>kind==='food'?FOOD[n]:kind==='seasoning'?'🧂':'🍳';
-  const foodGroups=['肉蛋水产','蔬菜菌菇','主食与其他'];
+  const foodGroups=['肉蛋水产','蔬菜菌菇','豆制品','主食杂粮','水果乳品','其他食材'];
   const label=tab==='food'?'常用食材':tab==='semi'?'半成品':tab==='seasoning'?'调味料':'厨具';
   q('#modal').innerHTML=`<div class="modal"><div class="sheet"><div class="sheet-handle"></div><div class="sheet-head"><div class="title"><b>厨房物品</b><small>${label}</small></div><button class="icon-close" id="x">×</button></div><div class="manage-tabs"><button data-tab="food" class="${tab==='food'?'on':''}">食材</button><button data-tab="semi" class="${tab==='semi'?'on':''}">半成品</button><button data-tab="seasoning" class="${tab==='seasoning'?'on':''}">调味料</button><button data-tab="tool" class="${tab==='tool'?'on':''}">厨具</button></div>${searchable?`<div class="manage-search-row"><input id="manageSearch" class="search" placeholder="搜索${label}" value="${state.manageQuery}"><small>${names.length}/${allNames.length}</small></div>`:''}${tab==='food'&&!query?`<div class="manage-food-groups">${foodGroups.map(g=>`<button data-food-group="${g}" class="${state.manageFoodGroup===g?'on':''}">${g}</button>`).join('')}</div>`:''}<div class="picker-grid manage-picker">${names.length?names.map(n=>`<button class="pick ${has(kind,n)?'on':''}" data-pick="${kind}|${n}">${icon(n)} ${n}</button>`).join(''):'<div class="empty">没有找到</div>'}</div><div class="sheet-footer"><button class="secondary" id="back" style="width:100%">返回冰箱</button></div></div></div>`;
   const back=()=>{state.manageQuery='';save();close();render()};
@@ -148,8 +230,8 @@ render();
 state.version='0.1.18';
 
 const EXTRA_RECIPE_CATS_118=['调味配方','饮品'];
-const INGREDIENT_GROUPS_118=['肉蛋水产','蔬菜菌菇','主食与其他','半成品'];
-const SEASON_GROUPS_118=['基础调味','酱汁酱料','香辛料','复合调料','其他'];
+const INGREDIENT_GROUPS_118=['肉蛋水产','蔬菜菌菇','豆制品','主食杂粮','水果乳品','半成品','其他食材'];
+const SEASON_GROUPS_118=['基础调味','酱油醋酒','酱料蘸料','香辛料','复合调料','配方专用料','其他'];
 
 if(!Array.isArray(state.ingredientOpenGroups))state.ingredientOpenGroups=[];
 if(typeof state.manageSeasonGroup!=='string')state.manageSeasonGroup='基础调味';
@@ -168,7 +250,7 @@ if(typeof state.manageSeasonGroup!=='string')state.manageSeasonGroup='基础调�
   if(p.set?.cookware)state.set.cookware={...state.set.cookware,...p.set.cookware};
   if(typeof p.hocOnly==='boolean')state.hocOnly=p.hocOnly;
   if(typeof p.manageQuery==='string')state.manageQuery=p.manageQuery;
-  if(typeof p.manageFoodGroup==='string')state.manageFoodGroup=p.manageFoodGroup;
+  if(typeof p.manageFoodGroup==='string')state.manageFoodGroup=p.manageFoodGroup==='主食与其他'?'主食杂粮':p.manageFoodGroup;
   if(Array.isArray(p.ingredientOpenGroups))state.ingredientOpenGroups=uniq(p.ingredientOpenGroups.filter(g=>INGREDIENT_GROUPS_118.includes(g)));
   if(typeof p.manageSeasonGroup==='string'&&SEASON_GROUPS_118.includes(p.manageSeasonGroup))state.manageSeasonGroup=p.manageSeasonGroup;
   if(Number.isFinite(p.recipeLimit)&&p.recipeLimit>0)state.recipeLimit=p.recipeLimit;
@@ -210,8 +292,8 @@ recipeBody=function(list){
 
 function ingredientGroup118(name){
   if(SEMI_PREPARED.includes(name))return '半成品';
-  const g=typeof foodGroup15==='function'?foodGroup15(name):'主食与其他';
-  return INGREDIENT_GROUPS_118.includes(g)?g:'主食与其他';
+  const g=typeof foodGroup15==='function'?foodGroup15(name):'其他食材';
+  return INGREDIENT_GROUPS_118.includes(g)?g:'其他食材';
 }
 
 function intentFoodChip118(name,compact=false){
@@ -301,10 +383,15 @@ board=function(){
 collapseIngredientGroups16=function(){};
 
 function seasoningGroup118(name){
-  if(/^(食用油|盐|糖|生抽|老抽|酱油|味极鲜|蚝油|料酒|黄酒|花雕酒|醋|陈醋|香醋|米醋|淀粉|玉米淀粉|味精|鸡精)$/.test(name))return '基础调味';
-  if(/(八角|花椒|胡椒|孜然|桂皮|香叶|小茴香|山奈|草果|陈皮|十三香|五香粉|椒盐|芝麻|辣椒面|辣椒粉|干辣椒|干红椒|泡椒)/.test(name))return '香辛料';
-  if(/(底料|汤料|卤料|料包|调味料|调味粉|香辛料|鸡杂料|鸡翅调料|小炒料|烧鸡料|蒸蛋料|炒菜基料|鸡油料)/.test(name))return '复合调料';
-  if(/(酱|汁|油$|红油|葱油|麻油|香油|豉油)/.test(name))return '酱汁酱料';
+  const commonCompound=window.MK_CATALOG_CLEANUP?.commonCompoundSeasonings||[];
+  if(commonCompound.includes(name))return '复合调料';
+  if(/^(食用油|植物油|猪油|熟猪油|食用猪油|盐|食用盐|糖|冰糖|红糖|淀粉|玉米淀粉|味精|鸡精|鸡精味精)$/.test(name))return '基础调味';
+  if(/(生抽|老抽|酱油|味极鲜|醋|花雕酒|黄酒|料酒|米酒)$/.test(name))return '酱油醋酒';
+  if(/(八角|花椒|胡椒|孜然|桂皮|香叶|小茴香|山奈|草果|陈皮|十三香|五香粉|椒盐|芝麻|辣椒面|辣椒粉|干辣椒|干红椒)/.test(name))return '香辛料';
+  if(/(宫保|肥肠鸡|小炒|鸡翅|鱼头|烧鸡|牛腩|鸡杂|麻婆|毛血旺|酸菜鱼|口水鸡|热干面|沙汤|蒸鱼|鱼香|毛豆烧鸡|河虾|鸡胸肉|风干牛肉|红烧鱼块)/.test(name)||
+     /(调味料|调味粉|酱料|汤料|基料|料包|调味汁|料$)/.test(name))return '配方专用料';
+  if(/(豆瓣|番茄酱|芝麻酱|黄豆酱|甜面酱|蚝油|剁椒|老干妈|红油|葱油|麻油|香油|豉油|酱$|汁$)/.test(name))return '酱料蘸料';
+  if(/(底料|卤料|腌料)/.test(name))return '复合调料';
   return '其他';
 }
 
@@ -314,7 +401,7 @@ manageModal=function(tab='food'){
   const searchable=tab==='food'||tab==='semi'||tab==='seasoning';
   const query=searchable?(state.manageQuery||'').trim():'';
   let names=allNames.filter(n=>!query||n.includes(query));
-  const foodGroups=['肉蛋水产','蔬菜菌菇','主食与其他'];
+  const foodGroups=['肉蛋水产','蔬菜菌菇','豆制品','主食杂粮','水果乳品','其他食材'];
   if(tab==='food'&&!query)names=names.filter(n=>foodGroup15(n)===state.manageFoodGroup);
   if(tab==='seasoning'&&!query){
     const available=SEASON_GROUPS_118.filter(g=>allNames.some(n=>seasoningGroup118(n)===g));
