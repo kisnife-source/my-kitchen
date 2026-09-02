@@ -1,12 +1,13 @@
 # 我的小厨房：运行时结构
 
-当前稳定界面基线：**V0.5.5**。本次整理不改变 V0.5.4 的主要界面和交互，只收敛代码加载结构。
+当前稳定界面基线：**V0.5.6**。本次整理不改变 V0.5.4 的主要界面和交互，只收敛代码加载结构。
 
 ## 浏览器实际加载
 
 ```
 index.html
 ├─ assets/app.css
+├─ data/household-recipes.js
 ├─ src/runtime-core.js
 ├─ hoc-recipes.generated.js
 └─ src/runtime-features.js
@@ -17,6 +18,9 @@ index.html
 
 ### `assets/app.css`
 当前唯一运行时样式入口。它按原 V0.5.4 的 CSS 加载顺序合并，确保整理前后的视觉结果尽量一致。
+
+### `data/household-recipes.js`
+自有家庭菜谱扩展数据。目前包含 60 个常用食材、16 个调味料补充和 50 道家庭菜谱。它先于运行时核心加载，确保新增食材能参与本地状态迁移和库存管理。
 
 ### `src/runtime-core.js`
 基础数据结构、localStorage 状态、通用工具函数和早期稳定逻辑。
