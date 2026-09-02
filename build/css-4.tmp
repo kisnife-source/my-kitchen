@@ -1,0 +1,430 @@
+
+/* ===== patch-v0530.css ===== */
+/* V0.5.3 consistency pass
+   No redesign: preserve V0.5.1's warm/soft character, only normalize typography,
+   radii, controls, spacing and dark-mode surfaces. */
+
+:root{
+  --ui-radius-card:18px;
+  --ui-radius-control:11px;
+  --ui-title:25px;
+  --ui-section:15px;
+  --ui-body:13px;
+  --ui-small:11px;
+}
+
+/* ---------- global type rhythm ---------- */
+body{font-size:14px;line-height:1.45}
+h2{letter-spacing:-.01em}
+.home-hero-040 h2,
+.fridge-title-044 h2,
+.recipe-title-row-0409 h2,
+.stove-title-0406 h2,
+.mine-title-040 h2{
+  font-size:var(--ui-title)!important;
+  line-height:1.18!important;
+  font-weight:800!important;
+  margin:0!important;
+}
+.home-hero-040 p,
+.fridge-title-044 p,
+.stove-title-0406 p,
+.mine-title-040 p{
+  font-size:12px!important;
+  line-height:1.4!important;
+  color:var(--muted)!important;
+}
+.home-section-head-040 h3,
+.inventory-head-044>div b,
+.today-section-head-0406>div:first-child b,
+.custom-section-head-0409>div b{
+  font-size:var(--ui-section)!important;
+  font-weight:800!important;
+}
+.home-section-head-040 p,
+.inventory-head-044>div small,
+.today-section-head-0406>div:first-child small,
+.custom-section-head-0409>div small{
+  font-size:var(--ui-small)!important;
+  line-height:1.35!important;
+}
+.setting-row-040 b{font-size:13px!important}
+.setting-row-040 small{font-size:10px!important;line-height:1.4!important}
+
+/* ---------- page spacing ---------- */
+.home-040,.fridge-044,.stove-home-0406,.mine-040{gap:12px!important}
+.home-hero-040,.fridge-title-044,.stove-title-0406,.mine-title-040{
+  padding:7px 2px 3px!important;
+}
+.recipe-title-row-0409{margin:5px 2px 10px!important}
+
+/* ---------- one card language ---------- */
+.home-section-040,
+.settings-card-040,
+.inventory-section-044,
+.today-menu-card-0406,
+.today-detail-0406,
+.stove-empty-card-0406,
+.custom-form-card-0409,
+.custom-form-section-0409,
+.board-tools{
+  border-radius:var(--ui-radius-card)!important;
+  border:1px solid var(--line)!important;
+  background:var(--surface)!important;
+  box-shadow:none!important;
+}
+.home-section-040,
+.inventory-section-044,
+.today-menu-card-0406,
+.today-detail-0406{padding:13px!important}
+
+/* Summary blocks stay as separate soft cards — just make them consistent. */
+.inventory-overview-044,.today-summary-0406{gap:7px!important}
+.inventory-overview-044>div,.today-summary-0406>div{
+  min-height:64px;
+  padding:10px 5px!important;
+  border-radius:14px!important;
+  background:var(--surface)!important;
+  border:1px solid var(--line)!important;
+  box-shadow:none!important;
+}
+.inventory-overview-044 b,.today-summary-0406 b{
+  font-size:19px!important;
+  font-weight:800!important;
+}
+.inventory-overview-044 small,.today-summary-0406 small{
+  font-size:10px!important;
+  color:var(--muted)!important;
+}
+
+/* ---------- buttons and inputs ---------- */
+.search,
+.custom-basic-grid-0409 input,
+.custom-basic-grid-0409 select,
+.custom-basic-grid-0409 textarea,
+.custom-row-0409 input,
+.custom-step-input-0409,
+#customQuickText0500{
+  border-radius:var(--ui-radius-control)!important;
+  border:1px solid var(--line)!important;
+  background:var(--input)!important;
+  color:var(--ink)!important;
+  box-shadow:none!important;
+}
+.search{min-height:44px!important;font-size:14px!important}
+.primary,.secondary,.danger{
+  min-height:44px!important;
+  border-radius:12px!important;
+  font-size:13px!important;
+  font-weight:800!important;
+}
+.manage-btn-044,
+.inventory-search-044>button,
+.stove-add-0406,
+.custom-recipe-add-0409{
+  min-height:38px;
+  border-radius:10px!important;
+  font-size:12px!important;
+  font-weight:800!important;
+}
+.shopping-btn-044{font-size:12px!important;font-weight:800!important}
+.home-hero-040 button{font-size:12px!important;font-weight:800!important}
+
+/* ---------- segmented controls / chips ---------- */
+.home-modes-040{gap:6px!important}
+.home-modes-040 button,
+.recipe-filter-compact-0408>button,
+.manage-categories-044 button{
+  min-height:34px;
+  border-radius:10px!important;
+  font-size:11px!important;
+  font-weight:800!important;
+}
+.manage-tabs-044,
+.custom-mode-tabs-0500,
+.mini-stepper-040,
+.segmented-040,
+.today-serving-0406,
+.view-switch{
+  border-radius:11px!important;
+}
+.manage-tabs-044 button{font-size:12px!important;font-weight:800!important}
+.picker-044{
+  min-height:42px!important;
+  border-radius:11px!important;
+}
+.picker-044 b{font-size:13px!important}
+
+/* ---------- recipes ---------- */
+.recipe-grid{gap:8px!important}
+.recipe-card{
+  min-height:116px!important;
+  border-radius:15px!important;
+  padding:11px!important;
+  box-shadow:none!important;
+}
+.recipe-card h3{font-size:14px!important;font-weight:800!important}
+.recipe-card p{font-size:10.5px!important;line-height:1.45!important}
+.recipe-card .meta{margin-top:7px!important}
+.recipe-row{
+  min-height:66px!important;
+  border-radius:14px!important;
+  box-shadow:none!important;
+}
+.tag{font-size:9px!important;font-weight:800!important}
+.custom-badge-0409{font-size:9px!important}
+
+/* ---------- fridge ---------- */
+.inventory-head-044{margin-bottom:9px!important}
+.inventory-chips-044{gap:7px!important}
+.inventory-chips-044 .inventory-chip-0300{
+  min-height:36px!important;
+  border-radius:999px!important;
+  font-size:12px!important;
+  padding:7px 9px!important;
+}
+.inventory-chips-044 .inventory-chip-0300 b{font-size:12px!important}
+
+/* ---------- stove / today menu ---------- */
+.today-dish-0406{padding:11px 1px!important}
+.today-dish-copy-0406 b{font-size:14px!important;font-weight:800!important}
+.today-dish-copy-0406 small{font-size:10px!important}
+.today-dish-open-0406{font-size:11px!important;font-weight:800!important}
+.today-ready-0406{border-radius:14px!important;padding:11px 12px!important}
+.today-actions-0406{gap:8px!important}
+.stove-empty-card-0406{padding:26px 18px!important}
+.stove-empty-card-0406>b{font-size:15px!important}
+.stove-empty-card-0406 p{font-size:11px!important}
+
+/* ---------- settings ---------- */
+.settings-card-040>h3{
+  font-size:11px!important;
+  font-weight:800!important;
+  padding:12px 13px 8px!important;
+}
+.setting-row-040{min-height:60px!important;padding:10px 13px!important}
+.settings-link-040{min-height:48px!important;font-size:12px!important}
+.setting-control-040 select{font-size:11px!important}
+.about-040 p{font-size:10px!important}
+
+/* ---------- bottom sheets / modals ---------- */
+.sheet{
+  border-radius:22px 22px 0 0!important;
+  background:var(--surface)!important;
+}
+.sheet-head{margin-bottom:10px!important}
+.sheet-head .title b{font-size:17px!important;font-weight:800!important}
+.sheet-head .title small{font-size:10.5px!important;line-height:1.4!important}
+.icon-close{width:36px!important;height:36px!important}
+.sheet-footer{border-color:var(--line)!important}
+.custom-form-card-0409,.custom-form-section-0409{padding:12px!important;margin:9px 0!important}
+.custom-section-head-0409>button{font-size:11px!important;font-weight:800!important}
+
+/* ---------- dark mode: remove remaining light-only patches ---------- */
+@media(prefers-color-scheme:dark){
+  .inventory-overview-044>div,
+  .today-summary-0406>div,
+  .recipe-card,.recipe-row,
+  .inventory-section-044,
+  .home-section-040,
+  .settings-card-040,
+  .today-menu-card-0406,
+  .today-detail-0406,
+  .custom-form-card-0409,
+  .custom-form-section-0409{
+    background:var(--surface)!important;
+    border-color:var(--line)!important;
+  }
+  .manage-btn-044,
+  .home-modes-040 button,
+  .recipe-filter-compact-0408>button,
+  .custom-section-head-0409>button{
+    background:var(--surface-2)!important;
+    color:var(--ink-2)!important;
+  }
+}
+
+/* compact phones: keep density, don't shrink type aggressively */
+@media(max-width:390px){
+  :root{--ui-title:23px}
+  .wrap{padding-left:12px!important;padding-right:12px!important}
+  .inventory-overview-044,.today-summary-0406{gap:5px!important}
+  .inventory-overview-044>div,.today-summary-0406>div{min-height:58px}
+  .recipe-card{padding:10px!important}
+  .home-modes-040 button,.recipe-filter-compact-0408>button{font-size:10.5px!important}
+}
+
+
+
+/* ===== patch-v0540.css ===== */
+/* V0.5.4 screenshot-driven cleanup — preserve the warm V0.5.1 character. */
+
+/* Titles: text-only at page level; emoji remain in bottom navigation and content. */
+.fridge-title-044 h2,
+.recipe-title-row-0409 h2,
+.stove-title-0406 h2,
+.mine-title-040 h2{
+  font-size:24px!important;
+  font-weight:800!important;
+  line-height:1.2!important;
+}
+
+/* The Home quick summary looked detached and contained a stale version number.
+   Treat it as one quiet utility card. */
+.home-kitchen-040{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:5px;
+  gap:0!important;
+}
+.home-kitchen-040 button{
+  position:relative;
+  min-height:58px;
+  border-radius:12px!important;
+  padding:7px 3px!important;
+}
+.home-kitchen-040 button+button:before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:13px;
+  bottom:13px;
+  width:1px;
+  background:var(--line);
+}
+.home-kitchen-040 b{font-size:16px!important;font-weight:800!important}
+.home-kitchen-040 small{font-size:10px!important}
+
+/* Recipe page: the old tan switch came from the chopping-board era.
+   Use the same neutral/green segmented control as the rest of the product. */
+.board-mode{
+  background:var(--surface-2)!important;
+  border:0!important;
+  border-radius:13px!important;
+  padding:4px!important;
+  gap:4px!important;
+  margin-bottom:11px!important;
+}
+.board-mode button{
+  min-height:40px;
+  border-radius:10px!important;
+  background:transparent!important;
+  color:var(--muted)!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  box-shadow:none!important;
+}
+.board-mode button.on{
+  background:var(--surface)!important;
+  color:var(--green-dark)!important;
+  box-shadow:0 1px 4px rgba(27,34,28,.06)!important;
+}
+
+/* Make board tools visually agree with cards below them. */
+.board-tools{
+  padding:10px!important;
+  border-radius:17px!important;
+}
+.view-switch{border-radius:11px!important}
+.view-switch button{min-width:38px;min-height:38px}
+.recipe-filter-compact-0408{padding-top:9px!important}
+
+/* Fridge: 常备 is no longer a visible inventory dimension. */
+.inventory-overview-044{grid-template-columns:repeat(3,1fr)!important}
+.inventory-overview-044>div{min-height:64px}
+.inventory-section-044{border-radius:17px!important}
+.inventory-empty-044{
+  padding:18px 8px 16px!important;
+  min-height:55px;
+  display:grid;
+  place-items:center;
+}
+.manage-btn-044{
+  background:var(--surface-2)!important;
+  color:var(--green-dark)!important;
+}
+.shopping-btn-044{font-size:12px!important}
+
+/* Inventory bottom sheet: 4 real object types, not 5. */
+.manage-tabs-044{
+  grid-template-columns:repeat(4,1fr)!important;
+  gap:4px!important;
+}
+.manage-tabs-044 button{font-size:12px!important}
+.manage-search-044>small{font-size:11px!important;min-width:48px;text-align:right}
+.inventory-sheet-044[data-inventory-tab-0540="seasoning"] .picker-icon-044,
+.inventory-sheet-044[data-inventory-tab-0540="tool"] .picker-icon-044{
+  display:none;
+}
+.inventory-sheet-044[data-inventory-tab-0540="seasoning"] .picker-044,
+.inventory-sheet-044[data-inventory-tab-0540="tool"] .picker-044{
+  padding-left:11px;
+}
+/* Repeated salt-shaker / frying-pan emojis were visual noise and misleading for tools. */
+
+/* Bottom navigation: keep friendly emojis, normalize their occupied area and active state. */
+.nav{padding-left:8px!important;padding-right:8px!important}
+.nav button{
+  margin:2px 4px;
+  min-height:54px;
+  border-radius:15px!important;
+}
+.nav button>span:first-child{
+  width:26px;
+  height:25px;
+  display:grid!important;
+  place-items:center;
+  margin:0 auto 1px!important;
+  font-size:18px!important;
+  line-height:1!important;
+}
+.nav button.on{background:var(--surface-2)!important}
+.nav button[data-s="stove"] .nav-menu-count-0406{top:2px!important}
+
+/* Empty stove state looked disproportionately large compared with other pages. */
+.stove-empty-card-0406{
+  padding:24px 18px!important;
+}
+.stove-empty-icon-0406{
+  font-size:30px!important;
+  margin-bottom:3px;
+  opacity:.82;
+}
+.stove-empty-card-0406>b{font-size:15px!important}
+.stove-empty-card-0406 p{
+  max-width:340px;
+  font-size:11px!important;
+  margin-bottom:14px!important;
+}
+
+/* Settings: align with the same density as fridge/menu cards. */
+.mine-title-040{padding-bottom:5px!important}
+.settings-card-040{border-radius:18px!important}
+.setting-row-040{min-height:58px!important}
+.data-summary-040{padding-top:11px!important;padding-bottom:11px!important}
+.about-040{padding-top:16px!important}
+.about-040 b{font-size:10px!important}
+.about-040 p{font-size:9.5px!important}
+
+/* Dark mode parity. */
+@media(prefers-color-scheme:dark){
+  .home-kitchen-040,
+  .board-mode,
+  .inventory-section-044,
+  .settings-card-040{
+    border-color:var(--line)!important;
+  }
+  .board-mode{background:var(--surface-2)!important}
+  .board-mode button.on{background:var(--surface)!important}
+}
+
+@media(max-width:390px){
+  .fridge-title-044 h2,.recipe-title-row-0409 h2,.stove-title-0406 h2,.mine-title-040 h2{
+    font-size:22px!important;
+  }
+  .home-kitchen-040 button{min-height:54px}
+  .nav button{margin-left:2px;margin-right:2px}
+  .manage-tabs-044 button{font-size:11px!important}
+}
+
