@@ -818,6 +818,8 @@ const FOOD_GROUPS_15={
   '半成品':['水饺','包子','手抓饼','馄饨','汤圆','馒头']
 };
 function foodGroup15(name){
+  const extra=window.MK_EXTRA_CATALOG?.foodGroups?.[name];
+  if(extra)return extra;
   for(const [g,names] of Object.entries(FOOD_GROUPS_15))if(names.includes(name))return g;
   return '主食与其他';
 }
