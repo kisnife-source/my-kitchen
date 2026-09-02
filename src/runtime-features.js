@@ -1164,7 +1164,7 @@ function seasoningCategory0300(name){
   if(typeof seasoningGroup118==='function')return seasoningGroup118(name);
   if(/盐|糖|生抽|老抽|酱油|蚝油|料酒|醋|淀粉|味精|鸡精/.test(name))return '基础调味';
   if(/八角|花椒|胡椒|孜然|桂皮|香叶|芝麻|辣椒/.test(name))return '香辛料';
-  if(/酱|汁|油$/.test(name))return '酱汁酱料';
+  if(/酱|汁|油$/.test(name))return '酱料蘸料';
   return '其他';
 }
 function ensureCatalog0300(){
@@ -3222,7 +3222,7 @@ function cleanMine0540(){
     }
   });
   const aboutTitle=q('.about-040 b');
-  if(aboutTitle)aboutTitle.textContent='我的小厨房 · V'+(window.MK_VERSION||'0.5.5');
+  if(aboutTitle)aboutTitle.textContent='我的小厨房 · V'+(window.MK_VERSION||'0.5.7');
   const about=q('.about-040 p');
   if(about)about.textContent='跟随设备自动切换亮色/暗色主题。首页负责推荐，冰箱负责库存，菜谱负责找菜和选菜，灶台负责今日菜单与制作。';
 }
@@ -3288,7 +3288,7 @@ render();
 ;
 
 /* ===== consolidated runtime footer ===== */
-window.MK_VERSION=window.MK_VERSION||'0.5.5';
+window.MK_VERSION=window.MK_VERSION||'0.5.7';
 state.version=window.MK_VERSION;
 document.title='我的小厨房 V'+window.MK_VERSION;
 save();
