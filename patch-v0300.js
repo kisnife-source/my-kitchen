@@ -100,7 +100,7 @@ fridge=function(){
     ${fridgeSection0300('厨具','tool',tools,'tool')}`;
   q('#fridgeSearch0300').oninput=e=>{state.fridgeQuery=e.target.value;save();fridge()};
   q('#fridgeAdd0300').onclick=()=>manageModal('food');
-  qa('[data-manage-0300]').forEach(b=>b.onclick=()=>manageModal(b.dataset.manage0300));
+  qa('[data-manage-0300]').forEach(b=>b.onclick=()=>manageModal(b.getAttribute('data-manage-0300')));
   qa('[data-fridge-remove]').forEach(b=>b.onclick=()=>{
     const [kind,name]=b.dataset.fridgeRemove.split('|');
     if(kind==='seasoning')markStaple0300(name,false);
@@ -149,10 +149,10 @@ manageModal=function(tab='food'){
   const done=()=>{state.manageQuery0300='';state.manageCategory0300='';save();close();render()};
   q('#x').onclick=done;q('#manageDone0300').onclick=done;
   q('#manageSearch0300').oninput=e=>{state.manageQuery0300=e.target.value;save();manageModal(tab)};
-  qa('[data-tab-0300]').forEach(b=>b.onclick=()=>{state.manageQuery0300='';state.manageCategory0300='';save();manageModal(b.dataset.tab0300)});
-  qa('[data-cat-0300]').forEach(b=>b.onclick=()=>{state.manageCategory0300=b.dataset.cat0300;save();manageModal(tab)});
+  qa('[data-tab-0300]').forEach(b=>b.onclick=()=>{state.manageQuery0300='';state.manageCategory0300='';save();manageModal(b.getAttribute('data-tab-0300'))});
+  qa('[data-cat-0300]').forEach(b=>b.onclick=()=>{state.manageCategory0300=b.getAttribute('data-cat-0300');save();manageModal(tab)});
   qa('[data-pick-0300]').forEach(b=>b.onclick=()=>{
-    const sep=b.dataset.pick0300.indexOf('|'),t=b.dataset.pick0300.slice(0,sep),name=b.dataset.pick0300.slice(sep+1);
+    const sep=b.getAttribute('data-pick-0300').indexOf('|'),t=b.getAttribute('data-pick-0300').slice(0,sep),name=b.getAttribute('data-pick-0300').slice(sep+1);
     if(t==='staple'){
       const on=!state.stapleSeasonings.includes(name);markStaple0300(name,on);setPickerState0300(b,on,t,name);
     }else{
@@ -202,7 +202,7 @@ function addRecommendBar0300(){
   const c=inventoryCount0300();
   box.innerHTML=`<div class="recommend-title-0300"><div><b>今天先看哪些</b><small>从 ${recipes.length} 道菜谱里按库存和条件排序</small></div><span>${c.food} 种食材</span></div><div class="recommend-modes-0300">${[['best','最适合'],['easy','省事'],['fast','最快'],['clear','清库存']].map(([k,n])=>`<button data-recommend-0300="${k}" class="${state.recommendMode0300===k?'on':''}">${n}</button>`).join('')}</div><p>当前：<b>${recommendLabel0300()}</b>。缺少食材和厨具的菜会自动往后排。</p>`;
   anchor.insertAdjacentElement('afterend',box);
-  qa('[data-recommend-0300]').forEach(b=>b.onclick=()=>{state.recommendMode0300=b.dataset.recommend0300;state.recipeLimit=36;save();board()});
+  qa('[data-recommend-0300]').forEach(b=>b.onclick=()=>{state.recommendMode0300=b.getAttribute('data-recommend-0300');state.recipeLimit=36;save();board()});
 }
 const boardV0300Base=board;
 board=function(){boardV0300Base();addRecommendBar0300();};
