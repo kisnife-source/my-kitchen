@@ -1,0 +1,15 @@
+/* V0.4.2 safe two-tap deletion */
+.inventory-chip-0300,.picker-0300{position:relative;overflow:hidden}
+.inventory-chip-0300.delete-armed-0420,.picker-0300.delete-armed-0420{
+  border-color:#d56a5c!important;background:#fff3f1!important;color:#a7463b!important;
+}
+.inventory-chip-0300.delete-armed-0420 em{font-size:8px;color:#b84b3e;white-space:nowrap}
+.picker-0300.delete-armed-0420 .picker-mark-0300{font-size:8px;color:#b84b3e;min-width:34px}
+.delete-hint-0420{
+  position:absolute!important;left:0!important;bottom:0!important;height:3px!important;width:100%!important;
+  background:#d45143!important;border-radius:0!important;padding:0!important;margin:0!important;
+  transform-origin:left center;pointer-events:none;z-index:2;
+  animation:deleteCountdown0420 2.6s linear forwards;
+}
+@keyframes deleteCountdown0420{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.manage-search-0300 small{min-width:max-content}
