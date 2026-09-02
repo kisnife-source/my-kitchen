@@ -1,0 +1,8 @@
+/* V0.4.1: remove persistent header chrome */
+.top{display:none!important}
+.wrap{padding-top:calc(14px + env(safe-area-inset-top))}
+.fridge-topline-041{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 2px 9px}
+.fridge-topline-041 h2{margin:0}
+.fridge-shopping-041{border:0;background:transparent;color:var(--green-dark);font-size:10px;font-weight:900;padding:7px 4px}
+.fridge-shopping-041 b{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#e7ede1;color:var(--green-dark);font-size:9px;margin-left:3px}
+@media(max-width:390px){.wrap{padding-top:calc(11px + env(safe-area-inset-top))}}
