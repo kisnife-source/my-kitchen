@@ -1,0 +1,275 @@
+/* V0.5.1 unified visual system + automatic light/dark theme */
+:root{
+  color-scheme:light dark;
+  --bg:#f7f7f4;
+  --surface:#ffffff;
+  --surface-2:#f1f2ee;
+  --surface-3:#e9ece5;
+  --ink:#242824;
+  --ink-2:#4f574f;
+  --muted:#7b837b;
+  --line:#e1e5df;
+  --line-strong:#d2d8cf;
+  --green:#668454;
+  --green-dark:#48633c;
+  --green-soft:#e8efe3;
+  --orange:#c77b3d;
+  --red:#b85d52;
+  --red-soft:#f8e9e6;
+  --warning:#9a6b35;
+  --warning-soft:#f6ede0;
+  --paper:var(--surface);
+  --wood:#8b6b55;
+  --chip:var(--surface-2);
+  --input:var(--surface);
+  --overlay:rgba(23,27,23,.36);
+  --nav-bg:rgba(255,255,255,.88);
+  --focus:rgba(102,132,84,.22);
+  --shadow-sm:0 1px 2px rgba(27,34,28,.05);
+  --shadow-md:0 8px 24px rgba(27,34,28,.07);
+  --radius-sm:10px;
+  --radius-md:14px;
+  --radius-lg:18px;
+  --radius-xl:22px;
+  font-family:ui-rounded,"SF Pro Rounded","PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{background:var(--bg)!important;color:var(--ink);font-size:14px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+button{touch-action:manipulation}
+::selection{background:var(--green-soft);color:var(--ink)}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+
+.wrap{max-width:720px;padding:calc(14px + env(safe-area-inset-top)) 14px 98px}
+.scene{color:var(--ink)}
+h2{font-size:25px;line-height:1.2;letter-spacing:-.02em;color:var(--ink)}
+.card,.board-tools,.home-section-040,.settings-card-040,.inventory-section-044,
+.today-menu-card-0406,.today-detail-0406,.stove-empty-card-0406,
+.custom-form-card-0409,.custom-form-section-0409{
+  background:var(--surface)!important;
+  border:1px solid var(--line)!important;
+  box-shadow:var(--shadow-sm)!important;
+}
+.card,.board-tools{border-radius:var(--radius-lg)!important}
+.home-section-040,.settings-card-040,.today-menu-card-0406,.today-detail-0406,.stove-empty-card-0406{border-radius:var(--radius-xl)!important}
+
+/* Controls */
+.search,
+input:not([type="checkbox"]):not([type="radio"]),
+select,textarea{
+  background:var(--input)!important;
+  color:var(--ink)!important;
+  border-color:var(--line)!important;
+}
+.search::placeholder,input::placeholder,textarea::placeholder{color:var(--muted);opacity:.85}
+.search{min-height:44px;border-radius:13px!important}
+.primary,.secondary,.danger{
+  min-height:44px;border-radius:13px!important;box-shadow:none!important;
+}
+.primary{background:var(--green)!important;color:#fff!important}
+.primary:active{filter:brightness(.96)}
+.primary:disabled{background:var(--surface-3)!important;color:var(--muted)!important}
+.secondary{background:var(--surface-2)!important;color:var(--ink)!important}
+.danger{background:var(--red-soft)!important;color:var(--red)!important}
+.icon-close{background:var(--surface-2)!important;color:var(--ink-2)!important}
+.view-switch,.mini-stepper-040,.segmented-040,.today-serving-0406,.custom-mode-tabs-0500{
+  background:var(--surface-2)!important;border-color:transparent!important;
+}
+.view-switch button.on,.segmented-040 button.on,.today-serving-0406 button,.custom-mode-tabs-0500 button.on{
+  background:var(--surface)!important;color:var(--green-dark)!important;box-shadow:var(--shadow-sm)!important;
+}
+
+/* Bottom navigation */
+.nav{
+  background:var(--nav-bg)!important;
+  border-top:1px solid var(--line)!important;
+  box-shadow:0 -4px 18px rgba(27,34,28,.04)!important;
+  backdrop-filter:blur(18px) saturate(1.15);
+  -webkit-backdrop-filter:blur(18px) saturate(1.15);
+  padding:5px 8px calc(6px + env(safe-area-inset-bottom))!important;
+}
+.nav button{
+  min-height:54px;border-radius:15px!important;color:var(--muted)!important;
+  font-size:10px!important;font-weight:800!important;padding:5px 2px!important;
+}
+.nav button span{font-size:19px!important;filter:saturate(.8);opacity:.9}
+.nav button.on{background:var(--surface-2)!important;color:var(--green-dark)!important}
+.nav button.on span{filter:none;opacity:1}
+.nav-menu-count-0406{background:var(--green)!important}
+
+/* Home */
+.home-040,.mine-040,.fridge-044,.stove-home-0406{gap:13px!important}
+.home-hero-040,.mine-title-040,.fridge-title-044,.stove-title-0406{padding:5px 2px 3px!important}
+.home-hero-040 h2{font-size:30px!important}
+.home-hero-040 p,.mine-title-040 p,.fridge-title-044 p,.stove-title-0406 p{font-size:12px!important;color:var(--muted)!important}
+.home-hero-040 button,.custom-recipe-add-0409,.stove-add-0406{
+  background:var(--green-soft)!important;color:var(--green-dark)!important;border-radius:12px!important;
+}
+.continue-040{background:var(--green-soft)!important;border-color:color-mix(in srgb,var(--green) 22%,var(--line))!important;border-radius:var(--radius-lg)!important}
+.continue-040.soft{background:var(--surface)!important;border-color:var(--line)!important}
+.home-modes-040 button,.recipe-filter-compact-0408>button{
+  background:var(--surface-2)!important;color:var(--ink-2)!important;border-color:transparent!important;
+}
+.home-modes-040 button.on,.recipe-filter-compact-0408>button.on{
+  background:var(--green-soft)!important;color:var(--green-dark)!important;
+}
+.rank-040,.today-dish-index-0406,.custom-step-index-0409{background:var(--surface-2)!important;color:var(--ink-2)!important}
+.home-recipe-040{color:var(--ink)!important}
+.home-recipe-040:hover{background:color-mix(in srgb,var(--surface-2) 55%,transparent)}
+.arrow-040{color:var(--muted)!important}
+
+/* Fridge */
+.inventory-overview-044>div,.today-summary-0406>div{
+  background:var(--surface)!important;border-color:var(--line)!important;box-shadow:var(--shadow-sm);
+}
+.inventory-overview-044>div,.today-summary-0406>div{border-radius:14px!important}
+.inventory-search-044>button{background:var(--green)!important;color:#fff!important}
+.manage-btn-044,.shopping-btn-044{color:var(--green-dark)!important}
+.manage-btn-044{background:var(--surface-2)!important}
+.inventory-chip-0300,.picker-044,.pick,.home-item,.filter,.toolbtn{
+  background:var(--surface)!important;color:var(--ink-2)!important;border-color:var(--line)!important;
+}
+.picker-044.on,.pick.on,.toolbtn.on{
+  background:var(--green-soft)!important;color:var(--green-dark)!important;border-color:color-mix(in srgb,var(--green) 35%,var(--line))!important;
+}
+.manage-tabs-044,.manage-tabs{background:var(--surface-2)!important}
+.manage-tabs-044 button,.manage-tabs button{color:var(--muted)!important}
+.manage-tabs-044 button.on,.manage-tabs button.on{background:var(--surface)!important;color:var(--green-dark)!important}
+.manage-categories-044 button{background:var(--surface)!important;color:var(--ink-2)!important;border-color:var(--line)!important}
+.manage-categories-044 button.on{background:var(--green-soft)!important;color:var(--green-dark)!important;border-color:transparent!important}
+.manage-help-044{background:var(--surface-2)!important;color:var(--ink-2)!important}
+
+/* Recipes */
+.recipe-title-row-0409{margin-bottom:11px!important}
+.recipe-card,.recipe-row{
+  background:var(--surface)!important;color:var(--ink)!important;border-color:var(--line)!important;
+  box-shadow:var(--shadow-sm)!important;
+}
+.recipe-card{border-radius:16px!important;padding:11px!important}
+.recipe-row{border-radius:15px!important}
+.recipe-card:active,.recipe-row:active{transform:scale(.985)}
+.recipe-card p,.recipe-row p{color:var(--muted)!important}
+.tag{background:var(--surface-2)!important;color:var(--ink-2)!important}
+.tag.good{background:var(--green-soft)!important;color:var(--green-dark)!important}
+.tag.warn{background:var(--warning-soft)!important;color:var(--warning)!important}
+.tag.bad{background:var(--red-soft)!important;color:var(--red)!important}
+.custom-badge-0409,.custom-recipe-note-0409{background:var(--green-soft)!important;color:var(--green-dark)!important}
+.filter-sheet-grid-0408 button,.filter-source-0408{background:var(--surface)!important;color:var(--ink-2)!important;border-color:var(--line)!important}
+.filter-sheet-grid-0408 button.on,.filter-source-0408.on{background:var(--green-soft)!important;color:var(--green-dark)!important;border-color:transparent!important}
+
+/* Recipe detail and prep */
+.need,.tool-need,.prep,.cook{
+  background:var(--surface)!important;color:var(--ink)!important;border-color:var(--line)!important;
+}
+.need.state-have,.prep.done{background:color-mix(in srgb,var(--green-soft) 55%,var(--surface))!important}
+.need.state-shop{background:var(--warning-soft)!important}
+.have-toggle,.prep-check{background:var(--surface-2)!important;color:var(--ink-2)!important}
+.have-toggle.on,.prep.done .prep-check{background:var(--green)!important;color:#fff!important}
+.have-toggle.shop{background:var(--warning-soft)!important;color:var(--warning)!important}
+.section-title{color:var(--ink-2)!important}
+.recipe-summary .summary-cell{background:var(--surface-2)!important}
+.ready,.preflight{background:var(--green-soft)!important;color:var(--green-dark)!important}
+.blocker{background:var(--red-soft)!important;color:var(--red)!important}
+
+/* Stove */
+.today-serving-0406 button{color:var(--ink)!important}
+.today-dish-0406{border-color:var(--line)!important}
+.today-dish-open-0406{color:var(--green-dark)!important}
+.today-dish-remove-0406{background:var(--red-soft)!important;color:var(--red)!important}
+.today-ready-0406.ready{background:var(--green-soft)!important;color:var(--green-dark)!important}
+.today-ready-0406.blocked{background:var(--warning-soft)!important;color:var(--warning)!important}
+.today-ready-0406>span{background:color-mix(in srgb,var(--surface) 74%,transparent)!important}
+.today-missing-0406>div{border-color:var(--line)!important}
+.today-missing-0406 button,.today-tools-0406 button{background:var(--surface-2)!important;color:var(--ink-2)!important}
+.today-actions-0406{
+  background:color-mix(in srgb,var(--bg) 88%,transparent)!important;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.timer{background:var(--surface-2)!important}
+
+/* My */
+.settings-card-040>h3{color:var(--muted)!important}
+.setting-row-040,.settings-link-040{border-color:var(--line)!important}
+.setting-control-040 select,.settings-link-040{background:var(--surface)!important;color:var(--ink)!important}
+.settings-link-040.danger span{color:var(--red)!important}
+.about-040,.about-040 b{color:var(--muted)!important}
+
+/* Custom recipe editor */
+.custom-form-card-0409,.custom-form-section-0409{border-radius:16px!important}
+.custom-basic-grid-0409 label>span,.custom-section-head-0409>div b{color:var(--ink-2)!important}
+.custom-section-head-0409>button{background:var(--surface-2)!important;color:var(--ink-2)!important}
+.custom-row-remove-0409,.custom-delete-0409{background:var(--red-soft)!important;color:var(--red)!important}
+.quick-help-0500{background:var(--green-soft)!important;color:var(--green-dark)!important}
+.quick-example-0500{background:var(--surface-2)!important;border-color:var(--line)!important}
+.quick-example-0500 code{color:var(--ink-2)!important}
+.recipe-v2-meta-0500{background:var(--surface-2)!important;border-color:var(--line)!important}
+.recipe-v2-meta-0500 p{color:var(--ink-2)!important}
+.custom-recipe-actions-0409 button{background:var(--surface)!important;color:var(--ink-2)!important;border-color:var(--line)!important}
+
+/* Modal */
+.modal{background:var(--overlay)!important;backdrop-filter:blur(2px)}
+.sheet{
+  background:var(--surface)!important;color:var(--ink)!important;
+  border-radius:24px 24px 0 0!important;
+  box-shadow:0 -10px 36px rgba(17,22,18,.12)!important;
+}
+.sheet-handle{background:var(--line-strong)!important}
+.sheet-head .title small{color:var(--muted)!important}
+.sheet-footer{
+  background:linear-gradient(color-mix(in srgb,var(--surface) 82%,transparent) 0,var(--surface) 28%)!important;
+  border-color:var(--line)!important;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+}
+.toast{background:color-mix(in srgb,var(--ink) 92%,#000)!important;color:var(--surface)!important;box-shadow:var(--shadow-md)!important}
+
+/* Automatic dark theme follows the device */
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#151815;
+    --surface:#1e221e;
+    --surface-2:#272c27;
+    --surface-3:#313731;
+    --ink:#edf1ec;
+    --ink-2:#c4cbc3;
+    --muted:#929b92;
+    --line:#343b34;
+    --line-strong:#454d45;
+    --green:#86a970;
+    --green-dark:#a8c994;
+    --green-soft:#283725;
+    --orange:#d89458;
+    --red:#e08377;
+    --red-soft:#402a28;
+    --warning:#ddb071;
+    --warning-soft:#3a3024;
+    --chip:#272c27;
+    --input:#202520;
+    --overlay:rgba(0,0,0,.58);
+    --nav-bg:rgba(24,28,24,.88);
+    --focus:rgba(134,169,112,.25);
+    --shadow-sm:0 1px 2px rgba(0,0,0,.18);
+    --shadow-md:0 10px 28px rgba(0,0,0,.28);
+  }
+  .nav button.on{background:#2b322b!important}
+  .home-recipe-040:hover{background:#252a25}
+  .continue-040.soft{background:var(--surface)!important}
+  .today-ready-0406>span{background:rgba(255,255,255,.07)!important}
+  .modal{backdrop-filter:blur(3px)}
+  input,textarea,select{caret-color:var(--green-dark)}
+  img{filter:brightness(.92)}
+}
+
+/* Compact phones */
+@media(max-width:390px){
+  .wrap{padding-left:11px;padding-right:11px}
+  .home-hero-040 h2{font-size:27px!important}
+  .fridge-title-044 h2,.stove-title-0406 h2,.mine-title-040 h2{font-size:23px!important}
+  .nav button{min-height:52px}
+}
+
+/* Reduce motion when requested */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
