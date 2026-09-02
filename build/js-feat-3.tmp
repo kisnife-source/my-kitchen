@@ -1,0 +1,1006 @@
+
+/* ===== patch-v0408.js ===== */
+// V0.4.8 simplify recipe filters + protect Today Menu removal.
+state.version='0.4.8';
+
+function recipeFilterOptions0408(){
+  const filters=q('.filters');
+  if(!filters)return [];
+  const seen=new Set(), out=[];
+  qa('.filters [data-cat], .filters [data-extra-cat]').forEach(btn=>{
+    const value=btn.getAttribute('data-cat')||btn.getAttribute('data-extra-cat');
+    if(!value||seen.has(value))return;
+    seen.add(value);
+    out.push({value,label:value});
+  });
+  return out;
+}
+function openRecipeFilter0408(){
+  const options=recipeFilterOptions0408();
+  const hocAvailable=!!q('.filters [data-hoc-only]');
+  q('#modal').innerHTML=`<div class="modal"><div class="sheet recipe-filter-sheet-0408">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="title"><b>筛选菜谱</b><small>平时只保留常用选项，需要时再展开</small></div><button class="icon-close" id="filterClose0408">×</button></div>
+
+    <div class="filter-sheet-section-0408">
+      <b>分类</b>
+      <div class="filter-sheet-grid-0408">
+        ${options.map(x=>`<button type="button" data-filter-cat-0408="${encodeURIComponent(x.value)}" class="${state.filter===x.value?'on':''}">${x.label}</button>`).join('')}
+      </div>
+    </div>
+
+    ${hocAvailable?`<div class="filter-sheet-section-0408">
+      <b>来源</b>
+      <button type="button" class="filter-source-0408 ${state.hocOnly?'on':''}" id="filterHoc0408">🐔 老乡鸡菜谱 <span>${state.hocOnly?'已开启':'不限'}</span></button>
+    </div>`:''}
+
+    <div class="sheet-footer"><button type="button" class="primary" id="filterDone0408">完成</button></div>
+  </div></div>`;
+
+  q('#filterClose0408').onclick=close;
+  q('#filterDone0408').onclick=close;
+  qa('[data-filter-cat-0408]').forEach(btn=>btn.onclick=()=>{
+    state.filter=decodeURIComponent(btn.getAttribute('data-filter-cat-0408')||'全部');
+    state.recipeLimit=36;
+    save();
+    close();
+    board();
+  });
+  const hoc=q('#filterHoc0408');
+  if(hoc)hoc.onclick=()=>{
+    state.hocOnly=!state.hocOnly;
+    state.recipeLimit=36;
+    save();
+    openRecipeFilter0408();
+  };
+}
+function compactRecipeFilters0408(){
+  if(state.scene!=='board'||state.prep||state.meal?.phase==='prep'||state.boardMode!=='recipes')return;
+  const filters=q('.filters');
+  if(!filters||q('.recipe-filter-compact-0408'))return;
+
+  filters.classList.add('filters-hidden-0408');
+
+  const common=['全部','肉菜','素菜','主食'];
+  const currentExtra=!common.includes(state.filter)&&state.filter!=='全部'?state.filter:'';
+  const activeCount=(state.filter&&state.filter!=='全部'?1:0)+(state.hocOnly?1:0);
+  const row=document.createElement('div');
+  row.className='recipe-filter-compact-0408';
+
+  common.forEach(cat=>{
+    if(!recipeFilterOptions0408().some(x=>x.value===cat))return;
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className=state.filter===cat?'on':'';
+    btn.textContent=cat;
+    btn.onclick=()=>{state.filter=cat;state.recipeLimit=36;save();board()};
+    row.appendChild(btn);
+  });
+
+  const more=document.createElement('button');
+  more.type='button';
+  more.className='more '+(currentExtra||state.hocOnly?'on':'');
+  more.innerHTML=`${currentExtra?currentExtra:'筛选'} <span>⌄</span>${activeCount? `<i>${activeCount}</i>`:''}`;
+  more.onclick=openRecipeFilter0408;
+  row.appendChild(more);
+
+  filters.insertAdjacentElement('afterend',row);
+}
+
+const boardV0408Base=board;
+board=function(){
+  const out=boardV0408Base();
+  compactRecipeFilters0408();
+  return out;
+};
+
+// Today Menu uses a separate two-tap confirmation because an accidental removal
+// would otherwise require returning to Recipes and finding the dish again.
+const menuDeletePending0408=new Map();
+const MENU_DELETE_WINDOW_0408=2600;
+
+function clearMenuDelete0408(id,btn){
+  const rec=menuDeletePending0408.get(id);
+  if(rec?.timer)clearTimeout(rec.timer);
+  menuDeletePending0408.delete(id);
+  if(btn){
+    btn.classList.remove('armed-0408');
+    btn.innerHTML='×';
+    const bar=btn.querySelector('.menu-delete-progress-0408');
+    if(bar)bar.remove();
+  }
+}
+function bindTodayMenuDelete0408(){
+  qa('[data-menu-remove-0406]').forEach(btn=>{
+    btn.onclick=e=>{
+      e.preventDefault();
+      const id=btn.getAttribute('data-menu-remove-0406');
+      if(!id)return;
+      if(menuDeletePending0408.has(id)){
+        clearMenuDelete0408(id,btn);
+        removeMealRecipe0200(id);
+        stove();
+        setChrome040();
+        toast('已从今日菜单移除');
+        return;
+      }
+
+      for(const [other,rec] of menuDeletePending0408)clearMenuDelete0408(other,rec.btn);
+      btn.classList.add('armed-0408');
+      btn.innerHTML='<span>再点</span><i class="menu-delete-progress-0408"></i>';
+      const timer=setTimeout(()=>clearMenuDelete0408(id,btn),MENU_DELETE_WINDOW_0408);
+      menuDeletePending0408.set(id,{timer,btn});
+    };
+  });
+}
+
+const renderTodayStoveV0408Base=renderTodayStove0406;
+renderTodayStove0406=function(){
+  renderTodayStoveV0408Base();
+  bindTodayMenuDelete0408();
+};
+
+save();
+render();
+
+;
+
+
+/* ===== patch-v0409.js ===== */
+// V0.4.9 user-created recipes.
+state.version='0.4.9';
+
+(function restoreCustomRecipes0409(){
+  const preload=window.__MK_PRELOAD;
+  const stored=Array.isArray(preload?.customRecipes)?preload.customRecipes:[];
+  state.customRecipes=stored.filter(r=>r&&r.id&&r.name&&Array.isArray(r.steps));
+  for(const r of state.customRecipes){
+    if(!recipes.some(x=>x.id===r.id))recipes.push(r);
+    registerCustomRecipeCatalog0409(r);
+  }
+})();
+
+function esc0409(v=''){
+  return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function registerCustomRecipeCatalog0409(r){
+  for(const row of r.ings||[]){
+    const n=String(row?.[0]||'').trim();
+    if(n&&!FOOD[n]&&!SEASON.includes(n))FOOD[n]='🥣';
+  }
+  for(const row of r.season||[]){
+    const n=String(row?.[0]||'').trim();
+    if(n&&!SEASON.includes(n))SEASON.push(n);
+  }
+  for(const group of r.tools||[])for(const raw of group||[]){
+    const n=String(raw||'').trim();
+    if(n&&!TOOLS.includes(n))TOOLS.push(n);
+  }
+}
+function isCustomRecipe0409(id){return (state.customRecipes||[]).some(r=>r.id===id)}
+function customRecipe0409(id){return (state.customRecipes||[]).find(r=>r.id===id)||null}
+function customIcon0409(cat){
+  return {肉菜:'🥩',素菜:'🥬',蛋类:'🍳',主食:'🍚',汤炖:'🍲',半成品:'🥟',饮品:'🥛'}[cat]||'🍽';
+}
+function blankCustom0409(){
+  return {id:'',name:'',cat:'肉菜',mins:15,desc:'',ings:[['','','']],season:[],tools:[['']],steps:[''],tags:['自定义'],custom:true};
+}
+function normalizeCustomRecipe0409(data,id){
+  const cat=String(data.cat||'其他').trim()||'其他';
+  return {
+    id:id||('custom_'+Date.now().toString(36)),
+    name:String(data.name||'').trim(),
+    icon:customIcon0409(cat),
+    cat,
+    tags:['自定义'],
+    mins:Math.max(1,Math.min(999,Number(data.mins)||15)),
+    desc:String(data.desc||'').trim()||'我的自定义菜谱',
+    ings:(data.ings||[]).map(x=>[String(x[0]||'').trim(),String(x[1]||'').trim()||'适量',String(x[2]||'').trim()]).filter(x=>x[0]),
+    season:(data.season||[]).map(x=>[String(x[0]||'').trim(),String(x[1]||'').trim()||'适量',x[2]?1:0]).filter(x=>x[0]),
+    tools:(data.tools||[]).map(g=>(g||[]).map(x=>String(x||'').trim()).filter(Boolean)).filter(g=>g.length),
+    steps:(data.steps||[]).map(x=>String(x||'').trim()).filter(Boolean),
+    custom:true
+  };
+}
+function customRowIngredient0409(row=['','','']){
+  return `<div class="custom-row-0409 custom-ing-row-0409">
+    <input class="custom-name-0409" list="foodCatalog0409" placeholder="食材，如 鸡腿肉" value="${esc0409(row[0])}">
+    <input class="custom-amount-0409" placeholder="用量，如 300g" value="${esc0409(row[1])}">
+    <input class="custom-prep-0409" placeholder="准备方式，如 切块" value="${esc0409(row[2])}">
+    <button type="button" class="custom-row-remove-0409" aria-label="删除">×</button>
+  </div>`;
+}
+function customRowSeason0409(row=['','',1]){
+  return `<div class="custom-row-0409 custom-season-row-0409">
+    <input class="custom-name-0409" list="seasonCatalog0409" placeholder="调味料，如 生抽" value="${esc0409(row[0])}">
+    <input class="custom-amount-0409" placeholder="用量，如 1勺" value="${esc0409(row[1])}">
+    <label class="custom-required-0409"><input type="checkbox" ${row[2]?'checked':''}>必需</label>
+    <button type="button" class="custom-row-remove-0409" aria-label="删除">×</button>
+  </div>`;
+}
+function customRowTool0409(group=['']){
+  return `<div class="custom-row-0409 custom-tool-row-0409">
+    <input class="custom-tool-input-0409" list="toolCatalog0409" placeholder="厨具；可用 / 分隔替代项" value="${esc0409((group||[]).join(' / '))}">
+    <button type="button" class="custom-row-remove-0409" aria-label="删除">×</button>
+  </div>`;
+}
+function customRowStep0409(step=''){
+  return `<div class="custom-step-row-0409">
+    <span class="custom-step-index-0409"></span>
+    <textarea class="custom-step-input-0409" rows="2" placeholder="写清这一小步怎么做">${esc0409(step)}</textarea>
+    <button type="button" class="custom-row-remove-0409" aria-label="删除">×</button>
+  </div>`;
+}
+function refreshStepNumbers0409(){
+  qa('.custom-step-row-0409').forEach((row,i)=>{const n=row.querySelector('.custom-step-index-0409');if(n)n.textContent=i+1});
+}
+function bindCustomRowRemove0409(){
+  qa('.custom-row-remove-0409').forEach(btn=>btn.onclick=()=>{
+    const row=btn.closest('.custom-row-0409,.custom-step-row-0409');
+    if(row)row.remove();
+    refreshStepNumbers0409();
+  });
+}
+function readCustomForm0409(){
+  const ings=qa('.custom-ing-row-0409').map(row=>[
+    row.querySelector('.custom-name-0409')?.value||'',
+    row.querySelector('.custom-amount-0409')?.value||'',
+    row.querySelector('.custom-prep-0409')?.value||''
+  ]);
+  const season=qa('.custom-season-row-0409').map(row=>[
+    row.querySelector('.custom-name-0409')?.value||'',
+    row.querySelector('.custom-amount-0409')?.value||'',
+    !!row.querySelector('.custom-required-0409 input')?.checked
+  ]);
+  const tools=qa('.custom-tool-row-0409').map(row=>
+    String(row.querySelector('.custom-tool-input-0409')?.value||'').split('/').map(x=>x.trim()).filter(Boolean)
+  );
+  const steps=qa('.custom-step-input-0409').map(x=>x.value);
+  return {
+    name:q('#customRecipeName0409')?.value||'',
+    cat:q('#customRecipeCat0409')?.value||'其他',
+    mins:q('#customRecipeMins0409')?.value||15,
+    desc:q('#customRecipeDesc0409')?.value||'',
+    ings,season,tools,steps
+  };
+}
+function saveCustomRecipe0409(editId=''){
+  const r=normalizeCustomRecipe0409(readCustomForm0409(),editId||'');
+  if(!r.name)return toast('请先填写菜名');
+  if(!r.ings.length)return toast('至少填写 1 项食材');
+  if(!r.steps.length)return toast('至少填写 1 个步骤');
+
+  registerCustomRecipeCatalog0409(r);
+  if(editId){
+    const i=state.customRecipes.findIndex(x=>x.id===editId);
+    if(i>=0)state.customRecipes[i]=r;
+    const j=recipes.findIndex(x=>x.id===editId);
+    if(j>=0)recipes[j]=r; else recipes.push(r);
+  }else{
+    state.customRecipes.push(r);
+    recipes.push(r);
+  }
+  save();
+  close();
+  toast(editId?'菜谱已更新':'已添加到我的菜谱');
+  state.scene='board';
+  state.boardMode='recipes';
+  state.filter='全部';
+  state.query=r.name;
+  save();
+  render();
+}
+function customRecipeEditor0409(editId=''){
+  const original=editId?customRecipe0409(editId):null;
+  const r=original?clone(original):blankCustom0409();
+  if(!r.ings?.length)r.ings=[['','','']];
+  if(!r.steps?.length)r.steps=[''];
+
+  q('#modal').innerHTML=`<div class="modal"><div class="sheet custom-recipe-sheet-0409">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head custom-editor-head-0409">
+      <div class="title"><b>${editId?'编辑我的菜谱':'添加自定义菜谱'}</b><small>以后会和普通菜谱一样参与搜索、推荐和今日菜单</small></div>
+      <button type="button" class="icon-close" id="customClose0409">×</button>
+    </div>
+
+    <section class="custom-form-card-0409">
+      <div class="custom-basic-grid-0409">
+        <label class="wide"><span>菜名</span><input id="customRecipeName0409" placeholder="例如：妈妈版红烧肉" value="${esc0409(r.name)}"></label>
+        <label><span>分类</span><select id="customRecipeCat0409">
+          ${['肉菜','素菜','蛋类','主食','汤炖','半成品','其他'].map(x=>`<option value="${x}" ${r.cat===x?'selected':''}>${x}</option>`).join('')}
+        </select></label>
+        <label><span>大约用时</span><div class="custom-mins-0409"><input id="customRecipeMins0409" type="number" min="1" max="999" value="${Number(r.mins)||15}"><i>分钟</i></div></label>
+        <label class="wide"><span>一句话说明 <small>可选</small></span><input id="customRecipeDesc0409" placeholder="例如：偏甜口，适合配米饭" value="${esc0409(r.desc==='我的自定义菜谱'?'':r.desc)}"></label>
+      </div>
+    </section>
+
+    <section class="custom-form-section-0409">
+      <div class="custom-section-head-0409"><div><b>食材</b><small>名称、用量和提前处理</small></div><button type="button" id="customAddIng0409">＋ 食材</button></div>
+      <div id="customIngList0409" class="custom-rows-0409">${r.ings.map(customRowIngredient0409).join('')}</div>
+    </section>
+
+    <section class="custom-form-section-0409">
+      <div class="custom-section-head-0409"><div><b>调味料</b><small>不填也可以</small></div><button type="button" id="customAddSeason0409">＋ 调味</button></div>
+      <div id="customSeasonList0409" class="custom-rows-0409">${(r.season||[]).map(customRowSeason0409).join('')}</div>
+    </section>
+
+    <section class="custom-form-section-0409">
+      <div class="custom-section-head-0409"><div><b>厨具</b><small>“炒锅 / 平底锅”表示任选一种</small></div><button type="button" id="customAddTool0409">＋ 厨具</button></div>
+      <div id="customToolList0409" class="custom-rows-0409">${(r.tools||[]).map(customRowTool0409).join('')}</div>
+    </section>
+
+    <section class="custom-form-section-0409">
+      <div class="custom-section-head-0409"><div><b>制作步骤</b><small>一行一个动作，灶台会逐步显示</small></div><button type="button" id="customAddStep0409">＋ 步骤</button></div>
+      <div id="customStepList0409" class="custom-steps-0409">${r.steps.map(customRowStep0409).join('')}</div>
+    </section>
+
+    <datalist id="foodCatalog0409">${Object.keys(FOOD).map(n=>`<option value="${esc0409(n)}"></option>`).join('')}</datalist>
+    <datalist id="seasonCatalog0409">${SEASON.map(n=>`<option value="${esc0409(n)}"></option>`).join('')}</datalist>
+    <datalist id="toolCatalog0409">${TOOLS.map(n=>`<option value="${esc0409(n)}"></option>`).join('')}</datalist>
+
+    <div class="sheet-footer custom-editor-footer-0409">
+      <div class="custom-footer-actions-0409">
+        ${editId?'<button type="button" class="custom-delete-0409" id="customDelete0409">删除</button>':''}
+        <button type="button" class="primary" id="customSave0409">${editId?'保存修改':'添加菜谱'}</button>
+      </div>
+    </div>
+  </div></div>`;
+
+  refreshStepNumbers0409();
+  bindCustomRowRemove0409();
+  q('#customClose0409').onclick=close;
+  q('#customAddIng0409').onclick=()=>{q('#customIngList0409').insertAdjacentHTML('beforeend',customRowIngredient0409());bindCustomRowRemove0409()};
+  q('#customAddSeason0409').onclick=()=>{q('#customSeasonList0409').insertAdjacentHTML('beforeend',customRowSeason0409());bindCustomRowRemove0409()};
+  q('#customAddTool0409').onclick=()=>{q('#customToolList0409').insertAdjacentHTML('beforeend',customRowTool0409());bindCustomRowRemove0409()};
+  q('#customAddStep0409').onclick=()=>{q('#customStepList0409').insertAdjacentHTML('beforeend',customRowStep0409());refreshStepNumbers0409();bindCustomRowRemove0409()};
+  q('#customSave0409').onclick=()=>saveCustomRecipe0409(editId);
+  const del=q('#customDelete0409');if(del)del.onclick=()=>confirmDeleteCustomRecipe0409(editId);
+}
+function confirmDeleteCustomRecipe0409(id){
+  const r=customRecipe0409(id);if(!r)return;
+  q('#modal').innerHTML=`<div class="modal"><div class="sheet small-sheet-040">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head"><div class="title"><b>删除「${esc0409(r.name)}」？</b><small>删除后不会影响冰箱里的食材记录。</small></div></div>
+    <div class="sheet-footer"><div class="dual"><button type="button" class="secondary" id="customDeleteCancel0409">取消</button><button type="button" class="danger" id="customDeleteOK0409">确认删除</button></div></div>
+  </div></div>`;
+  q('#customDeleteCancel0409').onclick=()=>customRecipeEditor0409(id);
+  q('#customDeleteOK0409').onclick=()=>{
+    state.customRecipes=state.customRecipes.filter(x=>x.id!==id);
+    const idx=recipes.findIndex(x=>x.id===id);if(idx>=0)recipes.splice(idx,1);
+    if(typeof removeMealRecipe0200==='function')removeMealRecipe0200(id);
+    if(state.cook?.recipe===id)state.cook=null;
+    if(state.recipe===id)state.recipe=null;
+    save();close();render();toast('已删除自定义菜谱');
+  };
+}
+function decorateRecipePage0409(){
+  if(state.scene!=='board'||state.meal?.phase==='prep')return;
+  if(q('.custom-recipe-add-0409'))return;
+  const h=q('#root > h2');if(!h)return;
+  const head=document.createElement('div');
+  head.className='recipe-title-row-0409';
+  h.replaceWith(head);
+  head.appendChild(h);
+  const btn=document.createElement('button');
+  btn.type='button';
+  btn.className='custom-recipe-add-0409';
+  btn.textContent='＋ 自定义';
+  btn.onclick=()=>customRecipeEditor0409();
+  head.appendChild(btn);
+
+  qa('[data-r]').forEach(card=>{
+    const id=card.getAttribute('data-r');
+    if(!isCustomRecipe0409(id)||card.querySelector('.custom-badge-0409'))return;
+    const badge=document.createElement('span');
+    badge.className='custom-badge-0409';
+    badge.textContent='我的';
+    card.appendChild(badge);
+  });
+}
+const boardV0409Base=board;
+board=function(){
+  const out=boardV0409Base();
+  decorateRecipePage0409();
+  return out;
+};
+
+const recipeModalV0409Base=recipeModal;
+recipeModal=function(id){
+  recipeModalV0409Base(id);
+  if(!isCustomRecipe0409(id))return;
+  const sheet=q('#modal .sheet');if(!sheet||q('.custom-recipe-actions-0409'))return;
+  const title=sheet.querySelector('.recipe-title-block,.recipe-title-stack,.sheet-head');
+  if(title){
+    const mark=document.createElement('div');
+    mark.className='custom-recipe-note-0409';
+    mark.textContent='我的自定义菜谱';
+    title.insertAdjacentElement('afterend',mark);
+  }
+  const actions=document.createElement('div');
+  actions.className='custom-recipe-actions-0409';
+  actions.innerHTML='<button type="button" id="editCustomRecipe0409">编辑菜谱</button>';
+  const footer=sheet.querySelector('.sheet-footer');
+  if(footer)footer.insertAdjacentElement('beforebegin',actions); else sheet.appendChild(actions);
+  q('#editCustomRecipe0409').onclick=()=>customRecipeEditor0409(id);
+};
+
+const renderV0409Base=render;
+render=function(){
+  const out=renderV0409Base();
+  if(state.scene==='board')decorateRecipePage0409();
+  return out;
+};
+
+save();
+render();
+
+;
+
+
+/* ===== patch-v0500.js ===== */
+// V0.5.0 Custom Recipe V2: quick text input, source, notes, and copy-to-my-recipe.
+state.version='0.5.0';
+
+function recipeSourceUrl0500(r){
+  return String(r?.customMeta?.sourceUrl||r?.source?.url||'').trim();
+}
+function recipeNotes0500(r){
+  return String(r?.customMeta?.notes||'').trim();
+}
+function validHttpUrl0500(url){
+  if(!url)return '';
+  try{
+    const u=new URL(url,location.href);
+    return /^https?:$/.test(u.protocol)?u.href:'';
+  }catch(e){return ''}
+}
+function customDraft0500(r){
+  const base=r?clone(r):blankCustom0409();
+  base.customMeta={...(base.customMeta||{})};
+  base.customMeta.sourceUrl=recipeSourceUrl0500(base);
+  base.customMeta.notes=recipeNotes0500(base);
+  return base;
+}
+
+normalizeCustomRecipe0409=function(data,id){
+  const cat=String(data.cat||'其他').trim()||'其他';
+  return {
+    id:id||('custom_'+Date.now().toString(36)),
+    name:String(data.name||'').trim(),
+    icon:customIcon0409(cat),
+    cat,
+    tags:['自定义'],
+    mins:Math.max(1,Math.min(999,Number(data.mins)||15)),
+    desc:String(data.desc||'').trim()||'我的自定义菜谱',
+    ings:(data.ings||[]).map(x=>[
+      String(x[0]||'').trim(),
+      String(x[1]||'').trim()||'适量',
+      String(x[2]||'').trim()
+    ]).filter(x=>x[0]),
+    season:(data.season||[]).map(x=>[
+      String(x[0]||'').trim(),
+      String(x[1]||'').trim()||'适量',
+      x[2]?1:0
+    ]).filter(x=>x[0]),
+    tools:(data.tools||[]).map(g=>(g||[]).map(x=>String(x||'').trim()).filter(Boolean)).filter(g=>g.length),
+    steps:(data.steps||[]).map(x=>String(x||'').trim()).filter(Boolean),
+    customMeta:{
+      sourceUrl:validHttpUrl0500(String(data.sourceUrl||'').trim())||String(data.sourceUrl||'').trim(),
+      notes:String(data.notes||'').trim()
+    },
+    custom:true
+  };
+};
+
+readCustomForm0409=function(){
+  const ings=qa('.custom-ing-row-0409').map(row=>[
+    row.querySelector('.custom-name-0409')?.value||'',
+    row.querySelector('.custom-amount-0409')?.value||'',
+    row.querySelector('.custom-prep-0409')?.value||''
+  ]);
+  const season=qa('.custom-season-row-0409').map(row=>[
+    row.querySelector('.custom-name-0409')?.value||'',
+    row.querySelector('.custom-amount-0409')?.value||'',
+    !!row.querySelector('.custom-required-0409 input')?.checked
+  ]);
+  const tools=qa('.custom-tool-row-0409').map(row=>
+    String(row.querySelector('.custom-tool-input-0409')?.value||'').split('/').map(x=>x.trim()).filter(Boolean)
+  );
+  const steps=qa('.custom-step-input-0409').map(x=>x.value);
+  return {
+    name:q('#customRecipeName0409')?.value||'',
+    cat:q('#customRecipeCat0409')?.value||'其他',
+    mins:q('#customRecipeMins0409')?.value||15,
+    desc:q('#customRecipeDesc0409')?.value||'',
+    sourceUrl:q('#customRecipeSource0500')?.value||'',
+    notes:q('#customRecipeNotes0500')?.value||'',
+    ings,season,tools,steps
+  };
+};
+
+function amountSplit0500(line){
+  const cleaned=String(line||'').replace(/^[-•·]\s*/,'').trim();
+  if(!cleaned)return ['','',''];
+  const explicit=cleaned.split(/\s*[*|｜]\s*/);
+  if(explicit.length>=2)return [explicit[0]||'',explicit[1]||'',explicit.slice(2).join(' ')||''];
+  const spaced=cleaned.split(/\s+/);
+  if(spaced.length>=2){
+    const idx=spaced.findIndex((x,i)=>i>0&&/^(?:\d|半|一|二|三|四|五|六|七|八|九|十|少许|适量|若干)/.test(x));
+    if(idx>0)return [spaced.slice(0,idx).join(''),spaced[idx]||'',spaced.slice(idx+1).join(' ')];
+  }
+  const m=cleaned.match(/^(.+?)(\d+(?:\.\d+)?(?:\/\d+)?\s*(?:kg|g|克|千克|斤|两|ml|毫升|升|L|个|颗|只|根|把|片|块|瓣|勺|茶匙|汤匙|杯|碗|盒|包|瓶|张|份))(.*)$/i);
+  if(m)return [m[1].trim(),m[2].trim(),m[3].trim()];
+  return [cleaned,'适量',''];
+}
+function parseQuickRecipe0500(text){
+  const out={name:'',cat:'肉菜',mins:15,desc:'',sourceUrl:'',notes:'',ings:[],season:[],tools:[],steps:[]};
+  const lines=String(text||'').replace(/\r/g,'').split('\n');
+  let section='';
+  const sectionOf=line=>{
+    const s=line.replace(/^#+\s*/,'').replace(/^\[|\]$/g,'').replace(/[：:]$/,'').trim();
+    if(/^(食材|材料|主料|配料)$/.test(s))return 'ings';
+    if(/^(调味料|调味|调料)$/.test(s))return 'season';
+    if(/^(厨具|工具)$/.test(s))return 'tools';
+    if(/^(步骤|做法|制作步骤|制作)$/.test(s))return 'steps';
+    return '';
+  };
+  for(const raw of lines){
+    let line=raw.trim();
+    if(!line)continue;
+    const sec=sectionOf(line);
+    if(sec){section=sec;continue}
+    let m;
+    if((m=line.match(/^(?:菜名|名称|标题)\s*[：:]\s*(.+)$/))){out.name=m[1].trim();continue}
+    if((m=line.match(/^分类\s*[：:]\s*(.+)$/))){out.cat=m[1].trim();continue}
+    if((m=line.match(/^(?:用时|时间|耗时)\s*[：:]\s*(.+)$/))){out.mins=parseInt(m[1],10)||15;continue}
+    if((m=line.match(/^(?:说明|描述)\s*[：:]\s*(.+)$/))){out.desc=m[1].trim();continue}
+    if((m=line.match(/^(?:来源|网址|链接)\s*[：:]\s*(.+)$/))){out.sourceUrl=m[1].trim();continue}
+    if((m=line.match(/^(?:备注|心得)\s*[：:]\s*(.+)$/))){out.notes=m[1].trim();continue}
+
+    if(section==='ings'){
+      const row=amountSplit0500(line);
+      if(row[0])out.ings.push(row);
+    }else if(section==='season'){
+      const row=amountSplit0500(line);
+      const optional=/可选|可省|非必需/.test(line);
+      if(row[0])out.season.push([row[0],row[1],optional?0:1]);
+    }else if(section==='tools'){
+      const group=line.replace(/^[-•·]\s*/,'').split(/\s*(?:\/|、|或)\s*/).map(x=>x.trim()).filter(Boolean);
+      if(group.length)out.tools.push(group);
+    }else if(section==='steps'){
+      line=line.replace(/^\s*(?:\d+[\.、)）]|[-•·])\s*/,'').trim();
+      if(line&&line!=='---')out.steps.push(line);
+    }else if(/^\d+[\.、)）]\s*/.test(line)){
+      out.steps.push(line.replace(/^\d+[\.、)）]\s*/,'').trim());
+    }
+  }
+  return out;
+}
+function quickTextFromRecipe0500(data){
+  const r=data||{};
+  const lines=[];
+  lines.push('菜名：'+(r.name||''));
+  lines.push('分类：'+(r.cat||'其他'));
+  lines.push('用时：'+(Number(r.mins)||15)+'分钟');
+  if(r.desc)lines.push('说明：'+r.desc);
+  if(r.sourceUrl||recipeSourceUrl0500(r))lines.push('来源：'+(r.sourceUrl||recipeSourceUrl0500(r)));
+  if(r.notes||recipeNotes0500(r))lines.push('备注：'+(r.notes||recipeNotes0500(r)));
+  lines.push('');
+  lines.push('# 食材');
+  (r.ings||[]).forEach(x=>lines.push([x[0],x[1],x[2]].filter(Boolean).join(' * ')));
+  lines.push('');
+  lines.push('# 调味料');
+  (r.season||[]).forEach(x=>lines.push([x[0],x[1],x[2]?'必需':'可选'].filter(Boolean).join(' * ')));
+  lines.push('');
+  lines.push('# 厨具');
+  (r.tools||[]).forEach(g=>lines.push((g||[]).join(' / ')));
+  lines.push('');
+  lines.push('# 步骤');
+  (r.steps||[]).forEach((s,i)=>lines.push((i+1)+'. '+s));
+  return lines.join('\n');
+}
+function mergeQuickIntoDraft0500(parsed,current){
+  return {
+    ...current,
+    ...parsed,
+    name:parsed.name||current.name||'',
+    desc:parsed.desc||current.desc||'',
+    sourceUrl:parsed.sourceUrl||current.sourceUrl||recipeSourceUrl0500(current),
+    notes:parsed.notes||current.notes||recipeNotes0500(current),
+    ings:parsed.ings.length?parsed.ings:(current.ings||[]),
+    season:parsed.season.length?parsed.season:(current.season||[]),
+    tools:parsed.tools.length?parsed.tools:(current.tools||[]),
+    steps:parsed.steps.length?parsed.steps:(current.steps||[])
+  };
+}
+function customRecipeEditor0500(editId='',draft=null,startMode='form'){
+  const original=editId?customRecipe0409(editId):null;
+  const r=customDraft0500(draft||original||blankCustom0409());
+  if(!r.ings?.length)r.ings=[['','','']];
+  if(!r.steps?.length)r.steps=[''];
+  const source=recipeSourceUrl0500(r);
+  const notes=recipeNotes0500(r);
+
+  q('#modal').innerHTML=`<div class="modal"><div class="sheet custom-recipe-sheet-0409 custom-recipe-sheet-0500">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head custom-editor-head-0409">
+      <div class="title"><b>${editId?'编辑我的菜谱':'添加自定义菜谱'}</b><small>可以慢慢填，也可以整段粘贴后自动拆成食材和步骤</small></div>
+      <button type="button" class="icon-close" id="customClose0500">×</button>
+    </div>
+
+    <div class="custom-mode-tabs-0500">
+      <button type="button" data-custom-mode-0500="form" class="${startMode==='form'?'on':''}">结构化填写</button>
+      <button type="button" data-custom-mode-0500="text" class="${startMode==='text'?'on':''}">快速文字输入</button>
+    </div>
+
+    <div id="customFormPanel0500" class="${startMode==='form'?'':'custom-hidden-0500'}">
+      <section class="custom-form-card-0409">
+        <div class="custom-basic-grid-0409">
+          <label class="wide"><span>菜名</span><input id="customRecipeName0409" placeholder="例如：妈妈版红烧肉" value="${esc0409(r.name)}"></label>
+          <label><span>分类</span><select id="customRecipeCat0409">
+            ${['肉菜','素菜','蛋类','主食','汤炖','半成品','其他'].map(x=>`<option value="${x}" ${r.cat===x?'selected':''}>${x}</option>`).join('')}
+          </select></label>
+          <label><span>大约用时</span><div class="custom-mins-0409"><input id="customRecipeMins0409" type="number" min="1" max="999" value="${Number(r.mins)||15}"><i>分钟</i></div></label>
+          <label class="wide"><span>一句话说明 <small>可选</small></span><input id="customRecipeDesc0409" placeholder="例如：偏甜口，适合配米饭" value="${esc0409(r.desc==='我的自定义菜谱'?'':r.desc)}"></label>
+          <label class="wide"><span>来源网址 <small>可选</small></span><input id="customRecipeSource0500" inputmode="url" placeholder="原菜谱、视频或文章链接" value="${esc0409(source)}"></label>
+          <label class="wide"><span>心得 / 备注 <small>可选</small></span><textarea id="customRecipeNotes0500" rows="3" placeholder="例如：下次糖少一点；家里人更喜欢炖久一点">${esc0409(notes)}</textarea></label>
+        </div>
+      </section>
+
+      <section class="custom-form-section-0409">
+        <div class="custom-section-head-0409"><div><b>食材</b><small>名称、用量和提前处理</small></div><button type="button" id="customAddIng0500">＋ 食材</button></div>
+        <div id="customIngList0409" class="custom-rows-0409">${r.ings.map(customRowIngredient0409).join('')}</div>
+      </section>
+
+      <section class="custom-form-section-0409">
+        <div class="custom-section-head-0409"><div><b>调味料</b><small>可以标记必需 / 可选</small></div><button type="button" id="customAddSeason0500">＋ 调味</button></div>
+        <div id="customSeasonList0409" class="custom-rows-0409">${(r.season||[]).map(customRowSeason0409).join('')}</div>
+      </section>
+
+      <section class="custom-form-section-0409">
+        <div class="custom-section-head-0409"><div><b>厨具</b><small>“炒锅 / 平底锅”表示任选一种</small></div><button type="button" id="customAddTool0500">＋ 厨具</button></div>
+        <div id="customToolList0409" class="custom-rows-0409">${(r.tools||[]).map(customRowTool0409).join('')}</div>
+      </section>
+
+      <section class="custom-form-section-0409">
+        <div class="custom-section-head-0409"><div><b>制作步骤</b><small>一行一个动作，灶台逐步显示</small></div><button type="button" id="customAddStep0500">＋ 步骤</button></div>
+        <div id="customStepList0409" class="custom-steps-0409">${r.steps.map(customRowStep0409).join('')}</div>
+      </section>
+
+      <datalist id="foodCatalog0409">${Object.keys(FOOD).map(n=>`<option value="${esc0409(n)}"></option>`).join('')}</datalist>
+      <datalist id="seasonCatalog0409">${SEASON.map(n=>`<option value="${esc0409(n)}"></option>`).join('')}</datalist>
+      <datalist id="toolCatalog0409">${TOOLS.map(n=>`<option value="${esc0409(n)}"></option>`).join('')}</datalist>
+    </div>
+
+    <div id="customTextPanel0500" class="custom-text-panel-0500 ${startMode==='text'?'':'custom-hidden-0500'}">
+      <div class="quick-help-0500">
+        <b>直接粘贴整段菜谱</b>
+        <p>建议用“# 食材 / # 调味料 / # 厨具 / # 步骤”分段。食材可写成“番茄 * 2个 * 切块”。</p>
+      </div>
+      <textarea id="customQuickText0500" rows="20" spellcheck="false">${esc0409(quickTextFromRecipe0500({...r,sourceUrl:source,notes}))}</textarea>
+      <div class="quick-example-0500">
+        <span>例：</span>
+        <code># 食材\n番茄 * 2个 * 切块\n鸡蛋 * 3个\n# 步骤\n1. 鸡蛋炒熟盛出\n2. 番茄炒软后合炒</code>
+      </div>
+      <button type="button" class="primary quick-parse-0500" id="customParse0500">解析并回到表单检查</button>
+    </div>
+
+    <div class="sheet-footer custom-editor-footer-0409" id="customFooter0500">
+      <div class="custom-footer-actions-0409">
+        ${editId?'<button type="button" class="custom-delete-0409" id="customDelete0500">删除</button>':''}
+        <button type="button" class="primary" id="customSave0500">${editId?'保存修改':'添加菜谱'}</button>
+      </div>
+    </div>
+  </div></div>`;
+
+  refreshStepNumbers0409();
+  bindCustomRowRemove0409();
+
+  const form=q('#customFormPanel0500'),textPanel=q('#customTextPanel0500'),footer=q('#customFooter0500');
+  const setMode=mode=>{
+    const textMode=mode==='text';
+    form.classList.toggle('custom-hidden-0500',textMode);
+    textPanel.classList.toggle('custom-hidden-0500',!textMode);
+    footer.classList.toggle('custom-hidden-0500',textMode);
+    qa('[data-custom-mode-0500]').forEach(b=>b.classList.toggle('on',b.getAttribute('data-custom-mode-0500')===mode));
+    if(textMode){
+      const current=readCustomForm0409();
+      q('#customQuickText0500').value=quickTextFromRecipe0500(current);
+    }
+  };
+
+  q('#customClose0500').onclick=close;
+  qa('[data-custom-mode-0500]').forEach(btn=>btn.onclick=()=>setMode(btn.getAttribute('data-custom-mode-0500')));
+  q('#customAddIng0500').onclick=()=>{q('#customIngList0409').insertAdjacentHTML('beforeend',customRowIngredient0409());bindCustomRowRemove0409()};
+  q('#customAddSeason0500').onclick=()=>{q('#customSeasonList0409').insertAdjacentHTML('beforeend',customRowSeason0409());bindCustomRowRemove0409()};
+  q('#customAddTool0500').onclick=()=>{q('#customToolList0409').insertAdjacentHTML('beforeend',customRowTool0409());bindCustomRowRemove0409()};
+  q('#customAddStep0500').onclick=()=>{q('#customStepList0409').insertAdjacentHTML('beforeend',customRowStep0409());refreshStepNumbers0409();bindCustomRowRemove0409()};
+  q('#customParse0500').onclick=()=>{
+    const current=readCustomForm0409();
+    const parsed=parseQuickRecipe0500(q('#customQuickText0500').value);
+    const merged=mergeQuickIntoDraft0500(parsed,current);
+    customRecipeEditor0500(editId,merged,'form');
+    toast('已解析，请检查后保存');
+  };
+  q('#customSave0500').onclick=()=>saveCustomRecipe0409(editId);
+  const del=q('#customDelete0500');if(del)del.onclick=()=>confirmDeleteCustomRecipe0409(editId);
+}
+customRecipeEditor0409=customRecipeEditor0500;
+
+function duplicateRecipe0500(id){
+  const src=recipeById0200(id)||recipes.find(x=>x.id===id);
+  if(!src)return;
+  const draft=customDraft0500(src);
+  draft.id='';
+  draft.custom=true;
+  draft.name=(src.name||'菜谱')+' · 我的版本';
+  draft.tags=['自定义'];
+  draft.customMeta={
+    sourceUrl:recipeSourceUrl0500(src),
+    notes:isCustomRecipe0409(id)?recipeNotes0500(src):''
+  };
+  customRecipeEditor0500('',draft,'form');
+}
+function decorateRecipeDetail0500(id){
+  const r=recipeById0200(id)||recipes.find(x=>x.id===id);
+  const sheet=q('#modal .sheet');if(!r||!sheet)return;
+
+  if(!q('.recipe-v2-meta-0500')&&(recipeSourceUrl0500(r)||recipeNotes0500(r))){
+    const box=document.createElement('div');
+    box.className='recipe-v2-meta-0500';
+    const source=validHttpUrl0500(recipeSourceUrl0500(r));
+    box.innerHTML=`${recipeNotes0500(r)?`<div><b>我的心得</b><p>${esc0409(recipeNotes0500(r))}</p></div>`:''}
+      ${source?`<a href="${esc0409(source)}" target="_blank" rel="noopener noreferrer">查看原始来源 ↗</a>`:''}`;
+    const footer=sheet.querySelector('.sheet-footer');
+    if(footer)footer.insertAdjacentElement('beforebegin',box);else sheet.appendChild(box);
+  }
+
+  let actions=q('.custom-recipe-actions-0409');
+  if(!actions){
+    actions=document.createElement('div');
+    actions.className='custom-recipe-actions-0409';
+    const footer=sheet.querySelector('.sheet-footer');
+    if(footer)footer.insertAdjacentElement('beforebegin',actions);else sheet.appendChild(actions);
+  }
+  if(!actions.querySelector('#copyRecipe0500')){
+    const btn=document.createElement('button');
+    btn.type='button';btn.id='copyRecipe0500';
+    btn.textContent=isCustomRecipe0409(id)?'复制一份':'复制为我的菜谱';
+    btn.onclick=()=>duplicateRecipe0500(id);
+    actions.appendChild(btn);
+  }
+}
+const recipeModalV0500Base=recipeModal;
+recipeModal=function(id){
+  recipeModalV0500Base(id);
+  decorateRecipeDetail0500(id);
+};
+
+save();
+render();
+
+;
+
+
+/* ===== patch-v0510.js ===== */
+// V0.5.1 theme integration: follow device appearance and keep browser chrome in sync.
+state.version='0.5.1';
+
+(function theme0510(){
+  const media=window.matchMedia?.('(prefers-color-scheme: dark)');
+  const apply=()=>{
+    const dark=!!media?.matches;
+    document.documentElement.dataset.theme=dark?'dark':'light';
+    document.documentElement.style.colorScheme=dark?'dark':'light';
+    let meta=document.querySelector('meta[name="theme-color"]');
+    if(!meta){
+      meta=document.createElement('meta');
+      meta.name='theme-color';
+      document.head.appendChild(meta);
+    }
+    meta.content=dark?'#151815':'#f7f7f4';
+  };
+  apply();
+  if(media?.addEventListener)media.addEventListener('change',apply);
+  else if(media?.addListener)media.addListener(apply);
+})();
+
+const mineV0510Base=mine040;
+mine040=function(){
+  mineV0510Base();
+  const aboutTitle=q('.about-040 b');
+  if(aboutTitle)aboutTitle.textContent='我的小厨房 · V0.5.1';
+  const about=q('.about-040 p');
+  if(about)about.textContent='跟随设备自动切换亮色/暗色主题。首页负责推荐，冰箱负责库存，菜谱负责找菜和选菜，灶台负责今日菜单与制作。';
+  setChrome040();
+};
+
+save();
+render();
+
+;
+
+
+/* ===== patch-v0530.js ===== */
+// V0.5.3 consistency pass — keep the warm character, unify hierarchy and wording.
+state.version='0.5.3';
+
+function polishConsistency0530(){
+  // Keep scene naming stable: navigation name = page title.
+  if(state.scene==='stove'){
+    const h=q('.stove-title-0406 h2');
+    if(h)h.textContent='🍳 灶台';
+    const p=q('.stove-title-0406 p');
+    if(p)p.textContent=(state.meal?.dishes||[]).length?'今日菜单 · 今天要做的菜':'今天准备做什么';
+    const menuHead=q('.today-menu-card-0406 .today-section-head-0406>div:first-child>b');
+    if(menuHead)menuHead.textContent='今日菜单';
+  }
+
+  if(state.scene==='board'&&state.meal?.phase!=='prep'){
+    const h=q('.recipe-title-row-0409 h2, #root > h2');
+    if(h)h.textContent='📖 菜谱';
+  }
+
+  // One wording for shopping throughout the main flow.
+  qa('.shopping-btn-044').forEach(b=>{
+    b.childNodes.forEach(n=>{
+      if(n.nodeType===Node.TEXT_NODE&&n.nodeValue.includes('购物清单'))n.nodeValue=n.nodeValue.replace('购物清单','购物清单');
+    });
+  });
+}
+
+const renderV0530Base=render;
+render=function(){
+  const out=renderV0530Base();
+  polishConsistency0530();
+  return out;
+};
+
+const homeV0530Base=home040;
+home040=function(){homeV0530Base();polishConsistency0530()};
+
+const fridgeV0530Base=fridge;
+fridge=function(){const out=fridgeV0530Base();polishConsistency0530();return out};
+
+const boardV0530Base=board;
+board=function(){const out=boardV0530Base();polishConsistency0530();return out};
+
+const stoveV0530Base=stove;
+stove=function(){const out=stoveV0530Base();polishConsistency0530();return out};
+
+const mineV0530Base=mine040;
+mine040=function(){
+  mineV0530Base();
+  const aboutTitle=q('.about-040 b');
+  if(aboutTitle)aboutTitle.textContent='我的小厨房 · V0.5.3';
+  polishConsistency0530();
+};
+
+save();
+render();
+
+;
+
+
+/* ===== patch-v0540.js ===== */
+// V0.5.4 screenshot-driven consistency cleanup.
+state.version=window.MK_VERSION||'0.5.5';
+
+function stripSceneEmoji0540(){
+  const targets=[
+    '.fridge-title-044 h2',
+    '.recipe-title-row-0409 h2',
+    '.stove-title-0406 h2',
+    '.mine-title-040 h2'
+  ];
+  for(const sel of targets){
+    const el=q(sel);
+    if(!el)continue;
+    el.textContent=(el.textContent||'').replace(/^[\p{Extended_Pictographic}\uFE0F\u200D\s]+/u,'').trim();
+  }
+  if(state.scene==='board'&&state.meal?.phase==='prep'){
+    const h=q('#root h2');
+    if(h)h.textContent=(h.textContent||'').replace(/^[\p{Extended_Pictographic}\uFE0F\u200D\s]+/u,'').trim();
+  }
+}
+
+function cleanHome0540(){
+  if(state.scene!=='home')return;
+  const items=qa('.home-kitchen-040 button');
+  if(items.length>=4){
+    const recipeCount=items[2].querySelector('b');
+    if(recipeCount)recipeCount.textContent=recipes.length;
+    const mealCount=(state.meal?.dishes||[]).filter(id=>!(state.meal?.completed||[]).includes(id)).length;
+    const last=items[3];
+    const b=last.querySelector('b'),small=last.querySelector('small');
+    if(b)b.textContent=mealCount;
+    if(small)small.textContent='今日菜单';
+    last.setAttribute('data-home-jump-040','stove');
+    last.onclick=()=>go('stove');
+  }
+}
+
+function cleanFridge0540(){
+  if(state.scene!=='fridge')return;
+  const summary=qa('.inventory-overview-044>div');
+  // “常备” was an extra state users did not find useful. Keep old data compatible,
+  // but remove the concept from the visible inventory UI.
+  if(summary[2])summary[2].remove();
+
+  qa('.inventory-head-044>div small').forEach(el=>{
+    el.textContent=(el.textContent||'').replace(/\s*·\s*常备\s*\d+\s*种/g,'').trim();
+  });
+}
+
+function cleanMine0540(){
+  if(state.scene!=='mine')return;
+  qa('.setting-row-040 small').forEach(el=>{
+    if((el.textContent||'').includes('菜板的默认浏览方式')){
+      el.textContent='菜谱页的默认浏览方式';
+    }
+  });
+  const aboutTitle=q('.about-040 b');
+  if(aboutTitle)aboutTitle.textContent='我的小厨房 · V'+(window.MK_VERSION||'0.5.5')';
+  const about=q('.about-040 p');
+  if(about)about.textContent='跟随设备自动切换亮色/暗色主题。首页负责推荐，冰箱负责库存，菜谱负责找菜和选菜，灶台负责今日菜单与制作。';
+}
+
+function cleanStove0540(){
+  if(state.scene!=='stove')return;
+  const p=q('.stove-empty-card-0406 p');
+  if(p)p.textContent='去菜谱挑几道菜，加入“今日菜单”后都会集中显示在这里。';
+}
+
+function polishMain0540(){
+  stripSceneEmoji0540();
+  cleanHome0540();
+  cleanFridge0540();
+  cleanMine0540();
+  cleanStove0540();
+}
+
+const manageModalV0540Base=manageModal;
+manageModal=function(tab='food'){
+  // “常备” is intentionally no longer exposed. Old links/state fall back to 调味料.
+  if(tab==='staple')tab='seasoning';
+  manageModalV0540Base(tab);
+
+  const sheet=q('.inventory-sheet-044');
+  if(!sheet)return;
+  sheet.dataset.inventoryTab0540=tab;
+
+  const staple=q('[data-tab-044="staple"]');
+  if(staple)staple.remove();
+
+  const count=q('#manageCount044');
+  if(count&&count.parentElement){
+    count.parentElement.innerHTML='已有 <b id="manageCount044">'+count.textContent+'</b>';
+  }
+};
+
+const renderV0540Base=render;
+render=function(){
+  const out=renderV0540Base();
+  polishMain0540();
+  return out;
+};
+
+const homeV0540Base=home040;
+home040=function(){homeV0540Base();polishMain0540()};
+
+const fridgeV0540Base=fridge;
+fridge=function(){const out=fridgeV0540Base();polishMain0540();return out};
+
+const boardV0540Base=board;
+board=function(){const out=boardV0540Base();polishMain0540();return out};
+
+const stoveV0540Base=stove;
+stove=function(){const out=stoveV0540Base();polishMain0540();return out};
+
+const mineV0540Base=mine040;
+mine040=function(){mineV0540Base();polishMain0540()};
+
+save();
+render();
+
+;
