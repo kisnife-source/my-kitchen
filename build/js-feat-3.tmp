@@ -940,7 +940,7 @@ function cleanMine0540(){
     }
   });
   const aboutTitle=q('.about-040 b');
-  if(aboutTitle)aboutTitle.textContent='我的小厨房 · V'+(window.MK_VERSION||'0.5.5')';
+  if(aboutTitle)aboutTitle.textContent='我的小厨房 · V'+(window.MK_VERSION||'0.5.5');
   const about=q('.about-040 p');
   if(about)about.textContent='跟随设备自动切换亮色/暗色主题。首页负责推荐，冰箱负责库存，菜谱负责找菜和选菜，灶台负责今日菜单与制作。';
 }
