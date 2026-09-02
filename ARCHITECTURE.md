@@ -1,6 +1,6 @@
 # 我的小厨房：运行时结构
 
-当前稳定界面基线：**V0.5.6**。本次整理不改变 V0.5.4 的主要界面和交互，只收敛代码加载结构。
+当前稳定界面基线：**V0.5.7**。本次整理不改变 V0.5.4 的主要界面和交互，只收敛代码加载结构。
 
 ## 浏览器实际加载
 
@@ -10,6 +10,7 @@ index.html
 ├─ data/household-recipes.js
 ├─ src/runtime-core.js
 ├─ hoc-recipes.generated.js
+├─ data/catalog-cleanup.js
 └─ src/runtime-features.js
 ```
 
@@ -27,6 +28,9 @@ index.html
 
 ### `hoc-recipes.generated.js`
 自动生成的外部菜谱数据。它保持独立，因为数据体积大且有独立同步流程。
+
+### `data/catalog-cleanup.js`
+生成数据的清洗规则。负责把来源侧的组合命名、半成品误分类、图标和分类异常整理成用户可理解的厨房目录，例如“青蒜或香芹”不再作为一个独立库存项，“香菇青菜包”归入半成品。
 
 ### `src/runtime-features.js`
 库存、按食材找菜、今日菜单、自定义菜谱、首页、设置、主题和 V0.5.4 UI 修正等功能的当前运行时实现。
