@@ -1,6 +1,6 @@
 // V0.4.4 inventory UI stabilization.
 // Fresh implementations are loaded last to avoid stale/cached event bindings from earlier patches.
-state.version='0.4.4';
+state.version='0.4.5';
 
 function fridgeSection044(title,kind,names,tab,sub=''){
   const qv=String(state.fridgeQuery||'').trim();
@@ -123,7 +123,7 @@ manageModal=function(tab='food'){
   q('#modal').innerHTML=`<div class="modal"><div class="sheet inventory-sheet-044">
     <div class="sheet-handle"></div>
     <div class="sheet-head inventory-sheet-head-044">
-      <div class="title"><b>厨房物品</b><small>点一下添加；已有物品需再次点击确认删除</small></div>
+      <div class="title"><b>厨房物品</b><small>点一下添加，再点一下取消</small></div>
       <button type="button" class="icon-close" data-close-044>×</button>
     </div>
 
@@ -200,13 +200,15 @@ manageModal=function(tab='food'){
       return;
     }
 
-    armDelete0420(itemBtn,kind,name,'manager044:'+tab,()=>{
-      managerRemove044(tab,kind,name);
-      itemBtn.classList.remove('on');
-      const mark=itemBtn.querySelector('.picker-mark-0300'); if(mark)mark.textContent='＋';
-      const count=q('#manageCount044'); if(count)count.textContent=managerCount044(tab,kind);
-      toast(tab==='staple'?'已取消常备 '+name:'已移除 '+name);
-    });
+    // In the manager, tapping an owned item is an immediate toggle off.
+    // This is intentionally different from the Fridge page, where removal
+    // still requires a second tap because restoring an accidental removal
+    // would otherwise require reopening the manager and finding the item again.
+    managerRemove044(tab,kind,name);
+    itemBtn.classList.remove('on');
+    const mark=itemBtn.querySelector('.picker-mark-0300'); if(mark)mark.textContent='＋';
+    const count=q('#manageCount044'); if(count)count.textContent=managerCount044(tab,kind);
+    toast(tab==='staple'?'已取消常备 '+name:'已取消 '+name);
   });
 };
 
