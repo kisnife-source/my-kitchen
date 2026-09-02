@@ -96,9 +96,9 @@ function home040(){
   q('#moreRecipes040').onclick=()=>go('board');
   const cc=q('#continueCook040');if(cc)cc.onclick=()=>go('stove');
   const cm=q('#continueMeal040');if(cm)cm.onclick=()=>{state.mealView=true;state.mealPage='plan';save();go('board')};
-  qa('[data-home-mode-040]').forEach(b=>b.onclick=()=>{state.recommendMode0300=b.dataset.homeMode040;save();home040();setChrome040()});
-  qa('[data-home-recipe-040]').forEach(b=>b.onclick=()=>recipeModal(b.dataset.homeRecipe040));
-  qa('[data-home-jump-040]').forEach(b=>b.onclick=()=>go(b.dataset.homeJump040));
+  qa('[data-home-mode-040]').forEach(b=>b.onclick=()=>{state.recommendMode0300=b.getAttribute('data-home-mode-040');save();home040();setChrome040()});
+  qa('[data-home-recipe-040]').forEach(b=>b.onclick=()=>recipeModal(b.getAttribute('data-home-recipe-040')));
+  qa('[data-home-jump-040]').forEach(b=>b.onclick=()=>go(b.getAttribute('data-home-jump-040')));
 }
 
 function settingRow040(title,desc,control){
@@ -132,8 +132,8 @@ function mine040(){
   q('#mineServMinus040').onclick=()=>{setServings0200(Math.max(1,servings-1));mine040();setChrome040()};
   q('#mineServPlus040').onclick=()=>{setServings0200(Math.min(12,servings+1));mine040();setChrome040()};
   q('#mineMode040').onchange=e=>{state.recommendMode0300=e.target.value;save()};
-  qa('[data-rec-count-040]').forEach(b=>b.onclick=()=>{state.homeRecommendCount040=Number(b.dataset.recCount040);save();mine040();setChrome040()});
-  qa('[data-view-040]').forEach(b=>b.onclick=()=>{state.viewMode=b.dataset.view040;save();mine040();setChrome040()});
+  qa('[data-rec-count-040]').forEach(b=>b.onclick=()=>{state.homeRecommendCount040=Number(b.getAttribute('data-rec-count-040'));save();mine040();setChrome040()});
+  qa('[data-view-040]').forEach(b=>b.onclick=()=>{state.viewMode=b.getAttribute('data-view-040');save();mine040();setChrome040()});
   q('#mineManage040').onclick=()=>go('fridge');
   q('#mineReset040').onclick=()=>resetConfirm040();
 }
