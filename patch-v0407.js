@@ -1,6 +1,16 @@
 // V0.4.7 terminology + flow polish: 菜板 -> 菜谱, focused prep mode.
 state.version='0.4.7';
 
+sceneMeta040=function(scene){
+  return {
+    home:['首页','今天吃什么'],
+    fridge:['冰箱','我有什么'],
+    board:['菜谱','找菜和选菜'],
+    stove:['灶台','今日菜单'],
+    mine:['我的','设置']
+  }[scene]||['我的小厨房',''];
+};
+
 function polishRecipeScene0407(){
   if(state.scene!=='board'||state.meal?.phase==='prep')return;
   const h=q('#root > h2');
@@ -67,6 +77,7 @@ render=function(){
 const mineV0407Base=mine040;
 mine040=function(){
   mineV0407Base();
+  const aboutTitle=q('.about-040 b');if(aboutTitle)aboutTitle.textContent='我的小厨房 · V0.4.7';
   const about=q('.about-040 p');
   if(about)about.textContent='首页负责推荐，冰箱负责库存，菜谱负责找菜和选菜，灶台负责今日菜单与制作。';
   setChrome040();
