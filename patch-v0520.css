@@ -1,0 +1,156 @@
+/* V0.5.2 — calmer, tool-like interface and a unified icon language */
+:root{
+  --radius-card:18px;
+  --radius-control:12px;
+  --space-page:14px;
+  --tap:44px;
+}
+
+/* Typography: reduce the old “everything bold” feel */
+body{font-weight:400;letter-spacing:0}
+h1,h2,h3,.title b,.head b,.home-section-head-040 h3,.today-section-head-0406 b,.inventory-head-044 b{font-weight:750!important}
+button{font-weight:700!important}
+small,.muted{font-weight:450!important}
+.tag,.custom-badge-0409{font-weight:700!important}
+
+/* One icon system for navigation and major scene titles */
+.ui-icon-0520{
+  display:block;width:21px;height:21px;fill:none;stroke:currentColor;
+  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+}
+.nav-icon-wrap-0520{display:grid!important;place-items:center;width:25px;height:25px;margin:0 auto 1px!important;font-size:0!important}
+.nav-icon-wrap-0520 .ui-icon-0520{width:21px;height:21px}
+.nav-label-0520{display:block;font-size:10px;line-height:1.15}
+.nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}
+.nav button.on .ui-icon-0520{stroke-width:2.15}
+.nav-menu-count-0406{top:4px!important;left:calc(50% + 10px)!important}
+
+.scene-title-icon-0520{
+  width:30px;height:30px;border-radius:10px;background:var(--surface-2);
+  display:grid;place-items:center;flex:0 0 auto;color:var(--green-dark);
+}
+.scene-title-icon-0520 .ui-icon-0520{width:18px;height:18px}
+.fridge-title-044 h2,.stove-title-0406 h2,.mine-title-040 h2,.recipe-title-row-0409 h2{
+  display:flex;align-items:center;gap:9px;font-size:24px!important;line-height:1.15!important;
+}
+
+/* Page rhythm */
+.home-040,.fridge-044,.stove-home-0406,.mine-040{gap:12px!important}
+.home-hero-040,.fridge-title-044,.stove-title-0406,.mine-title-040,.recipe-title-row-0409{margin-bottom:2px!important}
+.home-hero-040 h2{font-size:29px!important;line-height:1.1}
+.home-hero-040 p,.fridge-title-044 p,.stove-title-0406 p,.mine-title-040 p{margin-top:5px!important}
+
+/* Cards: fewer decorative cues, stronger content hierarchy */
+.home-section-040,.settings-card-040,.inventory-section-044,.today-menu-card-0406,.today-detail-0406,
+.custom-form-card-0409,.custom-form-section-0409,.stove-empty-card-0406{
+  border-radius:var(--radius-card)!important;
+  box-shadow:none!important;
+}
+.home-section-040,.inventory-section-044,.today-menu-card-0406,.today-detail-0406{padding:14px!important}
+.inventory-section-044+.inventory-section-044{margin-top:0}
+
+/* Summary numbers feel like a toolbar rather than four floating cards */
+.inventory-overview-044,.today-summary-0406{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);
+  padding:5px;gap:0!important;overflow:hidden;
+}
+.inventory-overview-044>div,.today-summary-0406>div{
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  min-height:54px;display:grid;align-content:center;position:relative;
+}
+.inventory-overview-044>div+div:before,.today-summary-0406>div+div:before{
+  content:"";position:absolute;left:0;top:12px;bottom:12px;width:1px;background:var(--line);
+}
+.inventory-overview-044 b,.today-summary-0406 b{font-size:18px!important;font-weight:750!important}
+.inventory-overview-044 small,.today-summary-0406 small{font-size:10px!important}
+
+/* Controls */
+.search{min-height:var(--tap)!important;padding:10px 12px!important}
+.inventory-search-044>button,.manage-btn-044,.stove-add-0406,.custom-recipe-add-0409{
+  min-height:40px;border-radius:var(--radius-control)!important;padding:8px 12px!important;
+}
+.recipe-filter-compact-0408{gap:7px!important;padding-top:10px!important}
+.recipe-filter-compact-0408>button,.home-modes-040 button,.manage-categories-044 button{
+  min-height:34px;border-radius:11px!important;padding:7px 11px!important;
+}
+.home-modes-040{gap:7px!important}
+
+/* Recipe cards: make scanning easier */
+.recipe-grid{gap:9px!important}
+.recipe-card{
+  min-height:118px!important;padding:12px!important;border-radius:16px!important;
+  display:block;
+}
+.recipe-card .icon{font-size:22px!important;width:28px!important}
+.recipe-card h3{font-size:14px!important;font-weight:750!important}
+.recipe-card p{font-size:11px!important;line-height:1.42!important;color:var(--muted)!important}
+.recipe-card .meta{margin-top:8px!important}
+.recipe-row{min-height:68px!important;padding-top:11px!important;padding-bottom:11px!important}
+
+/* Today's menu: emphasize dish names, de-emphasize controls */
+.today-dish-0406{padding:12px 1px!important}
+.today-dish-copy-0406 b{font-size:14px!important;font-weight:750!important}
+.today-dish-copy-0406 small{font-size:10.5px!important}
+.today-dish-open-0406{min-height:34px;padding:6px 4px!important}
+.today-dish-remove-0406{min-width:30px;height:30px!important}
+.today-ready-0406{border-radius:14px!important}
+.today-actions-0406{gap:9px!important}
+
+/* Settings should read like a native preference screen */
+.setting-row-040{min-height:62px!important;padding:11px 14px!important}
+.setting-row-040 b{font-size:13px!important;font-weight:700!important}
+.setting-row-040 small{font-size:10px!important;line-height:1.4}
+.settings-card-040>h3{padding:13px 14px 8px!important;font-size:11px!important;text-transform:none}
+.settings-link-040{min-height:50px;padding:12px 14px!important;font-size:12px!important}
+
+/* Bottom sheets: clear title zone, quieter handle */
+.sheet{padding-top:14px!important}
+.sheet-handle{width:38px!important;height:4px!important;margin-bottom:11px!important}
+.sheet-head{align-items:center!important;margin-bottom:11px!important}
+.sheet-head .title b{font-size:17px!important}
+.sheet-head .title small{font-size:10.5px!important;line-height:1.45}
+.icon-close{width:36px!important;height:36px!important;font-size:20px!important}
+
+/* Custom recipe editor: density down, tap comfort up */
+.custom-form-card-0409,.custom-form-section-0409{padding:13px!important;margin:9px 0!important}
+.custom-basic-grid-0409{gap:11px!important}
+.custom-basic-grid-0409 input,.custom-basic-grid-0409 select,.custom-basic-grid-0409 textarea,
+.custom-row-0409 input,.custom-step-input-0409{min-height:42px!important}
+.custom-section-head-0409>button{min-height:34px!important}
+.custom-row-remove-0409{width:32px!important;height:32px!important}
+.custom-step-row-0409{gap:8px!important}
+
+/* Empty states: no more oversized emoji */
+.stove-empty-icon-0406{
+  width:62px;height:62px;margin:0 auto 12px;border-radius:20px;background:var(--surface-2);
+  display:grid;place-items:center;color:var(--green-dark);font-size:0!important;
+}
+.stove-empty-icon-0406 .ui-icon-0520{width:30px;height:30px;stroke-width:1.6}
+.stove-empty-card-0406{padding:32px 20px!important}
+.stove-empty-card-0406>b{font-size:16px!important}
+.stove-empty-card-0406 p{font-size:11.5px!important}
+
+/* Press feedback is subtle and consistent */
+.recipe-card,.recipe-row,.home-recipe-040,.picker-044,.inventory-chip-0300,
+.primary,.secondary,.manage-btn-044,.custom-recipe-add-0409,.stove-add-0406{
+  transition:transform .11s ease,background-color .16s ease,border-color .16s ease;
+}
+@media(hover:none){
+  .recipe-card:active,.recipe-row:active,.home-recipe-040:active,.picker-044:active,
+  .primary:active,.secondary:active,.manage-btn-044:active,.custom-recipe-add-0409:active,.stove-add-0406:active{
+    transform:scale(.985);
+  }
+}
+
+@media(prefers-color-scheme:dark){
+  .scene-title-icon-0520{background:var(--surface-2)}
+  .inventory-overview-044,.today-summary-0406{background:var(--surface)}
+}
+
+@media(max-width:390px){
+  .wrap{padding-left:12px!important;padding-right:12px!important}
+  .fridge-title-044 h2,.stove-title-0406 h2,.mine-title-040 h2,.recipe-title-row-0409 h2{font-size:22px!important}
+  .scene-title-icon-0520{width:28px;height:28px}
+  .inventory-overview-044>div,.today-summary-0406>div{min-height:51px}
+  .recipe-card{padding:11px!important}
+}
