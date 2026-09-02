@@ -13,3 +13,22 @@
 }
 @keyframes deleteCountdown0420{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .manage-search-0300 small{min-width:max-content}
+
+/* V0.4.3 readability pass for Fridge */
+.fridge-topline-041 h2{font-size:24px;line-height:1.2}
+.inventory-overview-0300>div b{font-size:20px}
+.inventory-overview-0300>div small{font-size:11px}
+.inventory-head-0300>div b{font-size:16px}
+.inventory-head-0300>div small{font-size:11px}
+.inventory-chip-0300{font-size:13px;padding:8px 10px}
+.inventory-chip-0300 b{font-size:13px}
+.inventory-chip-0300 i{font-size:9px}
+.inventory-note-0300{font-size:11px;line-height:1.5}
+.inventory-search-0300 .search{font-size:13px}
+.inventory-search-0300 button,.fridge-shopping-041{font-size:12px}
+.manage-tabs-0300 button{font-size:12px}
+.manage-search-0300 .search{font-size:13px}
+.manage-search-0300 small{font-size:11px}
+.manage-categories-0300 button{font-size:11px}
+.picker-0300 b{font-size:13px}
+.picker-0300{font-size:13px;min-height:38px}
