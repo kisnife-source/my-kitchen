@@ -5,33 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f7f7f4">
 <link rel="icon" href="data:,">
-<title>我的小厨房 V0.5.4</title>
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="patch-v016.css">
-<link rel="stylesheet" href="patch-v018.css">
-<link rel="stylesheet" href="patch-v019.css">
-<link rel="stylesheet" href="patch-v0112.css">
-<link rel="stylesheet" href="patch-v0113.css">
-<link rel="stylesheet" href="patch-v0114.css">
-<link rel="stylesheet" href="patch-v0115.css">
-<link rel="stylesheet" href="patch-v0116.css">
-<link rel="stylesheet" href="patch-v0117.css">
-<link rel="stylesheet" href="patch-v0118.css">
-<link rel="stylesheet" href="patch-v0200.css">
-<link rel="stylesheet" href="patch-v0202.css">
-<link rel="stylesheet" href="patch-v0300.css">
-<link rel="stylesheet" href="patch-v0400.css">
-<link rel="stylesheet" href="patch-v0401.css">
-<link rel="stylesheet" href="patch-v0402.css">
-<link rel="stylesheet" href="patch-v0404.css">
-<link rel="stylesheet" href="patch-v0406.css">
-<link rel="stylesheet" href="patch-v0407.css">
-<link rel="stylesheet" href="patch-v0408.css">
-<link rel="stylesheet" href="patch-v0409.css">
-<link rel="stylesheet" href="patch-v0500.css">
-<link rel="stylesheet" href="patch-v0510.css">
-<link rel="stylesheet" href="patch-v0530.css">
-<link rel="stylesheet" href="patch-v0540.css">
+<title>我的小厨房 V0.5.5</title>
+<link rel="stylesheet" href="assets/app.css?v=0.5.5">
 </head>
 <body>
 <header class="top">
@@ -40,7 +15,9 @@
   <div class="grow"></div>
   <button class="topbtn" id="shoppingBtn">🛍 <span>购物袋</span><b id="shopCount" class="badge">0</b></button>
 </header>
+
 <main class="wrap"><section id="root" class="scene"></section></main>
+
 <nav class="nav">
   <button data-s="home"><span>🏠</span>首页</button>
   <button data-s="fridge"><span>🧊</span>冰箱</button>
@@ -48,43 +25,23 @@
   <button data-s="stove"><span>🍳</span>灶台</button>
   <button data-s="mine"><span>👤</span>我的</button>
 </nav>
-<div id="modal"></div><div id="toast"></div>
+
+<div id="modal"></div>
+<div id="toast"></div>
+
 <script>
-try{window.__MK_PRELOAD=JSON.parse(localStorage.getItem('mk01')||'null')}catch(e){window.__MK_PRELOAD=null}
+window.MK_VERSION='0.5.5';
+try{
+  window.__MK_PRELOAD=JSON.parse(localStorage.getItem('mk01')||'null');
+}catch(e){
+  window.__MK_PRELOAD=null;
+}
 window.__MK_HAD_STATE=!!window.__MK_PRELOAD;
 </script>
-<script src="app.js"></script>
-<script src="patch-v016.js"></script>
-<script src="patch-v017.js"></script>
-<script src="patch-v018.js"></script>
-<script src="patch-v019.js"></script>
-<script src="patch-v0112.js"></script>
-<script src="patch-v0113.js"></script>
-<script src="patch-v0114.js"></script>
-<script src="patch-v0115.js"></script>
-<script src="patch-v0116.js"></script>
+
+<!-- Runtime is intentionally split around the generated recipe dataset. -->
+<script src="src/runtime-core.js?v=0.5.5"></script>
 <script src="hoc-recipes.generated.js"></script>
-<script src="patch-v0117.js"></script>
-<script src="patch-v0117b.js"></script>
-<script src="patch-v0118.js"></script>
-<script src="patch-v0119.js"></script>
-<script src="patch-v0200.js"></script>
-<script src="patch-v0200b.js"></script>
-<script src="patch-v0200c.js"></script>
-<script src="patch-v0202.js"></script>
-<script src="patch-v0202b.js"></script>
-<script src="patch-v0300.js"></script>
-<script src="patch-v0400.js"></script>
-<script src="patch-v0401.js"></script>
-<script src="patch-v0402.js"></script>
-<script src="patch-v0404.js"></script>
-<script src="patch-v0406.js"></script>
-<script src="patch-v0407.js"></script>
-<script src="patch-v0408.js"></script>
-<script src="patch-v0409.js"></script>
-<script src="patch-v0500.js"></script>
-<script src="patch-v0510.js"></script>
-<script src="patch-v0530.js"></script>
-<script src="patch-v0540.js"></script>
+<script src="src/runtime-features.js?v=0.5.5"></script>
 </body>
 </html>
