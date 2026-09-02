@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f7f7f4">
 <link rel="icon" href="data:,">
-<title>我的小厨房 V0.5.6</title>
-<link rel="stylesheet" href="assets/app.css?v=0.5.6">
+<title>我的小厨房 V0.5.7</title>
+<link rel="stylesheet" href="assets/app.css?v=0.5.7">
 </head>
 <body>
 <header class="top">
@@ -30,7 +30,7 @@
 <div id="toast"></div>
 
 <script>
-window.MK_VERSION='0.5.6';
+window.MK_VERSION='0.5.7';
 try{
   window.__MK_PRELOAD=JSON.parse(localStorage.getItem('mk01')||'null');
 }catch(e){
@@ -40,9 +40,10 @@ window.__MK_HAD_STATE=!!window.__MK_PRELOAD;
 </script>
 
 <!-- Runtime is intentionally split around the generated recipe dataset. -->
-<script src="data/household-recipes.js?v=0.5.6"></script>
-<script src="src/runtime-core.js?v=0.5.6"></script>
+<script src="data/household-recipes.js?v=0.5.7"></script>
+<script src="src/runtime-core.js?v=0.5.7"></script>
 <script src="hoc-recipes.generated.js"></script>
-<script src="src/runtime-features.js?v=0.5.6"></script>
+<script src="data/catalog-cleanup.js?v=0.5.7"></script>
+<script src="src/runtime-features.js?v=0.5.7"></script>
 </body>
 </html>
