@@ -125,11 +125,11 @@ manageModal=function(tab='food'){
   const done=()=>{state.manageQuery0300='';state.manageCategory0300='';save();close();render()};
   q('#x').onclick=done;q('#manageDone0420').onclick=done;
   q('#manageSearch0420').oninput=e=>{state.manageQuery0300=e.target.value;save();manageModal(tab)};
-  qa('[data-tab-0420]').forEach(b=>b.onclick=()=>{state.manageQuery0300='';state.manageCategory0300='';save();manageModal(b.dataset.tab0420)});
-  qa('[data-cat-0420]').forEach(b=>b.onclick=()=>{state.manageCategory0300=b.dataset.cat0420;save();manageModal(tab)});
+  qa('[data-tab-0420]').forEach(b=>b.onclick=()=>{state.manageQuery0300='';state.manageCategory0300='';save();manageModal(b.getAttribute('data-tab-0420'))});
+  qa('[data-cat-0420]').forEach(b=>b.onclick=()=>{state.manageCategory0300=b.getAttribute('data-cat-0420');save();manageModal(tab)});
 
   qa('[data-pick-0420]').forEach(btn=>btn.onclick=()=>{
-    const name=decodeURIComponent(btn.dataset.pick0420||'');
+    const name=decodeURIComponent(btn.getAttribute('data-pick-0420')||'');
     const on=pickerOwned0420(tab,kind,name);
     if(!on){
       pickerAdd0420(tab,kind,name);
