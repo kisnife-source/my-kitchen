@@ -1,0 +1,66 @@
+/* V0.4.4 inventory readability + stable manager layout */
+.fridge-044{display:grid;gap:12px}
+.fridge-title-044{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:6px 2px 2px}
+.fridge-title-044 h2{font-size:26px;line-height:1.15;margin:0}
+.fridge-title-044 p{font-size:13px;color:var(--muted);margin:5px 0 0}
+.shopping-btn-044{border:0;background:transparent;color:var(--green-dark);font-size:14px;font-weight:900;padding:8px 4px;white-space:nowrap}
+.shopping-btn-044 b{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#e6eee0;font-size:11px;margin-left:3px}
+
+.inventory-overview-044{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.inventory-overview-044>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 6px;text-align:center}
+.inventory-overview-044 b{display:block;font-size:20px;line-height:1.1}
+.inventory-overview-044 small{display:block;font-size:11px;color:var(--muted);margin-top:4px;line-height:1.2}
+
+.inventory-search-044{display:flex;gap:8px}
+.inventory-search-044 .search{font-size:15px;min-height:44px}
+.inventory-search-044>button{border:0;border-radius:12px;background:var(--green);color:#fff;font-size:14px;font-weight:900;padding:0 15px;white-space:nowrap}
+
+.inventory-section-044{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px}
+.inventory-head-044{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.inventory-head-044>div b{display:block;font-size:17px}
+.inventory-head-044>div small{display:block;font-size:12px;color:var(--muted);margin-top:3px}
+.manage-btn-044{border:0;background:#f1eee8;color:#5e554d;border-radius:10px;padding:8px 11px;font-size:13px;font-weight:900}
+.inventory-chips-044{display:flex;flex-wrap:wrap;gap:8px}
+.inventory-chips-044 .inventory-chip-0300{font-size:14px;min-height:38px;padding:8px 10px}
+.inventory-chips-044 .inventory-chip-0300 b{font-size:14px}
+.inventory-chips-044 .inventory-chip-0300 i{font-size:10px}
+.inventory-empty-044{font-size:13px;padding:16px 8px}
+
+.inventory-sheet-044{max-height:94dvh;padding:18px 16px}
+.inventory-sheet-head-044 .title b{font-size:20px}
+.inventory-sheet-head-044 .title small{font-size:12px;line-height:1.35;white-space:normal}
+.manage-tabs-044{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:#f1eee8;border-radius:13px;padding:4px;margin:8px 0 12px}
+.manage-tabs-044 button{border:0;background:transparent;border-radius:10px;min-height:39px;padding:7px 3px;font-size:13px;font-weight:900;color:#746a61}
+.manage-tabs-044 button.on{background:#fff;color:var(--green-dark);box-shadow:0 1px 4px #0000000b}
+
+.manage-search-044{display:flex;align-items:center;gap:10px}
+.manage-search-044 .search{font-size:15px;min-height:44px}
+.manage-search-044>small{font-size:12px;color:var(--muted);white-space:nowrap}
+.manage-search-044>small b{font-size:13px;color:var(--ink)}
+
+.manage-categories-044{display:flex;gap:7px;overflow:auto;padding:10px 0 4px;scrollbar-width:none}
+.manage-categories-044::-webkit-scrollbar{display:none}
+.manage-categories-044 button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;font-size:12px;font-weight:800;color:#6c625a;white-space:nowrap}
+.manage-categories-044 button.on{background:#e7efe1;border-color:#b9cdaa;color:var(--green-dark)}
+.manage-categories-044 button small{font-size:10px;margin-left:4px;opacity:.7}
+.manage-help-044{font-size:12px;line-height:1.5;color:#74685f;background:#f7f3ed;border-radius:11px;padding:9px 10px;margin-top:8px}
+
+.manage-picker-044{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px;padding-bottom:2px}
+.picker-044{position:relative;overflow:hidden;display:flex;align-items:center;gap:6px;min-width:0;min-height:42px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:8px 9px;text-align:left}
+.picker-044 b{font-size:13px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.picker-icon-044{flex:0 0 auto}
+.picker-044 .picker-mark-0300{font-style:normal;margin-left:auto;font-size:13px;font-weight:900;color:#9b9188;flex:0 0 auto}
+.picker-044.on{background:#edf4e8;border-color:#bfd1b0;color:#456536}
+.picker-044.on .picker-mark-0300{color:#52733d}
+.picker-044.delete-armed-0420{border-color:#d56a5c!important;background:#fff3f1!important;color:#a7463b!important}
+.picker-044.delete-armed-0420 .picker-mark-0300{font-size:10px;min-width:36px;color:#b84b3e}
+
+@media(max-width:390px){
+  .fridge-title-044 h2{font-size:24px}
+  .inventory-overview-044{gap:5px}
+  .inventory-overview-044>div{padding:9px 3px}
+  .inventory-overview-044 small{font-size:10px}
+  .manage-tabs-044 button{font-size:12px}
+  .manage-picker-044{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .picker-044 b{font-size:14px}
+}
